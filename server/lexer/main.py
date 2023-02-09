@@ -18,6 +18,7 @@ def main():
     header_list.insert(len(header_list), result)
     header_list = convert_to_include(header_list)
     tokens_tuple = lex(header_list)
+
     function_map_dict = get_function_dict(tokens_tuple)
     func_list = create_list_for_tree(function_map_dict, tokens_tuple)
     tree_root = build_tree(func_list)
@@ -38,4 +39,4 @@ def upload():
         return jsonify({'error': 'No file found'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

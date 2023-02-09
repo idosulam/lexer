@@ -33,9 +33,6 @@ function Show() {
 
   return (
     <div>
-      {
-        console.log(jsonTree)
-      }
     </div>
   );
 }
