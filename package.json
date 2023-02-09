@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@heroicons/react": "^2.0.14",
+    "@syncfusion/ej2-react-inputs": "^20.4.42",
+    "react-dropzone": "^14.2.3",
+    "react-icons": "^4.7.1",
+    "react-toastify": "^9.1.1"
+  }
+}
