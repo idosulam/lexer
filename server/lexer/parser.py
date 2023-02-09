@@ -14,7 +14,8 @@ def get_function_dict(token_tuple: tuple) -> dict[str, int]:
 def insert(current_func: str, queue: Queue, function_map_dict: dict[str, int], token_tuple: tuple) -> Function_call:
     i = function_map_dict[current_func]
     end = token_tuple[i].end_pointer
-    func_list = Function_call(current_func)
+    file = token_tuple[i].inside_file
+    func_list = Function_call(current_func,file)
     i += 1
     while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end:
         if token_tuple[i].id == 'function_call':
@@ -36,10 +37,10 @@ def create_list_for_tree(function_map_dict: dict[str, int], token_tuple: tuple) 
 
 
 def build_tree(func_list: list[Function_call]) -> Node:
-    root = Node('root', func_list[0].parent)
+    root = Node('root', func_list[0].parent,func_list[0].file)
     for func in func_list:
         node = find_node(root, func.parent)
-        node.insert_child(func.parent, func.child)
+        node.insert_child(func.parent, func.child,func.file)
     return root
 
 

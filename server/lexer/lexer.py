@@ -103,6 +103,26 @@ def find_replace_typedef_define(text: list[str]) -> list[str]:
     return text
 
 
+def get_files_in_path(path):
+    files = []
+    for filename in os.listdir(path):
+        file_path = os.path.join(path, filename)
+        if os.path.isfile(file_path):
+            files.append(filename)
+    return files
+
+def search_files_for_main():
+    for filename in get_files_in_path("uploads"):
+        with open(os.path.join("uploads", filename), 'r') as f:
+            contents = f.read()
+            pattern = re.compile("main\(")
+            if re.search(pattern, contents):
+                return filename
+
+
+
+
+
 # closes the file
 def close_file(file):
     file.close()

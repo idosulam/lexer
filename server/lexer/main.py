@@ -12,7 +12,7 @@ CORS(app)
 
 @app.route('/tree', methods=['GET'])
 def main():
-    filename = 'main.c'
+    filename = search_files_for_main()
     result = search_file(os.getcwd(), filename)
     header_list = search_for_includes(result)
     header_list.insert(len(header_list), result)

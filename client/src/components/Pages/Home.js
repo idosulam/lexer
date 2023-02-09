@@ -76,7 +76,6 @@ function Home() {
             });
           }
         }).catch((error) => {
-          console.log(error);
           toast.error('Failed to insert project', {
             position: "top-center",
             autoClose: 5000,

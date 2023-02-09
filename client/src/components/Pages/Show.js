@@ -25,8 +25,6 @@ function Show() {
     Axios.get(`http://localhost:3001/api/json_search?project_name=${projectName}`)
       .then((response) => {
         if (response.status === 200) {
-          
-
           const jsonobj = JSON.parse(response.data[0]["json_tree"]);
           setJsonTree(jsonobj);
         }
@@ -35,10 +33,9 @@ function Show() {
 
   return (
     <div>
-      <h1>Show</h1>
-      <p>Project Name: {projectName}</p>
-      <p>ID: {id}</p>
-      <p>{projectsList.length}</p>
+      {
+        console.log(jsonTree)
+      }
     </div>
   );
 }
