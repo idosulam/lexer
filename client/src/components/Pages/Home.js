@@ -53,7 +53,6 @@ const recv_data =async () => {
    
    try {
     const response = await Axios.get("http://localhost:5000/get-data");
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -66,7 +65,9 @@ const recv_data =async () => {
      json_tree : tree,
     })
   }
-
+  function upload_data_list(data_list,name){
+    console.log(data_list)
+  }
   const upload_files_to_database = async (name, files) => {
     const json_tree =  await sendAPI(files);
     const data_list =  await recv_data();
