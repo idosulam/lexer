@@ -18,12 +18,15 @@ function Home() {
       window.location.href = newUrl;
     }, 2000);
   }
+
   const updateUploadedFiles = (files) =>
     setNewUserInfo({ ...newUserInfo, profileImages: files });
 
   const handleSubmit = (event) => {
     event.preventDefault();
   };
+
+
   const sendAPI =async (files) => {
     for (const file of files) {
     const formData = new FormData();
@@ -45,6 +48,18 @@ function Home() {
     console.error(error);
   }
   }
+
+const recv_data =async () => {
+   
+   try {
+    const response = await Axios.get("http://localhost:5000/get-data");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  }
+
   const upload_json_tree =(name,tree) => {
     Axios.post('http://localhost:3001/api/uploadjson', {
       project_name: name,
@@ -54,6 +69,8 @@ function Home() {
 
   const upload_files_to_database = async (name, files) => {
     const json_tree =  await sendAPI(files);
+    const data_list =  await recv_data();
+    upload_data_list(data_list, name)
     upload_json_tree(name,json_tree);
     for (const file of files) {
       const reader = new FileReader();

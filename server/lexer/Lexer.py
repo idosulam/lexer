@@ -1,7 +1,14 @@
-from utills import *
+from Utils import *
+
+'''
+============================================================================================
+General : lex_define - add define 
+Parameters : define_line : line of define , text_pointer : line number
+Return Value :  NONE
+============================================================================================
+'''
 
 
-# get define
 def lex_define(define_line: list[str], text_pointer: int):
     if len(define_line) < 2:
         return
@@ -15,7 +22,15 @@ def lex_define(define_line: list[str], text_pointer: int):
             define_dictionary[name] = len(define_list) - 1
 
 
-# finds all the typedefs
+'''
+============================================================================================
+General : find_typedef - finds typedef
+Parameters : typedef : file_text , text_pointer : line number
+Return Value :  NONE
+============================================================================================
+'''
+
+
 def find_typedef(typedef: list[str], text_pointer: int):
     i = 0
     term = ''
@@ -28,7 +43,15 @@ def find_typedef(typedef: list[str], text_pointer: int):
         typedef_dictionary[name] = len(typedef_list) - 1
 
 
-# gets the assignment
+'''
+============================================================================================
+General : value_assignment - finds expression
+Parameters : math : file_text 
+Return Value :  expression string
+============================================================================================
+'''
+
+
 def value_assignment(math: list[str]) -> str:
     math_expression = ''
     for x in math:
@@ -66,7 +89,15 @@ def openfile(path: str):
     return f
 
 
-# changes the name of typedef to term and define before code is being tokenized
+'''
+============================================================================================
+General : find_replace_typedef_define - change typedef
+Parameters : text : file text
+Return Value : return text after change
+============================================================================================
+'''
+
+
 def find_replace_typedef_define(text: list[str]) -> list[str]:
     global typedef_list
     text_pointer = 0
@@ -103,6 +134,15 @@ def find_replace_typedef_define(text: list[str]) -> list[str]:
     return text
 
 
+'''
+============================================================================================
+General : get_files_in_path - return all files path
+Parameters : path : path to folder
+Return Value : all files in path
+============================================================================================
+'''
+
+
 def get_files_in_path(path):
     files = []
     for filename in os.listdir(path):
@@ -110,6 +150,16 @@ def get_files_in_path(path):
         if os.path.isfile(file_path):
             files.append(filename)
     return files
+
+
+'''
+============================================================================================
+General : search_files_for_main - search main file
+Parameters : 
+Return Value : main file name
+============================================================================================
+'''
+
 
 def search_files_for_main():
     for filename in get_files_in_path("uploads"):
@@ -120,15 +170,20 @@ def search_files_for_main():
                 return filename
 
 
-
-
-
 # closes the file
 def close_file(file):
     file.close()
 
 
-# separate the file
+'''
+============================================================================================
+General : get_text - manipulate text
+Parameters : file : file
+Return Value : file text after manipulation
+============================================================================================
+'''
+
+
 def get_text(file) -> list[str]:
     separate = [';', ',', '{', '}', ')', '&&', '!', '^', '|',
                 '<<', '>>', '~', '"', '\'', '*', '+', '-', '/', '[', ']', ':', '++', '--']
@@ -163,7 +218,15 @@ def get_text(file) -> list[str]:
     return text
 
 
-# find all included files
+'''
+============================================================================================
+General : search_for_includes - search for all includes
+Parameters : file : text code 
+Return Value : list of includes name
+============================================================================================
+'''
+
+
 def find_library_includes(file: str) -> list[str]:
     with open(file, 'r') as f:
         contents = f.read()
@@ -172,8 +235,15 @@ def find_library_includes(file: str) -> list[str]:
     return library_includes
 
 
-# This function searches for all includes in the given file, and then recursively
-# searches for includes in those files, until it reaches a file with no includes
+'''
+============================================================================================
+General : search_for_includes - search for all includes
+Parameters : file : text code 
+Return Value : list of includes
+============================================================================================
+'''
+
+
 def search_for_includes(file: str) -> list[str]:
     # Find all library includes in the file
     includes = find_library_includes(file)
@@ -186,10 +256,28 @@ def search_for_includes(file: str) -> list[str]:
     return header_files_list
 
 
+'''
+============================================================================================
+General : get_code_file - name of ffile code
+Parameters : cfile : header file
+Return Value : code file name
+============================================================================================
+'''
+
+
 def get_code_file(cfile: str):
     pattern = re.compile(r'([^/]+)$')
     match = pattern.search(cfile)
     return match.group(1)
+
+
+'''
+============================================================================================
+General : convert_to_include - convert code
+Parameters : header_list : list of file headers 
+Return Value : list of file headers and code files
+============================================================================================
+'''
 
 
 def convert_to_include(header_list: list[str]) -> list[Include]:
@@ -201,6 +289,15 @@ def convert_to_include(header_list: list[str]) -> list[Include]:
             new_list.append(Include(header_list[i], code_result))
     new_list.append(Include('none', header_list[len(header_list) - 1]))
     return new_list
+
+
+'''
+============================================================================================
+General : lex - tokenize the code
+Parameters : header_list : list of file headers and code files
+Return Value : entire project tuple
+============================================================================================
+'''
 
 
 def lex(header_list: list[Include]) -> tuple:
@@ -223,6 +320,15 @@ def lex(header_list: list[Include]) -> tuple:
     return tpl
 
 
+'''
+============================================================================================
+General : tokenize - tokenize code
+Parameters : file_text: list of words, file_name : file name , tpl : token tuple
+Return Value : token tuple
+============================================================================================
+'''
+
+
 def tokenize(file_text: list[str], file_name: str, tpl: tuple) -> tuple:
     text_pointer = 0
     new_tpl = list()
@@ -241,7 +347,7 @@ def tokenize(file_text: list[str], file_name: str, tpl: tuple) -> tuple:
             elif i + 1 < len(line) and line[i] == '/' and line[i + 1] == '*':
                 text_pointer = end_comment(file_text, text_pointer)
                 flag = False
-            elif line[i] in function_dict and line[len(line) - 1] != ';':
+            elif line[i] in function_dict and function_list[function_dict[line[i]]].start_pointer == text_pointer + 1:
                 current_line_token_list.clear()
                 current_line_token_list.append(
                     function_list[function_dict[line[i]]])
@@ -263,11 +369,29 @@ def tokenize(file_text: list[str], file_name: str, tpl: tuple) -> tuple:
     return tpl + tuple(new_tpl)
 
 
+'''
+============================================================================================
+General : check_identifier - check if its pointer or arithmetic
+Parameters : line: list of words, position : position in list 
+Return Value : pointer or arithmetic_op
+============================================================================================
+'''
+
+
 def check_identifier(line: list[str], position: int) -> str:
     for i in range(position, -1, -1):
         if line[i] in RE_ASSIGNMENT:
             return 'arithmetic_op'
     return 'pointer'
+
+
+'''
+============================================================================================
+General : check_for_asterisk - check if its pointer or arithmetic
+Parameters : line: list of words, position : position in list 
+Return Value : pointer or arithmetic_op
+============================================================================================
+'''
 
 
 def check_for_asterisk(line: list[str], position: int) -> str:
@@ -299,6 +423,15 @@ def check_for_asterisk(line: list[str], position: int) -> str:
     return 'pointer'
 
 
+'''
+============================================================================================
+General : word_token - assign token to each word
+Parameters : line: list of words, position : position in list , file_name : file_name of text , text_pointer : line number in the written file 
+Return Value : return token
+============================================================================================
+'''
+
+
 def word_token(line: list[str], position: int, file_name: str, text_pointer: int) -> [list[Token], int]:
     word = line[position]
     tk = Token('', word, text_pointer, file_name)
@@ -306,7 +439,7 @@ def word_token(line: list[str], position: int, file_name: str, text_pointer: int
     if word in RE_RESERVED_WORDS:
         tk.id = 'reserve_word'
         if tk.value == 'typedef':
-            if position+1 < len(line) and line[position+1] != 'struct':
+            if position + 1 < len(line) and line[position + 1] != 'struct':
                 return tok, len(line)
         tok.append(tk)
         return tok, position
@@ -315,7 +448,7 @@ def word_token(line: list[str], position: int, file_name: str, text_pointer: int
         tok.append(tk)
         return tok, position
     if word in RE_VARIABLES_TYPE:
-        tk.id = 'modifier'
+        tk.id = 'type'
         tok.append(tk)
         return tok, position
     if re.match(RE_Identifiers, word):
@@ -430,6 +563,15 @@ def word_token(line: list[str], position: int, file_name: str, text_pointer: int
     return tok, position
 
 
+'''
+============================================================================================
+General : get_str_tk - goes string for token
+Parameters : line: list of words, position : position in list , file : file_name of text , text_pointer : line number in the written file , word : which declaration it is
+Return Value : token and position
+============================================================================================
+'''
+
+
 def get_str_tk(line: list[str], position: int, text_pointer: int, file: str, word: str) -> [list[Token], int]:
     tk = Token('string', '', text_pointer, file)
     tk_str = ''
@@ -440,9 +582,17 @@ def get_str_tk(line: list[str], position: int, text_pointer: int, file: str, wor
     return tk, position
 
 
+'''
+============================================================================================
+General : end_comment - goes to end of comment
+Parameters : file_text : file text , text_pointer : number of line
+Return Value : number where comment end
+============================================================================================
+'''
+
+
 def end_comment(file_text: list[str], text_pointer: int) -> int:
     flag = False
-
     while text_pointer < len(file_text) and not flag:
         line = file_text[text_pointer].split()
         i = 0
@@ -452,6 +602,15 @@ def end_comment(file_text: list[str], text_pointer: int) -> int:
             i += 1
         text_pointer += 1
     return text_pointer - 1
+
+
+'''
+============================================================================================
+General : find_functions - search for functions
+Parameters : text : file text , file : file number
+Return Value : NONE
+============================================================================================
+'''
 
 
 def find_functions(text: list[str], file: str):
@@ -469,7 +628,15 @@ def find_functions(text: list[str], file: str):
         text_pointer += 1
 
 
-# gets a line and uses regular expression to check if it's a function
+'''
+============================================================================================
+General : check_if_function - if the declaration is after a few lines
+Parameters : text : file text , text_pointer : line number
+Return Value : return true if its a function or false
+============================================================================================
+'''
+
+
 def check_if_function(text: list[str], text_pointer: int) -> bool:
     while text_pointer < len(text):
         line = text[text_pointer].split()
@@ -479,6 +646,15 @@ def check_if_function(text: list[str], text_pointer: int) -> bool:
             if line[i] == ';' or line[i] == RE_rBRACKETS:
                 return False
         text_pointer += 1
+
+
+'''
+============================================================================================
+General : isfunction - checks if its a function declaration
+Parameters : function_line : function declaration line , text : entire file text , text_pointer : line number
+Return Value : return true if its a function or false
+============================================================================================
+'''
 
 
 def isfunction(function_line: list[str], text: list[str], text_pointer: int) -> bool:
@@ -491,7 +667,15 @@ def isfunction(function_line: list[str], text: list[str], text_pointer: int) -> 
     return False
 
 
-# gets the start line of function, ending line of function,return value,name and initialized variables
+'''
+============================================================================================
+General : extract_function - assign to each function the start of function name return type and parameters
+Parameters : function_text : list of all text in file , text_pointer : line number , file : file name
+Return Value : return the line where the function end
+============================================================================================
+'''
+
+
 def extract_function(function_text: list[str], text_pointer: int, file: str) -> int:
     start_pointer = text_pointer
     function_identifiers_list = list()
@@ -528,7 +712,15 @@ def extract_function(function_text: list[str], text_pointer: int, file: str) -> 
     return text_pointer - 1
 
 
-# gets the return value of function
+'''
+============================================================================================
+General : get_return_value - assign the return type
+Parameters : line : function declaration
+Return Value : return string of return value
+============================================================================================
+'''
+
+
 def get_return_value(line: list[str]) -> str:
     return_value = ''
     if line[0] != r'static':
@@ -540,7 +732,15 @@ def get_return_value(line: list[str]) -> str:
     return return_value
 
 
-# gets all the variables of the function
+'''
+============================================================================================
+General : get_variables - search for parameter
+Parameters : variables_line : line of declaration
+Return Value : return list of variables
+============================================================================================
+'''
+
+
 def get_variables(variables_line: list[str]) -> list[Variable]:
     variables_list = list()
     i = 0
@@ -562,7 +762,15 @@ def get_variables(variables_line: list[str]) -> list[Variable]:
     return variables_list
 
 
-# search inside the cwd(current working directory) for the wanted file file
+'''
+============================================================================================
+General : search_file - search for the file
+Parameters : folder : path to folder , filename : the file we search 
+Return Value : return path
+============================================================================================
+'''
+
+
 def search_file(folder: str, filename: str) -> str:
     for item in os.listdir(folder):
         item_path = os.path.join(folder, item)

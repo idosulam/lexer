@@ -1,4 +1,5 @@
-from parser_utils import *
+from Parser_utils import *
+
 RE_RESERVED_WORDS = [r'while',
                      r'do',
                      r'for',
@@ -99,9 +100,10 @@ class Include:
         return f' name:  {self.header} | father: {self.code}'
 
 
-class Variable:
-
+class Variable(dict):
     def __init__(self, identifier: str, type: str, modifier: str):
+        super().__init__()
+        self.__dict__ = self
         self.identifier = identifier
         self.type = type
         self.modifier = modifier
@@ -127,6 +129,23 @@ class Function_Token:
             string += f'{identifier}\n'
         string += f'----------------'
         return string
+
+
+class Function_Data(dict):
+    def __init__(self, function_name, params, if_statements, while_statements,variables, return_type, inside_file,identifier_instance_dict,identifier_type_dict):
+        super().__init__()
+        self.__dict__ = self
+        self.function_name = function_name
+        self.params = params
+        self.if_statements = if_statements
+        self.while_statements = while_statements
+        self.variables = variables
+        self.return_type = return_type
+        self.inside_file = inside_file
+        self.identifier_instance_dict = identifier_instance_dict
+        self.identifier_type_dict = identifier_type_dict
+
+
 
 
 function_list: list[Function_Token] = list()
