@@ -1,0 +1,55 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  color: #fff;
+  height: 100vh;
+  padding: 16px;
+  position: fixed; /* make the sidebar position fixed */
+  left: 0; /* position the sidebar to the left */
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* add a background color transition */
+}
+
+.sidebar-item:hover {
+  background-color: #333; /* add a hover background color */
+}
+
+.sidebar-item.active {
+  background-color: #555; /* add a background color for the active item */
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 16px 16px;
+  filter: invert(100%);
+
+}
+
+.file_icon {
+  background-image: url('./file_icon.svg');
+}
+
+.graph {
+  background-image: url('./graph.svg');
+}
+
+.label {
+  font-size: 14px;
+  margin-left: 8px; /* add a left margin to separate the label from the icon */
+}
+.label {
+  font-size: 22px;
+}
