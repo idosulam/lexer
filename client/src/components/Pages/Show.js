@@ -14,7 +14,7 @@ function Show() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const projectName = params.get("project_name");
-  const id = params.get("id");
+ // const id = params.get("id");
 
   useEffect(() => {
     Axios.get(`http://localhost:3001/api/file_search?project_name=${projectName}`).then(
@@ -47,7 +47,7 @@ function Show() {
       <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
-      {selectedItem === "Graph" && <Graph />}
+      {selectedItem === "Graph" && <Graph tree = {jsonTree}/>}
       </div>
     </div>
   );
