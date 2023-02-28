@@ -27,52 +27,95 @@ function Home() {
   };
 
 
-  const sendAPI =async (files) => {
+  const sendAPI = async (files) => {
     for (const file of files) {
-    const formData = new FormData();
-    formData.append('file', file);
-    Axios.post("http://localhost:5000/upload-file", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(res => {
-      if (res.status !== 200) {
-      console.log(res);
-      }
-    })
-   }
-   try {
-    const response = await Axios.get("http://localhost:5000/tree");
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-  }
-
-const recv_data =async () => {
-   
-   try {
-    const response = await Axios.get("http://localhost:5000/get-data");
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
+      const formData = new FormData();
+      formData.append('file', file);
+      Axios.post("http://localhost:5000/upload-file", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(res => {
+        if (res.status !== 200) {
+          console.log(res);
+        }
+      })
+    }
+    try {
+      const response = await Axios.get("http://localhost:5000/tree");
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  const upload_json_tree =(name,tree) => {
+  const recv_data = async () => {
+
+    try {
+      const response = await Axios.get("http://localhost:5000/get-data");
+      console.log(response.data)
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const upload_json_tree = (name, tree) => {
     Axios.post('http://localhost:3001/api/uploadjson', {
       project_name: name,
-     json_tree : tree,
+      json_tree: tree,
     })
   }
-  function upload_data_list(data_list,name){
-    console.log(data_list)
+
+  async function upload_data_list(data_list, name) {
+    for (const element of data_list) {
+      try {
+        const response = await Axios.post('http://localhost:3001/api/datainsert', {
+          projectName: name,
+          function_name: element.function_name,
+          identifier_instance_dict: element.identifier_instance_dict,
+          identifier_type_dict: element.identifier_type_dict,
+          if_statements: element.if_statements,
+          while_statements: element.while_statements,
+          inside_file: element.inside_file,
+          params: element.params,
+          return_type: element.return_type,
+          variables: element.variables,
+        });
+
+        if (response.status !== 200) {
+          toast.error("failed to upload project", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    }
   }
+
+
   const upload_files_to_database = async (name, files) => {
-    const json_tree =  await sendAPI(files);
-    const data_list =  await recv_data();
+    const json_tree = await sendAPI(files);
+    const data_list = await recv_data();
     upload_data_list(data_list, name)
-    upload_json_tree(name,json_tree);
+    upload_json_tree(name, json_tree);
     for (const file of files) {
       const reader = new FileReader();
       reader.onload = function () {
@@ -104,7 +147,7 @@ const recv_data =async () => {
             progress: undefined,
             theme: "dark",
           });
-        });;
+        });
       };
       reader.readAsText(file);
     }
@@ -128,10 +171,10 @@ const recv_data =async () => {
           progress: undefined,
           theme: "dark",
         });
-        handleRedirect();
-      } 
+         handleRedirect();
+      }
     }).catch((error) => {
-      if (error.response.status === 409){
+      if (error.response.status === 409) {
         toast.error("Name already exist", {
           position: "top-center",
           autoClose: 5000,
@@ -143,19 +186,19 @@ const recv_data =async () => {
           theme: "dark",
         });
       }
-       else{
+      else {
         console.log(error);
-      toast.error('Failed to insert project', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
+        toast.error('Failed to insert project', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     });
   };
 
