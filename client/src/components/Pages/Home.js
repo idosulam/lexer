@@ -232,7 +232,9 @@ function Home() {
           updateFilesCb={updateUploadedFiles}
         />
       </form>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <button className="button-28" onClick={handleButtonClick}>Submit</button>
+      </div>
       <ToastContainer
         position="top-center"
         autoClose={5000}

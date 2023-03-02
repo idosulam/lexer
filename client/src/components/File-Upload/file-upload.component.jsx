@@ -81,7 +81,9 @@ const FileUpload = ({
         />
       </FileUploadContainer>
       <FilePreviewContainer>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <h3 style={{ fontSize: 30 ,letterSpacing: 2.2, textDecorationLine: "underline"}}>files :</h3>
+        </div>
         <PreviewList>
           {Object.keys(files).map((fileName, index) => {
             let file = files[fileName];

@@ -397,9 +397,9 @@ function Projects() {
     e.target.style.cursor = "pointer";
   }
   return (
-    <div>
+    <div style={{marginTop : '20px'}}>
       <h1 style={{ fontSize: 50, letterSpacing: 2.2 }}>Your Projects</h1>
-
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <input
         id="searchbar"
         type="text"
@@ -408,7 +408,7 @@ function Projects() {
         name="search"
         placeholder="Search project"
       />
-
+</div>
       {projectsList.length > 0 ? (
         <div className="card-container">
           {projectsList.map((project, index) => (

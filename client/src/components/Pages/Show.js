@@ -45,7 +45,7 @@ function Show() {
     <>
           <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
 
-    <div className="app">
+    <div className="app" style={{marginTop : '40px'}}>
      <h1 className="modern-h1" style={{}}> {projectName}</h1>
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
