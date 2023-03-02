@@ -4,11 +4,13 @@
   background-color: #000;
   color: #fff;
   height: 100vh;
+  margin-top: 50px;
   padding: 16px;
   position: fixed; /* make the sidebar position fixed */
   left: 0; /* position the sidebar to the left */
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
+  height: 90%;
 }
 
 .sidebar-item {
