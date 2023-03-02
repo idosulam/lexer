@@ -42,14 +42,17 @@ function Show() {
   };
 
   return (
+    <>
+          <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
+
     <div className="app">
-     <h1 className="modern-h1"> {projectName}</h1>
-      <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
+     <h1 className="modern-h1" style={{}}> {projectName}</h1>
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
       {selectedItem === "Graph" && <Graph tree = {jsonTree}/>}
       </div>
     </div>
+    </>
   );
 }
 
