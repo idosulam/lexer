@@ -438,7 +438,9 @@ function Projects() {
           ))}
         </div>
       ) : (
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <p>No projects found</p>
+        </div>
       )}
       <ToastContainer
         position="top-center"
