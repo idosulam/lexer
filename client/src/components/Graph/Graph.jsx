@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Tree from "react-d3-tree";
 import Axios from "axios";
-
+import './graph.css'
 function Graph(props) {
   const jsonTree = props.tree;
   const projectname = props.projectName;
@@ -10,7 +10,7 @@ function Graph(props) {
   const [file, setFile] = useState("");
   const [zoomLevel, setZoomLevel] = useState(1);
 
-
+ 
 
   const pathClassFunc = (source, target, orientation) => {
     return "important-link";
@@ -40,12 +40,12 @@ function Graph(props) {
   }
 
   function updatecolor(nodeDatum) {
-    const colour = nodeDatum.nodeDatum.color[0];
+    const color = nodeDatum.nodeDatum.color[0];
     const regex = /[^/]*$/;
 
     return (
       <g onClick={()=> console.log(nodeDatum)}>
-        <circle fill={colour} r="20"/>
+        <circle fill={color} r="20"/>
         <text fill="black" strokeWidth="1" x="30">
           {nodeDatum.nodeDatum.name}
         </text>
@@ -58,8 +58,14 @@ function Graph(props) {
   }
 
   return (
+
     <div>
       <h1>Graph</h1>
+
+     
+
+
+
       <div
         style={{
           display: "flex",
