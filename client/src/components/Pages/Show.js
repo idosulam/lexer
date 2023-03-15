@@ -49,7 +49,7 @@ function Show() {
      <h1 className="modern-h1" style={{}}> {projectName}</h1>
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
-      {selectedItem === "Graph" && <Graph tree = {jsonTree}/>}
+      {selectedItem === "Graph" && <Graph tree = {jsonTree} projectName = {projectName}/>}
       </div>
     </div>
     </>

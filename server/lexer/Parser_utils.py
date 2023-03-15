@@ -2,14 +2,17 @@ import os
 import re
 import copy
 import json
+import random
 class Node(dict):
     def __init__(self,parent,name,file):
         super().__init__()
         self.__dict__ = self
         self.parent = parent
         self.name = name
-        self.children = []
         self.file = file
+        self.color = ''
+        self.children = []
+
     def insert_child(self, name,data,file):
         for da in data:
             self.children.append(Node(name,da,file))
@@ -50,3 +53,4 @@ class Function_call:
         return f'parent : {self.parent} | children : {self.child} | len : {len(self.child)}'
 
 
+color_dict = dict()

@@ -290,6 +290,22 @@ app.delete('/api/deletetables/:project_name', (req, res) =>{
     });
 })
 
+app.get('/api/getreturn', (req, res) => {
+    const table_name = req.query.project_name;
+    const sqlsearch = `select return_type from project.${table_name}`;
+  
+    db.query(sqlsearch, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+  
+      res.status(200).json(result);
+    });
+  });
+  
+
 app.listen(3001, () => {
     console.log("Server listening on port 3001");
 });

@@ -76,6 +76,10 @@ def build_tree(func_list: list[Function_call]) -> Node:
     for func in func_list:
         node = find_node(root, func.parent)
         node.insert_child(func.parent, func.child, func.file)
+    hexadecimal = ["#" + ''.join([random.choice('ABCDEF0123456789') for i in range(6)])]
+    color_dict[root.file] = hexadecimal
+    root.color = color_dict[root.file]
+    assign_file(root)
     return root
 
 
@@ -95,3 +99,26 @@ def find_node(root: Node, node_name: str) -> Node:
         result = find_node(child, node_name)
         if result:
             return result
+
+
+'''
+============================================================================================
+General : assign_file - assign for each node its file and color
+Parameters : root : tree root 
+Return Value : return the root
+============================================================================================
+'''
+
+
+def assign_file(root):
+    for child in root.children:
+        assign_file(child)
+        child.file = function_list[function_dict[child.name]].inside_file
+        if child.file in color_dict:
+            child.color = color_dict[child.file]
+        else:
+            hexadecimal = ["#" + ''.join([random.choice('ABCDEF0123456789') for i in range(6)])]
+            color_dict[child.file]= hexadecimal
+            child.color = color_dict[child.file]
+
+

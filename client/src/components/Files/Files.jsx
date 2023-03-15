@@ -14,18 +14,16 @@ function Files(props) {
     const file = headerFiles[index];
     setSelectedFile(file.file_name);
     setFileContent(file.file);
-    console.log(file.file_name + file.file);
   };
 
   const updateFileContentsrc = (index) => {
     const file = srcFiles[index];
     setSelectedFile(file.file_name);
     setFileContent(file.file);
-    console.log(file.file_name + file.file);
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{position: 'fixed'}}>
       <div className="App">
         <ul className="file-list">
           {headerFiles.length > 0 && (
@@ -75,7 +73,7 @@ function Files(props) {
             </li>
           )}
         </ul>
-        <div className="file-content">
+        <div className="file-content" style={{overflow : 'scroll'}}>
           <h3>{selectedFile}</h3>
           <pre>
             {fileContent.split("\n").map((line, i) => (
@@ -87,6 +85,7 @@ function Files(props) {
           </pre>
         </div>
       </div>
+      
     </div>
   );
 }

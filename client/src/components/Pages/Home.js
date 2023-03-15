@@ -53,7 +53,6 @@ function Home() {
 
     try {
       const response = await Axios.get("http://localhost:5000/get-data");
-      console.log(response.data)
       return response.data;
     } catch (error) {
       console.error(error);
@@ -226,7 +225,7 @@ function Home() {
 
   return (
     <div className="background">
-      <form onSubmit={handleSubmit} multiple={true}>
+      <form onSubmit={handleSubmit} multiple={true} style={{paddingTop :'20px'}}>
         <FileUpload
           multiple
           updateFilesCb={updateUploadedFiles}
