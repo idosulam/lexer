@@ -30,16 +30,16 @@ app.post('/api/datainsert', (req, res) => {
     const table_name = `${projectName}_${function_name}`
     db.query(`CREATE TABLE project.${table_name} (
     id INT NOT NULL AUTO_INCREMENT,
-    project_name VARCHAR(200) NOT NULL,
-    function_name VARCHAR(200) NOT NULL,
-    identifier_instance_dict JSON NOT NULL,
-    identifier_type_dict JSON NOT NULL,
-    if_statements INT NOT NULL,
-    while_statements INT NOT NULL,
-    inside_file LONGTEXT NOT NULL,
-    params JSON NOT NULL,
-    return_type VARCHAR(255) NOT NULL,
-    variables JSON NOT NULL,
+    project_name VARCHAR(200) ,
+    function_name VARCHAR(200) ,
+    identifier_instance_dict JSON ,
+    identifier_type_dict JSON ,
+    if_statements INT ,
+    while_statements INT ,
+    inside_file LONGTEXT ,
+    params JSON ,
+    return_type VARCHAR(255) ,
+    variables JSON ,
     PRIMARY KEY (id));`, (error) => {
         if (error) {
             console.log(error);

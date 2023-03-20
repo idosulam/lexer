@@ -126,7 +126,7 @@ function Graph(props) {
       return (
         <g onClick={() => console.log(nodeDatum)}>
           <circle className="object" fill={color} r="20" />
-          <text fill="black" strokeWidth="1" x="30">
+          <text fill="black" strokeWidth="1" x="23">
             {string}
           </text>
         </g>
@@ -136,7 +136,7 @@ function Graph(props) {
     return (
       <g onClick={() => console.log(nodeDatum)}>
         <circle fill={color} r="20" />
-        <text fill="black" strokeWidth="1" x="30">
+        <text fill="black" strokeWidth="1" x="23">
           {string}
         </text>
       </g>
@@ -239,8 +239,7 @@ function Graph(props) {
             pathClassFunc={pathClassFunc}
             onZoom={handleZoom}
             renderCustomNodeElement={updatecolor}
-            separation={{ siblings: 1
-              , nonSiblings: 2 }}
+            separation={{ siblings: 1.2, nonSiblings: 2 }}
           />
           <style>
             {`
