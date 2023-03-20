@@ -304,6 +304,20 @@ app.get('/api/getreturn', (req, res) => {
       res.status(200).json(result);
     });
   });
+
+  app.get('/api/check_table', (req, res) => {
+    const sql_query = req.query.sql_query;
+  
+    db.query(sql_query, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+  
+      res.status(200).json(result);
+    });
+  });
   
 
 app.listen(3001, () => {

@@ -12,6 +12,7 @@ function Graph(props) {
   const [list, setList] = useState([
     { parameter: "", value: "", condition: "" },
   ]);
+  const [matchingQuery, setMatchingQuery] = useState([]);
 
   const handleAddField = () => {
     setList([...list, { parameter: "", value: "", condition: "" }]);
@@ -29,12 +30,64 @@ function Graph(props) {
     setList(newList);
   };
 
-  const handleSubmit = () => {
-    for (const field of list) {
-      if (!field.value || !field.parameter || !field.condition) return
-}
-console.log(list)
+  const handleSubmit = async () => {
+    for (let i = 0; i < list.length; i++) {
+      const field = list[i];
+      if (list.length - 1 === i) {
+        field.condition = "and";
+      }
+      if (!field.value || !field.parameter || !field.condition) return;
+    }
+
+    const names = new Set();
+    printtree(names, jsonTree);
+    const promises = [];
+
+    for (const name of names) {
+      let sql_query = `SELECT * FROM project.${projectname}_${name} WHERE`;
+
+      for (const field of list) {
+        let condition = field.condition;
+        let parameter = field.parameter;
+        let value = field.value;
+        switch (condition) {
+          case "and":
+            sql_query += ` ${parameter} = '${value}' AND`;
+            break;
+          case "or":
+            sql_query += ` ${parameter} = '${value}' OR`;
+            break;
+          case "not":
+            sql_query += ` ${parameter} != '${value}' AND`;
+            break;
+          default:
+            break;
+        }
+      }
+
+      sql_query = sql_query.slice(0, -3);
+      promises.push(Axios.get(
+        `http://localhost:3001/api/check_table?sql_query=${sql_query}`
+      ).then( async (response) => {
+        if (response.status === 200) {
+          if(response.data[0] !== undefined)
+          return response.data[0].function_name
+        }
+      }));
+    }
+    const match = await Promise.all(promises);
+    setMatchingQuery(match.filter((item) => item !== undefined));
+    console.log(matchingQuery);
+
+
   };
+
+  function printtree(names, root) {
+    names.add(root.name);
+    root.children.forEach((element) => {
+      printtree(names, element);
+    });
+  }
 
   const pathClassFunc = (source, target, orientation) => {
     return "important-link";
@@ -69,7 +122,17 @@ console.log(list)
     const string = `${nodeDatum.nodeDatum.name} from : ${
       regex.exec(nodeDatum.nodeDatum.file)[0]
     }`;
-
+    if (matchingQuery.includes(nodeDatum.nodeDatum.name)){
+      return (
+        <g onClick={() => console.log(nodeDatum)}>
+          <circle className="object" fill={color} r="20" />
+          <text fill="black" strokeWidth="1" x="30">
+            {string}
+          </text>
+        </g>
+      );
+    }
+    else{
     return (
       <g onClick={() => console.log(nodeDatum)}>
         <circle fill={color} r="20" />
@@ -78,6 +141,7 @@ console.log(list)
         </text>
       </g>
     );
+    }
   }
 
   return (
@@ -93,11 +157,11 @@ console.log(list)
                 onChange={(e) => handleInputChange(e, index)}
               >
                 <option value="">Choose</option>
-
-                <option value="int">int</option>
-                <option value="d">d</option>
-                <option value="f">f </option>
-                <option value="char">char </option>
+                <option value="if_statements">if statement</option>
+                <option value="while_statements">while statement</option>
+                <option value="return_type">return_type</option>
+                <option value="params">parameters</option>
+                <option value="variables">variable</option>
               </select>
             </div>
 
@@ -109,27 +173,32 @@ console.log(list)
                 onChange={(e) => handleInputChange(e, index)}
               />
             </div>
-            <div style={{ paddingRight: "20px", display: "inline-block" }}>
-              <select
-                name="condition"
-                value={item.condition}
-                onChange={(e) => handleInputChange(e, index)}
+            {list.length - 1 !== index ? (
+              <div style={{ paddingRight: "20px", display: "inline-block" }}>
+                <select
+                  name="condition"
+                  value={item.condition}
+                  onChange={(e) => handleInputChange(e, index)}
+                >
+                  <option value="">Choose</option>
+                  <option value="not">not</option>
+                  <option value="and">and</option>
+                  <option value="or">or</option>
+                </select>
+              </div>
+            ) : (
+              ``
+            )}
+            {list.length !== 1 ? (
+              <button
+                onClick={() => handleRemoveField(index)}
+                className="button-28"
               >
-                <option value="">Choose</option>
-                <option value="not">not</option>
-                <option value="and">and</option>
-                <option value="or">or</option>
-                <option value="in">in</option>
-              </select>
-            </div>
-            {list.length !==1 ?(
-            <button
-              onClick={() => handleRemoveField(index)}
-              className="button-28"
-            >
-              Remove
-            </button>
-) : (``)}
+                Remove
+              </button>
+            ) : (
+              ``
+            )}
           </div>
         ))}
       </div>
@@ -170,7 +239,8 @@ console.log(list)
             pathClassFunc={pathClassFunc}
             onZoom={handleZoom}
             renderCustomNodeElement={updatecolor}
-            separation={{ siblings: 1, nonSiblings: 2 }}
+            separation={{ siblings: 1
+              , nonSiblings: 2 }}
           />
           <style>
             {`
