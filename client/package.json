@@ -25,6 +25,7 @@
     "react-graph-vis": "^1.0.7",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-switch": "^7.0.0",
     "react-toastify": "^9.1.1",
     "react-tree-graph": "^8.0.1",
     "styled-components": "^5.3.6",
