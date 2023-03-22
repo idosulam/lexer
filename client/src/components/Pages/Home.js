@@ -16,7 +16,7 @@ function Home() {
       const currentUrl = window.location.href;
       const newUrl = currentUrl + "projects";
       window.location.href = newUrl;
-    }, 2000);
+    }, 4000);
   }
 
   const updateUploadedFiles = (files) =>
@@ -196,7 +196,7 @@ function Home() {
       };
       reader.readAsText(file);
     }
-  //  handleRedirect();
+    handleRedirect();
 
   };
 
