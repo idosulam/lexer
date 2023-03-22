@@ -131,7 +131,22 @@ function Projects() {
     
     
   }
+ function deletevariables(project_name){
+  Axios.delete(`http://localhost:3001/api/delete_variables/${project_name}`).then((response) => {
+    if( response.status !== 200){
+      console.log(response)
+    }
+  })
 
+ }
+ function deleteparameter(project_name){
+  Axios.delete(`http://localhost:3001/api/delete_parameters/${project_name}`).then((response) => {
+    if( response.status !== 200){
+      console.log(response)
+    }
+  })
+
+ }
   function delete_project(project) {
     Axios.delete(`http://localhost:3001/api/delete/${project.project_name}`)
       .then((response) => {
@@ -139,6 +154,8 @@ function Projects() {
           delete_files_project(project);
           delete_json_project(project);
           delete_tables(project.project_name)
+          deletevariables(project.project_name)
+          deleteparameter(project.project_name)
           toast.success("Project deleted successfully", {
             position: "top-center",
             autoClose: 5000,
@@ -317,6 +334,46 @@ function Projects() {
       }
     });
   }
+  function update_parameters(old_name, newname) {
+    Axios.put("http://localhost:3001/api/updateparameters", {
+      old_project_name: old_name,
+      project_name: newname,
+    }).then((response) => {
+      if (response.status !== 200) {
+        toast.error("Failed to update parameters table", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  }
+
+  function update_variables(old_name, newname) {
+    Axios.put("http://localhost:3001/api/updatevariables", {
+      old_project_name: old_name,
+      project_name: newname,
+    }).then((response) => {
+      if (response.status !== 200) {
+        toast.error("Failed to update variable tables", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  }
+
   function update_project(project, projectref) {
     if (projectref.current.value.length === 0) {
       return;
@@ -332,6 +389,8 @@ function Projects() {
         update_files_project(project.project_name, projectref.current.value);
         update_json_project(project.project_name, projectref.current.value);
         update_tables(project.project_name, projectref.current.value);
+        update_variables(project.project_name, projectref.current.value);
+        update_parameters(project.project_name, projectref.current.value);
         projectref.current.value = "";
         if (response.status === 200) {
           toast.success("Project updated successfully", {

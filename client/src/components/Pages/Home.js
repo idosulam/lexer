@@ -77,9 +77,7 @@ function Home() {
             if_statements: element.if_statements,
             while_statements: element.while_statements,
             inside_file: element.inside_file,
-            params: element.params,
             return_type: element.return_type,
-            variables: element.variables,
           }
         );
 
@@ -106,6 +104,52 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
+      }
+
+      for (let i = 0; i < element.params.length - 1; i++) {
+        const response = await Axios.post(
+          "http://localhost:3001/api/insert_parameter",
+          {
+            project_name: name,
+            function_name: element.function_name,
+            parameter: JSON.stringify(element.params[i]),
+          }
+        );
+        if (response.status !== 200) {
+          toast.error("failed to upload project", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
+
+      for (let i = 0; i < element.variables.length - 1; i++) {
+        const response = await Axios.post(
+          "http://localhost:3001/api/insert_variable",
+          {
+            project_name: name,
+            function_name: element.function_name,
+            variable: JSON.stringify(element.variables[i]),
+          }
+        );
+        if (response.status !== 200) {
+          toast.error("failed to upload project", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
       }
     }
   }
@@ -152,6 +196,8 @@ function Home() {
       };
       reader.readAsText(file);
     }
+  //  handleRedirect();
+
   };
 
   const sendToDatabase = (name, files) => {
@@ -171,7 +217,6 @@ function Home() {
             progress: undefined,
             theme: "dark",
           });
-          handleRedirect();
         }
       })
       .catch((error) => {
