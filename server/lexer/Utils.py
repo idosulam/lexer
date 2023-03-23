@@ -132,11 +132,12 @@ class Function_Token:
 
 
 class Function_Data(dict):
-    def __init__(self, function_name, params, if_statements, while_statements,variables, return_type, inside_file,identifier_instance_dict,identifier_type_dict):
+    def __init__(self, function_name, params, if_statements, while_statements,variables, return_type, inside_file,identifier_instance_dict,identifier_type_dict, built_in_function):
         super().__init__()
         self.__dict__ = self
         self.function_name = function_name
         self.params = params
+        self.built_in_function = built_in_function
         self.if_statements = if_statements
         self.while_statements = while_statements
         self.variables = variables
@@ -144,8 +145,8 @@ class Function_Data(dict):
         self.inside_file = inside_file
         self.identifier_instance_dict = identifier_instance_dict
         self.identifier_type_dict = identifier_type_dict
-
-
+    def __str__(self):
+       return  f' {self.function_name} : {self.inside_file}: {self.built_in_function.__str__()}'
 
 
 function_list: list[Function_Token] = list()

@@ -89,6 +89,24 @@ def add_variable(token_tuple, i, line_number):
 
 '''
 ============================================================================================
+General : find_built_in_functions - finds all builtin functions
+Parameters : token_tuple: list of tokens, start : starting position of function in tuple , end : starting position of function in tuple , inside_file : name of file is being checked
+Return Value : Return array with names of builtin functions
+============================================================================================
+'''
+
+
+def find_built_in_functions(token_tuple, start, end, inside_file):
+    built_in_functions = list()
+    while start < len(token_tuple) and isinstance(token_tuple[start], Token) and token_tuple[start].line_number <= end and token_tuple[start].file == inside_file:
+        if token_tuple[start].id == 'builtin_func':
+            built_in_functions.append(token_tuple[start].value)
+        start += 1
+    return  built_in_functions
+
+
+'''
+============================================================================================
 General : add_data - add data to each function
 Parameters : token_tuple: list of tokens, function_map_dict : functions position in the list
 Return Value : Return array with data about each function
@@ -117,11 +135,11 @@ def add_data(token_tuple, function_map_dict):
                     variables = list(filter(lambda var: var is not None, variables))
                     variables_list.extend(variables)
                     continue
-
             i += 1
+        built_in_function = find_built_in_functions(token_tuple, function_map_dict[k] + 1, end, inside_file)
         identifier_instance_dict = count_instances_of_identifiers(token_tuple, function_map_dict[k] + 1, end, inside_file)
         identifier_type_dict = count_variable_type(variables_list, function_list[function_dict[k]].identifier_list)
-        function_data_list.append(Function_Data(k, function_list[function_dict[k]].identifier_list, if_statements, while_statements, variables_list, function_list[function_dict[k]].return_value, inside_file, identifier_instance_dict, identifier_type_dict))
+        function_data_list.append(Function_Data(k, function_list[function_dict[k]].identifier_list, if_statements, while_statements, variables_list, function_list[function_dict[k]].return_value, inside_file, identifier_instance_dict, identifier_type_dict,built_in_function))
     return function_data_list
 
 
