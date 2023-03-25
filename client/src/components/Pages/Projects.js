@@ -145,8 +145,16 @@ function Projects() {
       console.log(response)
     }
   })
-
  }
+
+ function delete_built_in_functions(project_name){
+  Axios.delete(`http://localhost:3001/api/delete_built_in_function/${project_name}`).then((response) => {
+    if( response.status !== 200){
+      console.log(response)
+    }
+  })
+ }
+
   function delete_project(project) {
     Axios.delete(`http://localhost:3001/api/delete/${project.project_name}`)
       .then((response) => {
@@ -156,6 +164,7 @@ function Projects() {
           delete_tables(project.project_name)
           deletevariables(project.project_name)
           deleteparameter(project.project_name)
+          delete_built_in_functions(project.project_name);
           toast.success("Project deleted successfully", {
             position: "top-center",
             autoClose: 5000,
@@ -373,6 +382,25 @@ function Projects() {
       }
     });
   }
+  function update_built_in_functions(old_name, newname) {
+    Axios.put("http://localhost:3001/api/update_built_in_function", {
+      old_project_name: old_name,
+      project_name: newname,
+    }).then((response) => {
+      if (response.status !== 200) {
+        toast.error("Failed to update parameters table", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  }
 
   function update_project(project, projectref) {
     if (projectref.current.value.length === 0) {
@@ -391,6 +419,7 @@ function Projects() {
         update_tables(project.project_name, projectref.current.value);
         update_variables(project.project_name, projectref.current.value);
         update_parameters(project.project_name, projectref.current.value);
+        update_built_in_functions(project.project_name, projectref.current.value);
         projectref.current.value = "";
         if (response.status === 200) {
           toast.success("Project updated successfully", {

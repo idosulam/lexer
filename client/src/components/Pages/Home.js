@@ -12,11 +12,13 @@ function Home() {
   });
 
   function handleRedirect() {
+    /*
     setTimeout(() => {
       const currentUrl = window.location.href;
       const newUrl = currentUrl + "projects";
       window.location.href = newUrl;
     }, 4000);
+    */
   }
 
   const updateUploadedFiles = (files) =>
@@ -104,6 +106,29 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
+      } 
+   
+      for (let i = 0; i < element.built_in_function.length - 1; i++) {
+        const response = await Axios.post(
+          "http://localhost:3001/api/insert_built_in_function",
+          {
+            project_name: name,
+            function_name: element.function_name,
+            built_in_function: JSON.stringify(element.built_in_function[i]),
+          }
+        );
+        if (response.status !== 200) {
+          toast.error("failed to upload project", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
       }
 
       for (let i = 0; i < element.params.length - 1; i++) {
@@ -196,8 +221,7 @@ function Home() {
       };
       reader.readAsText(file);
     }
-    handleRedirect();
-
+    //handleRedirect();
   };
 
   const sendToDatabase = (name, files) => {

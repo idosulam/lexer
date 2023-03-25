@@ -100,7 +100,8 @@ def find_built_in_functions(token_tuple, start, end, inside_file):
     built_in_functions = list()
     while start < len(token_tuple) and isinstance(token_tuple[start], Token) and token_tuple[start].line_number <= end and token_tuple[start].file == inside_file:
         if token_tuple[start].id == 'builtin_func':
-            built_in_functions.append(token_tuple[start].value)
+            if token_tuple[start].value not in built_in_functions:
+                built_in_functions.append(token_tuple[start].value)
         start += 1
     return  built_in_functions
 

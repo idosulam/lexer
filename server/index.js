@@ -325,7 +325,25 @@ app.post("/api/insert_parameter", (req, res) => {
   );
 });
 
+app.post("/api/insert_built_in_function", (req, res) => {
+  const projectName = req.body.project_name;
+  const function_name = req.body.function_name;
+  const built_in_function = req.body.built_in_function;
 
+  const sqlInsert ="INSERT INTO project.built_in_functions (project_name,function_name ,built_in_function_name) VALUES (?, ?,?);";
+  db.query(
+    sqlInsert,
+    [projectName, function_name, built_in_function],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send({ error: "Failed to insert project" });
+      } else {
+        res.status(200).send({ message: "Project inserted successfully" });
+      }
+    }
+  );
+});
 
 app.post("/api/insert_variable", (req, res) => {
     const projectName = req.body.project_name;
@@ -403,6 +421,37 @@ app.post("/api/insert_variable", (req, res) => {
           res.status(200).send({ message: "Project updatec successfully" });
       }
   });
+  });
+
+
+  app.put("/api/update_built_in_function", (req, res) => {
+    const project_name = req.body.project_name;
+    const old_project_name = req.body.old_project_name;
+    const sqlupdate = "UPDATE project.built_in_functions SET project_name = (?) WHERE project_name = (?);";
+    db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
+      if (err) {
+          console.log(err);
+          res.status(400).send({ error: "Failed to update project" });
+      }
+      else {
+          res.status(200).send({ message: "Project updatec successfully" });
+      }
+  });
+  });
+
+
+  app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
+    const project_name = req.params.project_name;
+    const sqldelete =
+      "DELETE FROM project.built_in_functions WHERE project_name = (?);";
+    db.query(sqldelete, [project_name], (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send({ error: "Failed to delete project" });
+      } else {
+        res.status(200).send({ message: "Project delete successfully" });
+      }
+    });
   });
 
 app.listen(3001, () => {
