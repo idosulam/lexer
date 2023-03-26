@@ -130,15 +130,16 @@ function Home() {
           });
         }
       }
-
       for (let i = 0; i < element.params.length - 1; i++) {
         const response = await Axios.post(
           "http://localhost:3001/api/insert_parameter",
           {
             project_name: name,
             function_name: element.function_name,
-            parameter: JSON.stringify(element.params[i]),
-          }
+            parameter_modifier: JSON.stringify(element.params[i].modifier),
+            parameter_type : JSON.stringify(element.params[i].type),
+            parameter_name : JSON.stringify(element.params[i].identifier),
+              }
         );
         if (response.status !== 200) {
           toast.error("failed to upload project", {
@@ -160,7 +161,9 @@ function Home() {
           {
             project_name: name,
             function_name: element.function_name,
-            variable: JSON.stringify(element.variables[i]),
+            variable_modifier: JSON.stringify(element.variables[i].modifier),
+            variable_type : JSON.stringify(element.variables[i].type),
+            variable_name : JSON.stringify(element.variables[i].identifier),
           }
         );
         if (response.status !== 200) {
@@ -221,7 +224,7 @@ function Home() {
       };
       reader.readAsText(file);
     }
-    //handleRedirect();
+    handleRedirect();
   };
 
   const sendToDatabase = (name, files) => {

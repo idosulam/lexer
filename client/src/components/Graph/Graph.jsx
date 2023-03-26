@@ -12,6 +12,8 @@ function Graph(props) {
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [file, setFile] = useState("");
+  const [search_options, setsearch_option] = useState("");
+
   const [zoomLevel, setZoomLevel] = useState(1);
   const [list, setList] = useState([
     { parameter: "", value: "", condition: "" },
@@ -33,6 +35,7 @@ function Graph(props) {
   };
 
   const handleInputChange = (e, index) => {
+    setsearch_option(e.target.value)
     const newList = [...list];
     newList[index][e.target.name] = e.target.value;
     setList(newList);

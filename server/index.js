@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
-
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -309,11 +308,16 @@ app.get("/api/check_table", (req, res) => {
 app.post("/api/insert_parameter", (req, res) => {
   const projectName = req.body.project_name;
   const function_name = req.body.function_name;
-  const parameter = req.body.parameter;
-  const sqlInsert ="INSERT INTO project.parameters (project_name,function_name ,parameter) VALUES (?, ?,?);";
+
+  const parameter_modifier = req.body.parameter_modifier;
+  const parameter_type = req.body.parameter_type;
+  const parameter_name = req.body.parameter_name;
+  const sqlInsert =
+    "INSERT INTO project.parameters (project_name,function_name ,parameter_modifier,parameter_type,parameter_name) VALUES (?,?,?,?,?);";
+
   db.query(
     sqlInsert,
-    [projectName, function_name, parameter],
+    [projectName, function_name, parameter_modifier,parameter_type,parameter_name],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -330,7 +334,8 @@ app.post("/api/insert_built_in_function", (req, res) => {
   const function_name = req.body.function_name;
   const built_in_function = req.body.built_in_function;
 
-  const sqlInsert ="INSERT INTO project.built_in_functions (project_name,function_name ,built_in_function_name) VALUES (?, ?,?);";
+  const sqlInsert =
+    "INSERT INTO project.built_in_functions (project_name,function_name ,built_in_function_name) VALUES (?, ?,?);";
   db.query(
     sqlInsert,
     [projectName, function_name, built_in_function],
@@ -346,113 +351,107 @@ app.post("/api/insert_built_in_function", (req, res) => {
 });
 
 app.post("/api/insert_variable", (req, res) => {
-    const projectName = req.body.project_name;
-    const function_name = req.body.function_name;
-    const variable = req.body.variable;
-  
-    const sqlInsert ="INSERT INTO project.variables (project_name,function_name ,variable) VALUES (?, ?,?);";
-    db.query(
-      sqlInsert,
-      [projectName, function_name, variable],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-          res.status(400).send({ error: "Failed to insert project" });
-        } else {
-          res.status(200).send({ message: "Project inserted successfully" });
-        }
-      }
-    );
-  });
+  const projectName = req.body.project_name;
+  const function_name = req.body.function_name;
+  const variable_modifier = req.body.variable_modifier;
+  const variable_type = req.body.variable_type;
+  const variable_name = req.body.variable_name;
 
-  app.delete("/api/delete_parameters/:project_name", (req, res) => {
-    const project_name = req.params.project_name;
-    const sqldelete =
-      "DELETE FROM project.parameters WHERE project_name = (?);";
-    db.query(sqldelete, [project_name], (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send({ error: "Failed to delete project" });
-      } else {
-        res.status(200).send({ message: "Project delete successfully" });
-      }
-    });
+  const sqlInsert =
+    "INSERT INTO project.variables (project_name,function_name ,variable_modifier,variable_type,variable_name) VALUES (?,?,?,?,?);";
+  db.query(sqlInsert, [projectName, function_name, variable_modifier,variable_type,variable_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to insert project" });
+    } else {
+      res.status(200).send({ message: "Project inserted successfully" });
+    }
   });
+});
 
+app.delete("/api/delete_parameters/:project_name", (req, res) => {
+  const project_name = req.params.project_name;
+  const sqldelete = "DELETE FROM project.parameters WHERE project_name = (?);";
+  db.query(sqldelete, [project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete project" });
+    } else {
+      res.status(200).send({ message: "Project delete successfully" });
+    }
+  });
+});
 
-  app.delete("/api/delete_variables/:project_name", (req, res) => {
-    const project_name = req.params.project_name;
-    const sqldelete =
-      "DELETE FROM project.variables WHERE project_name = (?);";
-    db.query(sqldelete, [project_name], (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send({ error: "Failed to delete project" });
-      } else {
-        res.status(200).send({ message: "Project delete successfully" });
-      }
-    });
+app.delete("/api/delete_variables/:project_name", (req, res) => {
+  const project_name = req.params.project_name;
+  const sqldelete = "DELETE FROM project.variables WHERE project_name = (?);";
+  db.query(sqldelete, [project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete project" });
+    } else {
+      res.status(200).send({ message: "Project delete successfully" });
+    }
   });
-  app.put("/api/updatevariables", (req, res) => {
-    const project_name = req.body.project_name;
-    const old_project_name = req.body.old_project_name;
-    const sqlupdate = "UPDATE project.variables SET project_name = (?) WHERE project_name = (?);";
-    db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
-      if (err) {
-          console.log(err);
-          res.status(400).send({ error: "Failed to update project" });
-      }
-      else {
-          res.status(200).send({ message: "Project updatec successfully" });
-      }
+});
+app.put("/api/updatevariables", (req, res) => {
+  const project_name = req.body.project_name;
+  const old_project_name = req.body.old_project_name;
+  const sqlupdate =
+    "UPDATE project.variables SET project_name = (?) WHERE project_name = (?);";
+  db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to update project" });
+    } else {
+      res.status(200).send({ message: "Project updatec successfully" });
+    }
   });
-  });
+});
 
-  app.put("/api/updateparameters", (req, res) => {
-    const project_name = req.body.project_name;
-    const old_project_name = req.body.old_project_name;
-    const sqlupdate = "UPDATE project.parameters SET project_name = (?) WHERE project_name = (?);";
-    db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
-      if (err) {
-          console.log(err);
-          res.status(400).send({ error: "Failed to update project" });
-      }
-      else {
-          res.status(200).send({ message: "Project updatec successfully" });
-      }
+app.put("/api/updateparameters", (req, res) => {
+  const project_name = req.body.project_name;
+  const old_project_name = req.body.old_project_name;
+  const sqlupdate =
+    "UPDATE project.parameters SET project_name = (?) WHERE project_name = (?);";
+  db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to update project" });
+    } else {
+      res.status(200).send({ message: "Project updatec successfully" });
+    }
   });
-  });
+});
 
-
-  app.put("/api/update_built_in_function", (req, res) => {
-    const project_name = req.body.project_name;
-    const old_project_name = req.body.old_project_name;
-    const sqlupdate = "UPDATE project.built_in_functions SET project_name = (?) WHERE project_name = (?);";
-    db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
-      if (err) {
-          console.log(err);
-          res.status(400).send({ error: "Failed to update project" });
-      }
-      else {
-          res.status(200).send({ message: "Project updatec successfully" });
-      }
+app.put("/api/update_built_in_function", (req, res) => {
+  const project_name = req.body.project_name;
+  const old_project_name = req.body.old_project_name;
+  const sqlupdate =
+    "UPDATE project.built_in_functions SET project_name = (?) WHERE project_name = (?);";
+  db.query(sqlupdate, [project_name, old_project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to update project" });
+    } else {
+      res.status(200).send({ message: "Project updatec successfully" });
+    }
   });
-  });
+});
 
-
-  app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
-    const project_name = req.params.project_name;
-    const sqldelete =
-      "DELETE FROM project.built_in_functions WHERE project_name = (?);";
-    db.query(sqldelete, [project_name], (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send({ error: "Failed to delete project" });
-      } else {
-        res.status(200).send({ message: "Project delete successfully" });
-      }
-    });
+app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
+  const project_name = req.params.project_name;
+  const sqldelete =
+    "DELETE FROM project.built_in_functions WHERE project_name = (?);";
+  db.query(sqldelete, [project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete project" });
+    } else {
+      res.status(200).send({ message: "Project delete successfully" });
+    }
   });
+});
 
 app.listen(3001, () => {
   console.log("Server listening on port 3001");
