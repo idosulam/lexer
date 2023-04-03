@@ -6,7 +6,7 @@ from flask_cors import CORS
 import shutil
 from werkzeug.utils import secure_filename
 from Data_add import *
-
+import sys
 app = Flask(__name__)
 CORS(app)
 
@@ -43,7 +43,7 @@ def get_data():
 def upload():
     file = request.files['file']
     if file:
-        filename = secure_filename(file.filename)
+        filename = secure_filename(os.path.basename(file.filename))
         if not os.path.exists("uploads"):
             os.makedirs("uploads")
         # Save the file to the directory

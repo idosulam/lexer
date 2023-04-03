@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import {
   FileUploadContainer,
-  FormField,
   DragDropText,
   UploadFileBtn,
   FilePreviewContainer,
@@ -10,7 +9,7 @@ import {
   PreviewList,
   FileMetaData,
   RemoveFileIcon,
-  InputLabel
+  InputLabel,
 } from "./file-upload.styles";
 
 const KILO_BYTES_PER_BYTE = 1000;
@@ -20,11 +19,7 @@ const convertNestedObjectToArray = (nestedObj) =>
 
 const convertBytesToKB = (bytes) => Math.round(bytes / KILO_BYTES_PER_BYTE);
 
-const FileUpload = ({
-  label,
-  updateFilesCb,
-  ...otherProps
-}) => {
+const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
   const fileInputField = useRef(null);
   const [files, setFiles] = useState({});
 
@@ -34,11 +29,11 @@ const FileUpload = ({
 
   const addNewFiles = (newFiles) => {
     for (let file of newFiles) {
-        if (!otherProps.multiple) {
-          return { file };
-        }
-      
-        files[file.name] = file;
+      if (!otherProps.multiple) {
+        return { file };
+      }
+
+      files[file.name] = file;
     }
     return { ...files };
   };
@@ -64,15 +59,30 @@ const FileUpload = ({
   };
   return (
     <>
-    
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
         <DragDropText>Drag and drop your files</DragDropText>
-        <UploadFileBtn type="file" onClick={handleUploadBtnClick} >
-          <span > Upload {otherProps.multiple ? "files" : "a file" }</span>
+        <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
+          <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
         </UploadFileBtn>
-        <FormField
+        <input
+          style={{
+            backgroundColor: "#333",
+            fontSize: "18px",
+            display: "block",
+            width: "100%",
+            border: "none",
+            textTransform: "none",
+            position: "absolute",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            opacity: "0",
+          }}
           type="file"
+          directory=""
+          webkitdirectory=""
           ref={fileInputField}
           onChange={handleNewFileUpload}
           title=""
@@ -81,8 +91,22 @@ const FileUpload = ({
         />
       </FileUploadContainer>
       <FilePreviewContainer>
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <h3 style={{ fontSize: 30 ,letterSpacing: 2.2, textDecorationLine: "underline"}}>files :</h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 30,
+              letterSpacing: 2.2,
+              textDecorationLine: "underline",
+            }}
+          >
+            files :
+          </h3>
         </div>
         <PreviewList>
           {Object.keys(files).map((fileName, index) => {
@@ -96,18 +120,15 @@ const FileUpload = ({
                       src={URL.createObjectURL(file)}
                       alt={`file preview ${index}`}
                     />
-                  )
-            }
+                  )}
                   <FileMetaData isImageFile={isImageFile}>
                     <span>{file.name}</span>
                     <aside>
                       <span>{convertBytesToKB(file.size)} kb</span>
-                      <RemoveFileIcon
-                        className="fas fa-trash-alt"
-                      />
+                      <RemoveFileIcon className="fas fa-trash-alt" />
                       <button onClick={() => removeFile(fileName)}>
-                  remove
-                </button>
+                        remove
+                      </button>
                     </aside>
                   </FileMetaData>
                 </div>

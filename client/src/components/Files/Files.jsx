@@ -23,13 +23,17 @@ function Files(props) {
   };
 
   return (
-    <div className="container" style={{position: 'fixed'}}>
+    <div className="container" style={{position: 'fixed',marginLeft: '20px'}}>
       <div className="App">
         <ul className="file-list">
           {headerFiles.length > 0 && (
             <li>
               <button onClick={() => setHeaderDropdown(!headerDropdown)}>
-                Headers
+              {headerDropdown ?(
+'v    header')
+:(
+  '>   header'
+                )}
               </button>
               {headerDropdown && (
                 <ul className="dropdown">
@@ -41,7 +45,7 @@ function Files(props) {
                         }
                         onClick={() => updateFileContentheader(index)}
                       >
-                        {file.file_name}
+                      {file.file_name}
                       </button>
                     </li>
                   ))}
@@ -52,7 +56,11 @@ function Files(props) {
            {headerFiles.length > 0 && (
             <li>
               <button onClick={() => setsrcdropdown(!srcdropdown)}>
-                src
+              {srcdropdown ?(
+'v    src')
+:(
+  '>   src'
+                )}
               </button>
               {srcdropdown && (
                 <ul className="dropdown">

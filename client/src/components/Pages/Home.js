@@ -31,7 +31,7 @@ function Home() {
   const sendAPI = async (files) => {
     for (const file of files) {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", file,file.name);
       Axios.post("http://localhost:5000/upload-file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -194,7 +194,9 @@ function Home() {
           project_name: name,
           file: reader.result,
           file_name: file.name,
-        })
+          
+        }
+        )
           .then((response) => {
             if (response.statusCode === 400) {
               toast.error("Failed to insert project", {
@@ -275,6 +277,7 @@ function Home() {
   };
 
   function handleButtonClick() {
+    
     if (newUserInfo.profileImages.length <= 0) {
       toast.error("No files uploaded to project", {
         position: "top-center",

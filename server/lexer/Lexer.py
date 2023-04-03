@@ -1,3 +1,5 @@
+import re
+
 from Utils import *
 
 '''
@@ -77,7 +79,15 @@ def value_assignment(math: list[str]) -> str:
     return math_expression
 
 
-# returns the open file
+'''
+============================================================================================
+General : openfile - opens file
+Parameters : path : path 
+Return Value :  file
+============================================================================================
+'''
+
+
 def openfile(path: str):
     f = None
     try:
@@ -87,6 +97,59 @@ def openfile(path: str):
             print(f'Could not open file:  {path}')
             exit(1)
     return f
+
+
+def add_struct_aliases(text, text_pointer):
+        i = 1
+        struct_alias_array = list()
+        struct_line = text[text_pointer].split()
+        while i < len(struct_line):
+            if re.match(RE_Identifiers,struct_line[i]):
+                struct_alias_array.append(struct_line[i])
+            i += 1
+        return struct_alias_array
+
+'''
+============================================================================================
+General : find_struct - finds structs and adds them to list
+Parameters :  text : file_text , text_pointer : line number
+Return Value :  text_pointer
+============================================================================================
+'''
+
+
+def find_struct(text, text_pointer):
+    struct_list = list()
+    line = text[text_pointer].split()
+    i = 1
+    bracket = 0
+    struct_string = ''
+    while i < len(line):
+        if line[i] != '{':
+            struct_string += line[i] + ' '
+        else:
+            bracket += 1
+        i += 1
+    text_pointer += 1
+    struct_list.append(struct_string)
+    if bracket != 1:
+        flag = True
+        while text_pointer < len(text) and flag:
+            line = text[text_pointer]
+            if '{' in line:
+                flag = False
+            text_pointer += 1
+
+    flag = True
+    while text_pointer < len(text) and flag:
+        line = text[text_pointer]
+        if '}' in line:
+            struct_list.extend(add_struct_aliases(text, text_pointer))
+            RE_VARIABLES_TYPE.extend(struct_list)
+            flag = False
+        text_pointer += 1
+
+    return text_pointer
 
 
 '''
@@ -110,6 +173,9 @@ def find_replace_typedef_define(text: list[str]) -> list[str]:
         if line[0] == r'typedef':
             if not re.match(r'struct', line[1]):
                 find_typedef(line[1:], text_pointer)
+            else:
+
+                text_pointer = find_struct(text, text_pointer)
         if line[0] == r'#define':
             lex_define(line[1:], text_pointer)
         text_pointer += 1

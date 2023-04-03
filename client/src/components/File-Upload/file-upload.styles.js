@@ -11,24 +11,6 @@ export const FileUploadContainer = styled.section`
   align-items: center;
   `;
 
-export const FormField = styled.input`
-background-color: #333;
-  font-size: 18px;
-  display: block;
-  width: 100%;
-  border: none;
-  text-transform: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-
-  &:focus {
-    outline: none;
-  }
-`;
 
 export const InputLabel = styled.label`
   top: -21px;

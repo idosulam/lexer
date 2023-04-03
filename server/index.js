@@ -453,6 +453,49 @@ app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
   });
 });
 
+
+
+app.get("/api/param_search", (req, res) => {
+  const project_name = req.query.project_name;
+  const sqlsearch = "select parameter_type from project.parameters WHERE function_name = ?";
+  db.query(sqlsearch, [project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
+app.get("/api/variable_search", (req, res) => {
+  const project_name = req.query.project_name;
+  const sqlsearch = "select variable_type from project.variables WHERE function_name = ?";
+  db.query(sqlsearch, [project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
+
+app.get("/api/search_built_in_function", (req, res) => {
+  const project_name = req.query.project_name;
+  const sqlsearch = "select * from project.built_in_functions WHERE project_name = ?";
+  db.query(sqlsearch, [project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
+
 app.listen(3001, () => {
   console.log("Server listening on port 3001");
 });

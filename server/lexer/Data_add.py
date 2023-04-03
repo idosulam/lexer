@@ -124,12 +124,16 @@ def add_data(token_tuple, function_map_dict):
         i += 1
         if_statements = 0
         while_statements = 0
+        for_statements = 0
         variables_list = list()
         while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end and token_tuple[i].file == inside_file:
             if token_tuple[i].value == 'if':
                 if_statements += 1
             if token_tuple[i].value == 'while':
                 while_statements += 1
+
+            if token_tuple[i].value == 'for':
+                for_statements += 1
             if token_tuple[i].id == 'modifier' or token_tuple[i].id == 'type':
                 if check_for_variable(token_tuple, i, token_tuple[i].line_number):
                     variables, i = add_variable(token_tuple, i, token_tuple[i].line_number)
@@ -140,7 +144,7 @@ def add_data(token_tuple, function_map_dict):
         built_in_function = find_built_in_functions(token_tuple, function_map_dict[k] + 1, end, inside_file)
         identifier_instance_dict = count_instances_of_identifiers(token_tuple, function_map_dict[k] + 1, end, inside_file)
         identifier_type_dict = count_variable_type(variables_list, function_list[function_dict[k]].identifier_list)
-        function_data_list.append(Function_Data(k, function_list[function_dict[k]].identifier_list, if_statements, while_statements, variables_list, function_list[function_dict[k]].return_value, inside_file, identifier_instance_dict, identifier_type_dict,built_in_function))
+        function_data_list.append(Function_Data(k, function_list[function_dict[k]].identifier_list, if_statements, while_statements, variables_list, function_list[function_dict[k]].return_value, inside_file, identifier_instance_dict, identifier_type_dict,built_in_function,for_statements))
     return function_data_list
 
 
