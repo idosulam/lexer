@@ -484,7 +484,7 @@ app.get("/api/variable_search", (req, res) => {
 
 app.get("/api/search_built_in_function", (req, res) => {
   const project_name = req.query.project_name;
-  const sqlsearch = "select * from project.built_in_functions WHERE project_name = ?";
+  const sqlsearch = "select built_in_function_name from project.built_in_functions WHERE function_name = ?";
   db.query(sqlsearch, [project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });

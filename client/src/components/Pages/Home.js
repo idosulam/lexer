@@ -114,7 +114,7 @@ function Home() {
           {
             project_name: name,
             function_name: element.function_name,
-            built_in_function: JSON.stringify(element.built_in_function[i]),
+            built_in_function: element.built_in_function[i],
           }
         );
         if (response.status !== 200) {
@@ -136,9 +136,9 @@ function Home() {
           {
             project_name: name,
             function_name: element.function_name,
-            parameter_modifier: JSON.stringify(element.params[i].modifier),
-            parameter_type : JSON.stringify(element.params[i].type),
-            parameter_name : JSON.stringify(element.params[i].identifier),
+            parameter_modifier: element.params[i].modifier,
+            parameter_type : element.params[i].type,
+            parameter_name : element.params[i].identifier,
               }
         );
         if (response.status !== 200) {
@@ -161,9 +161,9 @@ function Home() {
           {
             project_name: name,
             function_name: element.function_name,
-            variable_modifier: JSON.stringify(element.variables[i].modifier),
-            variable_type : JSON.stringify(element.variables[i].type),
-            variable_name : JSON.stringify(element.variables[i].identifier),
+            variable_modifier: element.variables[i].modifier,
+            variable_type : element.variables[i].type,
+            variable_name : element.variables[i].identifier,
           }
         );
         if (response.status !== 200) {

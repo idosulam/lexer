@@ -9,6 +9,7 @@ import "./graph.css";
 function Graph(props) {
   const [isActive, setIsActive] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedDropdown, setSelectedDropdown] = useState(null);
 
   const jsonTree = props.tree;
   const projectname = props.projectName;
@@ -27,7 +28,10 @@ function Graph(props) {
     { parameter: "", value: "", condition: "" },
   ]);
   /* */
-  const [selectlist, setSelectlist] = useState([]);
+  const [variable_list, set_variable_list] = useState([]);
+  const [parameters_list, set_parameters_list] = useState([]);
+  const [return_type_list, set_return_type_list] = useState([]);
+  const [built_in_function_name_list,set_built_in_function_name_list] = useState([]);
 
   const handleSwitchChange = () => {
     setIsChecked(!isChecked);
@@ -71,38 +75,48 @@ function Graph(props) {
     extract_from_db();
   }
   async function extract_from_db() {
-    let list = [];
+    let return_type_list = [];
+    let variables_list = [];
+    let parameter_list = [];
+    let built_in_function_name_list = [];
+
+
     for (let name of selectedOptions) {
       const project = `${projectname}_${name}`;
-     await Axios.get(
+      await Axios.get(
         `http://localhost:3001/api/getreturn?project_name=${project}`
       ).then((response) => {
-     //   list.push(response.data[0]["return_type"]);
-      }
-
-      );
-
-     await Axios.get(
+        return_type_list.push(response.data[0]["return_type"]);
+      });
+      await Axios.get(
+        `http://localhost:3001/api/search_built_in_function?project_name=${name}`
+      ).then((response) => {
+        for (let index = 0; index < response.data.length - 1; index++) {
+          const element = response.data[index]["built_in_function_name"];
+          built_in_function_name_list.push(element);
+        }
+            });
+      await Axios.get(
         `http://localhost:3001/api/param_search?project_name=${name}`
       ).then((response) => {
-        for (let index = 0; index < response.data.length -1; index++) {
+        for (let index = 0; index < response.data.length - 1; index++) {
           const element = response.data[index]["parameter_type"];
-          list.push(element)
+          parameter_list.push(element);
         }
-        
       });
       await Axios.get(
         `http://localhost:3001/api/variable_search?project_name=${name}`
-        ).then((response) => {
-          for (let index = 0; index < response.data.length -1; index++) {
-            const element = response.data[index]["variable_type"];
-            list.push(element)
-          }
-          
-        });
+      ).then((response) => {
+        for (let index = 0; index < response.data.length - 1; index++) {
+          const element = response.data[index]["variable_type"];
+          variables_list.push(element);
+        }
+      });
     }
-    console.log(new Set(list))
-    setSelectlist(new Set(list));
+    set_return_type_list(Array.from(new Set(return_type_list)));
+    set_built_in_function_name_list(Array.from(new Set(built_in_function_name_list)));
+    set_variable_list(Array.from(new Set(variables_list)));
+    set_parameters_list(Array.from(new Set(parameter_list)));
   }
   const handleListClick = (e) => {
     e.stopPropagation();
@@ -267,41 +281,110 @@ function Graph(props) {
                       <option value="params">parameters</option>
                       <option value="variables">variable</option>
                       <option value="for">for</option>
+                      <option value="builtin">built_in_functions</option>
                     </select>
                   </div>
 
                   <div
                     style={{ paddingRight: "20px", display: "inline-block" }}
                   >
-                    {item.parameter === "params" ||
-                    item.parameter === "variables" ||
-                    item.parameter === "return_type" ? (
+                    {item.parameter === "params" ? (
                       <div>
                         <select
                           name="value"
                           value={item.value}
-                          onChange={(e) => handleoptionchange(e, index)}
+                          onChange={(e) => {
+                            handleoptionchange(e, index);
+                            setSelectedDropdown("params");
+                          }}
                         >
-                          <option value="for">for</option>
+                          <option value="">choose</option>
 
-                          {Array.from(selectlist).map((item, index) => {
-                            <option value={item} key={index}>
-                              {item}
-                            </option>;
+                          {Array.from(parameters_list).map((item, index) => {
+                            return (
+                              <option value={item} key={index}>
+                                {item}
+                              </option>
+                            );
                           })}
                         </select>
                       </div>
-                    ) : (
+                    ) : item.parameter === "variables" ? (
                       <div>
-                        <input
+                        <select
                           name="value"
                           value={item.value}
-                          className="inputsearch"
-                          onChange={(e) => handleValueChange(e, index)}
-                        />
+                          onChange={(e) => {
+                            handleoptionchange(e, index);
+                            setSelectedDropdown("variables");
+                          }}
+                        >
+                          <option value="">choose</option>
+
+                          {Array.from(variable_list).map((item, index) => {
+                            return (
+                              <option value={item} key={index}>
+                                {item}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                    ) : item.parameter === "return_type" ? (
+                      <div>
+                        <select
+                          name="value"
+                          value={item.value}
+                          onChange={(e) => {
+                            handleoptionchange(e, index);
+                            setSelectedDropdown("return_type");
+                          }}
+                        >
+                          <option value="">choose</option>
+                          {Array.from(return_type_list).map((item, index) => {
+                            return (
+                              <option value={item} key={index}>
+                                {item}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                    ) : item.parameter === "builtin" ? (
+                      <div>
+                        <select
+                          name="value"
+                          value={item.value}
+                          onChange={(e) => {
+                            handleoptionchange(e, index);
+                            setSelectedDropdown("built_in_function_name");
+                          }}
+                        >
+                          <option value="">choose</option>
+                          {Array.from(built_in_function_name_list).map((item, index) => {
+                            return (
+                              <option value={item} key={index}>
+                                {item}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                    )
+                    : (
+                      <div>
+                        {selectedDropdown === null && (
+                          <input
+                            name="value"
+                            value={item.value}
+                            className="inputsearch"
+                            onChange={(e) => handleValueChange(e, index)}
+                          />
+                        )}
                       </div>
                     )}
                   </div>
+
                   {list.length - 1 !== index ? (
                     <div
                       style={{ paddingRight: "20px", display: "inline-block" }}
@@ -443,7 +526,6 @@ function Graph(props) {
           theme="dark"
         />
       </div>
-
     </>
   );
 }
