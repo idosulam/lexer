@@ -3,7 +3,6 @@ import Tree from "react-d3-tree";
 import Axios from "axios";
 import { ToastContainer } from "react-toastify";
 //import { toast } from "react-toastify";
-// #TODO: need to fix the checkbox state when its selected
 import Switch from "react-switch";
 
 import "./graph.css";
