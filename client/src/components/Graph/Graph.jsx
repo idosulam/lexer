@@ -9,7 +9,6 @@ import "./graph.css";
 function Graph(props) {
   const [isActive, setIsActive] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectedDropdown, setSelectedDropdown] = useState(null);
 
   const jsonTree = props.tree;
   const projectname = props.projectName;
@@ -31,22 +30,25 @@ function Graph(props) {
   const [variable_list, set_variable_list] = useState([]);
   const [parameters_list, set_parameters_list] = useState([]);
   const [return_type_list, set_return_type_list] = useState([]);
-  const [built_in_function_name_list,set_built_in_function_name_list] = useState([]);
+  const [built_in_function_name_list, set_built_in_function_name_list] =
+    useState([]);
 
   const handleSwitchChange = () => {
     setIsChecked(!isChecked);
   };
-  function printtree(names, root) {
-    names.add(root.name);
-    root.children.forEach((element) => {
-      printtree(names, element);
-    });
-  }
+
   useEffect(() => {
+    function printtree(names, root) {
+      names.add(root.name);
+      root.children.forEach((element) => {
+        printtree(names, element);
+      });
+    }
+
     const names = new Set();
     printtree(names, jsonTree);
     settable_list(names);
-  }, []);
+  }, [jsonTree]);
 
   const handleDropdownClick = () => {
     setIsActive(!isActive);
@@ -59,7 +61,6 @@ function Graph(props) {
     } else {
       setSelectedOptions(selectedOptions.filter((option) => option !== value));
     }
-    extract_from_db();
   }
   const handleRemove = (index) => {
     const newList = [...list];
@@ -72,51 +73,6 @@ function Graph(props) {
     setSelectedOptions(
       selectedOptions.length === allOptions.length ? [] : allOptions
     );
-    extract_from_db();
-  }
-  async function extract_from_db() {
-    let return_type_list = [];
-    let variables_list = [];
-    let parameter_list = [];
-    let built_in_function_name_list = [];
-
-
-    for (let name of selectedOptions) {
-      const project = `${projectname}_${name}`;
-      await Axios.get(
-        `http://localhost:3001/api/getreturn?project_name=${project}`
-      ).then((response) => {
-        return_type_list.push(response.data[0]["return_type"]);
-      });
-      await Axios.get(
-        `http://localhost:3001/api/search_built_in_function?project_name=${name}`
-      ).then((response) => {
-        for (let index = 0; index < response.data.length - 1; index++) {
-          const element = response.data[index]["built_in_function_name"];
-          built_in_function_name_list.push(element);
-        }
-            });
-      await Axios.get(
-        `http://localhost:3001/api/param_search?project_name=${name}`
-      ).then((response) => {
-        for (let index = 0; index < response.data.length - 1; index++) {
-          const element = response.data[index]["parameter_type"];
-          parameter_list.push(element);
-        }
-      });
-      await Axios.get(
-        `http://localhost:3001/api/variable_search?project_name=${name}`
-      ).then((response) => {
-        for (let index = 0; index < response.data.length - 1; index++) {
-          const element = response.data[index]["variable_type"];
-          variables_list.push(element);
-        }
-      });
-    }
-    set_return_type_list(Array.from(new Set(return_type_list)));
-    set_built_in_function_name_list(Array.from(new Set(built_in_function_name_list)));
-    set_variable_list(Array.from(new Set(variables_list)));
-    set_parameters_list(Array.from(new Set(parameter_list)));
   }
   const handleListClick = (e) => {
     e.stopPropagation();
@@ -166,12 +122,7 @@ function Graph(props) {
   };
 
   const handleParameterChange = (e, index) => {
-    const { name, value } = e.target;
-    setList((prevList) => {
-      const newList = [...prevList];
-      newList[index] = { ...newList[index], [name]: value };
-      return newList;
-    });
+    list[index] = { parameter: e.target.value, value: "", condition: "" };
   };
 
   const handleoptionchange = (e, index) => {
@@ -187,9 +138,53 @@ function Graph(props) {
     setZoomLevel(event.transform.k);
   }
   useEffect(() => {
-    extract_from_db();
+    async function extract_from_db() {
+      let return_type_list = [];
+      let variables_list = [];
+      let parameter_list = [];
+      let built_in_function_name_list = [];
 
-  },[selectedOptions])
+      for (let name of selectedOptions) {
+        const project = `${projectname}_${name}`;
+        await Axios.get(
+          `http://localhost:3001/api/getreturn?project_name=${project}`
+        ).then((response) => {
+          return_type_list.push(response.data[0]["return_type"]);
+        });
+        await Axios.get(
+          `http://localhost:3001/api/search_built_in_function?project_name=${projectname}&function_name=${name}`
+        ).then((response) => {
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index]["built_in_function_name"];
+            built_in_function_name_list.push(element);
+          }
+        });
+        await Axios.get(
+          `http://localhost:3001/api/param_search?project_name=${projectname}&function_name=${name}`
+        ).then((response) => {
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index]["parameter_type"];
+            parameter_list.push(element);
+          }
+        });
+        await Axios.get(
+          `http://localhost:3001/api/variable_search?project_name=${projectname}&function_name=${name}`
+        ).then((response) => {
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index]["variable_type"];
+            variables_list.push(element);
+          }
+        });
+      }
+      set_return_type_list(Array.from(new Set(return_type_list)));
+      set_built_in_function_name_list(
+        Array.from(new Set(built_in_function_name_list))
+      );
+      set_parameters_list(Array.from(new Set(parameter_list)));
+      set_variable_list(Array.from(new Set(variables_list)));
+    }
+    extract_from_db();
+  }, [selectedOptions, projectname]);
   function updatecolor(nodeDatum) {
     const color = nodeDatum.nodeDatum.color[0];
     const regex = /[^/]*$/;
@@ -216,14 +211,53 @@ function Graph(props) {
       );
     }
   }
+  function createquery(list) {
+    for (let index = 0; index < selectedOptions.length; index++) {
+      let query = `SELECT distinct project.${projectname}_${selectedOptions[index]}.function_name\n`;
+      query += `FROM project.${projectname}_${selectedOptions[index]}\n`;
+      query += `INNER JOIN project.parameters ON
+		project.${projectname}_${selectedOptions[index]}.project_name = project.parameters.project_name 
+        AND project.${projectname}_${selectedOptions[index]}.function_name = project.parameters.function_name
+INNER JOIN project.variables ON
+		project.${projectname}_${selectedOptions[index]}.project_name = project.variables.project_name 
+        AND project.${projectname}_${selectedOptions[index]}.function_name = project.variables.function_name
+INNER JOIN project.built_in_functions ON
+		project.${projectname}_${selectedOptions[index]}.project_name = project.built_in_functions.project_name
+		AND project.${projectname}_${selectedOptions[index]}.function_name = project.built_in_functions.function_name\nWHERE`;
 
-  const handleSubmit = () => {
-    if (list.length === 1) {
-      list[0].condition = "and";
+      for (let i = 0; i < list.length; i++) {
+        const field = list[i];
+        switch (field.parameter) {
+          case "variables":
+            query += ` (SELECT COUNT(*) FROM project.variables WHERE project.variables.variable_type = '${field.value}' AND project.variables.function_name = '${selectedOptions[index]}' AND project.variables.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            break;
+          case "params":
+            query += ` (SELECT COUNT(*) FROM project.parameters WHERE project.parameters.parameter_type = '${field.value}' AND project.parameters.function_name = '${selectedOptions[index]}' AND project.parameters.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            break;
+          case "builtin":
+            query += ` (SELECT COUNT(*) FROM project.built_in_functions WHERE project.built_in_functions.built_in_function_name = '${field.value}' AND project.built_in_functions.function_name = '${selectedOptions[index]}' AND project.built_in_functions.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            break;
+          default:
+            query += ` project.${projectname}_${selectedOptions[index]}.${field.parameter} = '${field.value}'\n ${field.condition}`;
+            break;
+        }
+      }
+
+      query = query.slice(0, -3);
     }
-    list.forEach((item, index) => {
-      console.log(item);
-    });
+  }
+  const handleSubmit = () => {
+    if (selectedOptions.length === 0) {
+      return;
+    }
+    for (let i = 0; i < list.length; i++) {
+      const field = list[i];
+      if (list.length - 1 === i) {
+        field.condition = "and";
+      }
+      if (!field.value || !field.parameter || !field.condition) return;
+    }
+    createquery(list);
   };
   return (
     <>
@@ -298,7 +332,6 @@ function Graph(props) {
                           value={item.value}
                           onChange={(e) => {
                             handleoptionchange(e, index);
-                            setSelectedDropdown("params");
                           }}
                         >
                           <option value="">choose</option>
@@ -319,7 +352,6 @@ function Graph(props) {
                           value={item.value}
                           onChange={(e) => {
                             handleoptionchange(e, index);
-                            setSelectedDropdown("variables");
                           }}
                         >
                           <option value="">choose</option>
@@ -340,7 +372,6 @@ function Graph(props) {
                           value={item.value}
                           onChange={(e) => {
                             handleoptionchange(e, index);
-                            setSelectedDropdown("return_type");
                           }}
                         >
                           <option value="">choose</option>
@@ -360,23 +391,26 @@ function Graph(props) {
                           value={item.value}
                           onChange={(e) => {
                             handleoptionchange(e, index);
-                            setSelectedDropdown("built_in_function_name");
                           }}
                         >
                           <option value="">choose</option>
-                          {Array.from(built_in_function_name_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index}>
-                                {item}
-                              </option>
-                            );
-                          })}
+                          {Array.from(built_in_function_name_list).map(
+                            (item, index) => {
+                              return (
+                                <option value={item} key={index}>
+                                  {item}
+                                </option>
+                              );
+                            }
+                          )}
                         </select>
                       </div>
-                    )
-                    : (
+                    ) : (
                       <div>
-                        {selectedDropdown === null && (
+                        {(item.parameter !== "built_in_function_name") |
+                          "return_type" |
+                          "variables" |
+                          "params" && (
                           <input
                             name="value"
                             value={item.value}

@@ -457,8 +457,9 @@ app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
 
 app.get("/api/param_search", (req, res) => {
   const project_name = req.query.project_name;
-  const sqlsearch = "select parameter_type from project.parameters WHERE function_name = ?";
-  db.query(sqlsearch, [project_name], (err, result) => {
+    const function_name = req.query.function_name;
+  const sqlsearch = "select parameter_type from project.parameters WHERE function_name = ? and project_name = ?";
+  db.query(sqlsearch, [function_name,project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -470,8 +471,9 @@ app.get("/api/param_search", (req, res) => {
 
 app.get("/api/variable_search", (req, res) => {
   const project_name = req.query.project_name;
-  const sqlsearch = "select variable_type from project.variables WHERE function_name = ?";
-  db.query(sqlsearch, [project_name], (err, result) => {
+  const function_name = req.query.function_name;
+  const sqlsearch = "select variable_type from project.variables WHERE function_name = ? and project_name = ?";
+  db.query(sqlsearch, [function_name,project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -484,8 +486,10 @@ app.get("/api/variable_search", (req, res) => {
 
 app.get("/api/search_built_in_function", (req, res) => {
   const project_name = req.query.project_name;
-  const sqlsearch = "select built_in_function_name from project.built_in_functions WHERE function_name = ?";
-  db.query(sqlsearch, [project_name], (err, result) => {
+  const function_name = req.query.function_name;
+
+  const sqlsearch = "select built_in_function_name from project.built_in_functions WHERE function_name = ? and project_name = ? ";
+  db.query(sqlsearch, [function_name,project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {

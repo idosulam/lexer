@@ -286,7 +286,7 @@ def get_text(file) -> list[str]:
 
 '''
 ============================================================================================
-General : search_for_includes - search for all includes
+General : find_library_includes - search for all includes by regex
 Parameters : file : text code 
 Return Value : list of includes name
 ============================================================================================
@@ -303,9 +303,9 @@ def find_library_includes(file: str) -> list[str]:
 
 '''
 ============================================================================================
-General : search_for_includes - search for all includes
+General : search_for_includes - search for all files by the given include
 Parameters : file : text code 
-Return Value : list of includes
+Return Value : list of headers
 ============================================================================================
 '''
 

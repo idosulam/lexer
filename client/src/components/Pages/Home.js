@@ -137,7 +137,7 @@ function Home() {
             project_name: name,
             function_name: element.function_name,
             parameter_modifier: element.params[i].modifier,
-            parameter_type : element.params[i].type,
+            parameter_type : element.params[i].type.trim(),
             parameter_name : element.params[i].identifier,
               }
         );
@@ -162,7 +162,7 @@ function Home() {
             project_name: name,
             function_name: element.function_name,
             variable_modifier: element.variables[i].modifier,
-            variable_type : element.variables[i].type,
+            variable_type : element.variables[i].type.trim(),
             variable_name : element.variables[i].identifier,
           }
         );
