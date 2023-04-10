@@ -423,14 +423,13 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                       </div>
                     ) : (
                       <div>
-                        {(item.parameter !== "built_in_function_name") |
+                        {(item.parameter !== "builtin") |
                           "return_type" |
                           "variables" |
                           "params" && (
                           <input
                             name="value"
                             value={item.value}
-                            className="inputsearch"
                             onChange={(e) => handleValueChange(e, index)}
                           />
                         )}

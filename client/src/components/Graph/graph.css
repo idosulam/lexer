@@ -51,15 +51,7 @@ label {
         transform: translateY(0);
         }
     
-  .inputsearch {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: #444;
-    min-height: 60px;
-
-    color: #fff;
-  }
+  
   
   p {
     margin-top: 1rem;
@@ -169,28 +161,3 @@ label {
 
 /* ================================================================= */
 
-
-.shake {
-  animation: shake 0.5s;
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-10px, 0);
-  }
-  40% {
-    transform: translate(10px, 0);
-  }
-  60% {
-    transform: translate(-10px, 0);
-  }
-  80% {
-    transform: translate(10px, 0);
-  }
-  100% {
-    transform: translate(0);
-  }
-}
