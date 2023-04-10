@@ -21,6 +21,7 @@ app.post("/api/datainsert", (req, res) => {
   identifier_type_dict = JSON.stringify(req.body.identifier_type_dict);
   if_statements = req.body.if_statements;
   while_statements = req.body.while_statements;
+  for_statements = req.body.for_statements;
   inside_file = req.body.inside_file;
   params = JSON.stringify(req.body.params);
   return_type = req.body.return_type;
@@ -36,6 +37,7 @@ app.post("/api/datainsert", (req, res) => {
     identifier_type_dict JSON ,
     if_statements INT ,
     while_statements INT ,
+    for_statements INT ,
     inside_file LONGTEXT ,
     return_type VARCHAR(255) ,
     PRIMARY KEY (id));`,
@@ -45,7 +47,7 @@ app.post("/api/datainsert", (req, res) => {
         res.status(500).send("Failed to create table");
         return;
       }
-      const sqlInsert = `INSERT INTO project.${table_name} (project_name,function_name,identifier_instance_dict,identifier_type_dict,if_statements,while_statements,inside_file,return_type) VALUES(?,?,?,?,?,?,?,?);`;
+      const sqlInsert = `INSERT INTO project.${table_name} (project_name,function_name,identifier_instance_dict,identifier_type_dict,if_statements,while_statements,for_statements,inside_file,return_type) VALUES(?,?,?,?,?,?,?,?,?);`;
       db.query(
         sqlInsert,
         [
@@ -55,6 +57,7 @@ app.post("/api/datainsert", (req, res) => {
           identifier_type_dict,
           if_statements,
           while_statements,
+          for_statements,
           inside_file,
           return_type,
         ],

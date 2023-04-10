@@ -80,6 +80,7 @@ function Home() {
             while_statements: element.while_statements,
             inside_file: element.inside_file,
             return_type: element.return_type,
+            for_statements: element.for_statements
           }
         );
 

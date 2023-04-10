@@ -213,7 +213,7 @@ function Graph(props) {
   }
   async function createquery(list) {
     const promises = [];
-
+    setMatchingQuery([])
     for (let index = 0; index < selectedOptions.length; index++) {
       let query = `SELECT distinct project.${projectname}_${selectedOptions[index]}.function_name\n`;
       query += ` FROM project.${projectname}_${selectedOptions[index]}\n`;
@@ -255,10 +255,10 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           }
         })
       );
-      
+      console.log(query);
     }
     const match = await Promise.all(promises);
-    console.log(match.filter((item) => item !== undefined))
+    console.log(match.filter((item) => item !== undefined));
     setMatchingQuery(match.filter((item) => item !== undefined));
     console.log(matchingQuery);
   }
@@ -333,7 +333,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                       <option value="return_type">return_type</option>
                       <option value="params">parameters</option>
                       <option value="variables">variable</option>
-                      <option value="for">for</option>
+                      <option value="for_statements">for</option>
                       <option value="builtin">built_in_functions</option>
                     </select>
                   </div>
@@ -427,11 +427,17 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                           "return_type" |
                           "variables" |
                           "params" && (
-                          <input
-                            name="value"
-                            value={item.value}
-                            onChange={(e) => handleValueChange(e, index)}
-                          />
+                          <div className="inputbox">
+                            <input
+                            required
+                            type="number"
+                              name="value"
+                              value={item.value}
+                              onChange={(e) => handleValueChange(e, index)}
+                            />
+                            <span>Enter Value</span>
+                            <i></i>
+                          </div>
                         )}
                       </div>
                     )}
@@ -583,4 +589,3 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
 }
 
 export default Graph;
-
