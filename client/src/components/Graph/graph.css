@@ -9,7 +9,7 @@ label {
     border-radius: 0.5rem;
     border: none;
     min-height: 60px;
-    background-color: #444;
+    background-color: #333;
     color: #fff;
   }
   .button-28 {
@@ -59,6 +59,7 @@ label {
   }
 
 .object{
+
   animation: float 0.5s ease-in-out infinite;
 }
 
@@ -162,7 +163,6 @@ label {
   width: 196px;
 }
 
-/* ================================================================= */
 
 
 .inputbox input {
@@ -185,7 +185,7 @@ label {
   left: 0;
   padding: 20px 10px 10px;
   font-size: 1em;
-  color: #8f8f8f;
+  color: #000;
   letter-spacing: 00.05em;
   transition: 0.5s;
   pointer-events: none;
@@ -193,7 +193,7 @@ label {
 
 .inputbox input:valid ~span,
 .inputbox input:focus ~span {
-  color: #333;
+  color: #000;
   transform: translateX(-10px) translateY(-34px);
   font-size: 0,75em;
 }
@@ -215,3 +215,6 @@ label {
 .inputbox input:focus ~i {
   height: 44px;
 }
+
+/* ================================================================= */
+

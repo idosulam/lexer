@@ -195,7 +195,7 @@ function Graph(props) {
       return (
         <g onClick={() => console.log(nodeDatum)}>
           <circle className="object" fill={color} r="20" />
-          <text fill="black" strokeWidth="1" x="30">
+          <text fill="black" strokeWidth="1" x="30" >
             {string}
           </text>
         </g>
@@ -213,7 +213,6 @@ function Graph(props) {
   }
   async function createquery(list) {
     const promises = [];
-    setMatchingQuery([])
     for (let index = 0; index < selectedOptions.length; index++) {
       let query = `SELECT distinct project.${projectname}_${selectedOptions[index]}.function_name\n`;
       query += ` FROM project.${projectname}_${selectedOptions[index]}\n`;
@@ -255,7 +254,6 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           }
         })
       );
-      console.log(query);
     }
     const match = await Promise.all(promises);
     console.log(match.filter((item) => item !== undefined));
@@ -282,7 +280,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         <Switch onChange={handleSwitchChange} checked={isChecked} />
       </label>
       {isChecked && (
-        <div>
+        <div style={{paddingBottom : '10px'}}>
           <div
             className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
             onClick={handleDropdownClick}
