@@ -293,7 +293,6 @@ app.get("/api/getreturn", (req, res) => {
 
 app.get("/api/check_table", (req, res) => {
   const sql_query = req.query.sql_query;
-
   db.query(sql_query, (err, result) => {
     if (err) {
       console.log(err);

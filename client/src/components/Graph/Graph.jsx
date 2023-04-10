@@ -211,19 +211,20 @@ function Graph(props) {
       );
     }
   }
-  function createquery(list) {
+  async function createquery(list) {
+    const promises = [];
+
     for (let index = 0; index < selectedOptions.length; index++) {
       let query = `SELECT distinct project.${projectname}_${selectedOptions[index]}.function_name\n`;
-      query += `FROM project.${projectname}_${selectedOptions[index]}\n`;
-      query += `INNER JOIN project.parameters ON
-		project.${projectname}_${selectedOptions[index]}.project_name = project.parameters.project_name 
+      query += ` FROM project.${projectname}_${selectedOptions[index]}\n`;
+      query += ` LEFT JOIN project.parameters ON 
+      project.${projectname}_${selectedOptions[index]}.project_name = project.parameters.project_name 
         AND project.${projectname}_${selectedOptions[index]}.function_name = project.parameters.function_name
-INNER JOIN project.variables ON
-		project.${projectname}_${selectedOptions[index]}.project_name = project.variables.project_name 
-        AND project.${projectname}_${selectedOptions[index]}.function_name = project.variables.function_name
-INNER JOIN project.built_in_functions ON
-		project.${projectname}_${selectedOptions[index]}.project_name = project.built_in_functions.project_name
-		AND project.${projectname}_${selectedOptions[index]}.function_name = project.built_in_functions.function_name\nWHERE`;
+ LEFT JOIN project.variables ON 
+project.${projectname}_${selectedOptions[index]}.project_name = project.variables.project_name 
+        AND project.${projectname}_${selectedOptions[index]}.function_name = project.variables.function_name 
+         LEFT JOIN project.built_in_functions ON \n
+		project.${projectname}_${selectedOptions[index]}.project_name = project.built_in_functions.project_name AND project.${projectname}_${selectedOptions[index]}.function_name = project.built_in_functions.function_name\n WHERE `;
 
       for (let i = 0; i < list.length; i++) {
         const field = list[i];
@@ -244,7 +245,22 @@ INNER JOIN project.built_in_functions ON
       }
 
       query = query.slice(0, -3);
+      promises.push(
+        Axios.get(
+          `http://localhost:3001/api/check_table?sql_query=${query}`
+        ).then(async (response) => {
+          if (response.status === 200) {
+            if (response.data[0] !== undefined)
+              return response.data[0].function_name;
+          }
+        })
+      );
+      
     }
+    const match = await Promise.all(promises);
+    console.log(match.filter((item) => item !== undefined))
+    setMatchingQuery(match.filter((item) => item !== undefined));
+    console.log(matchingQuery);
   }
   const handleSubmit = () => {
     if (selectedOptions.length === 0) {
@@ -568,3 +584,4 @@ INNER JOIN project.built_in_functions ON
 }
 
 export default Graph;
+
