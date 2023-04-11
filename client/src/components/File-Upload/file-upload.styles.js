@@ -16,7 +16,7 @@ export const InputLabel = styled.label`
   top: -21px;
   font-size: 13px;
   color: black;
-  left: 0;
+  left: 0;z
   position: absolute;
 `;
 

@@ -64,21 +64,18 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
         <DragDropText>Drag and drop your files</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
           <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
-        </UploadFileBtn>
-        <input
+          <input
           style={{
-            backgroundColor: "#333",
-            fontSize: "18px",
             display: "block",
-            width: "100%",
+            width: "1%",
             border: "none",
             textTransform: "none",
-            position: "absolute",
             top: "0",
             left: "0",
             right: "0",
             bottom: "0",
             opacity: "0",
+            
           }}
           type="file"
           directory=""
@@ -89,6 +86,8 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
           value=""
           {...otherProps}
         />
+        </UploadFileBtn>
+      
       </FileUploadContainer>
       <FilePreviewContainer>
         <div
