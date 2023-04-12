@@ -63,17 +63,10 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
         <InputLabel>{label}</InputLabel>
         <DragDropText>Drag and drop your files</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
-          <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
+          <span> Upload files</span>
           <input
           style={{
-            display: "block",
             width: "1%",
-            border: "none",
-            textTransform: "none",
-            top: "0",
-            left: "0",
-            right: "0",
-            bottom: "0",
             opacity: "0",
             
           }}

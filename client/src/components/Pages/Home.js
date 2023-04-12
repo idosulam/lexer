@@ -305,7 +305,7 @@ function Home() {
       <form
         onSubmit={handleSubmit}
         multiple={true}
-        style={{ paddingTop: "20px" }}
+        
       >
         <FileUpload multiple updateFilesCb={updateUploadedFiles} />
       </form>
