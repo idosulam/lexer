@@ -61,9 +61,9 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
     <>
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
-        <DragDropText>Drag and drop your files</DragDropText>
+        <DragDropText style={{paddingTop : '20px' ,fontFamily : "-moz-initial",}}>Upload Project Files</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
-          <span> Upload files</span>
+          <span> Upload Files</span>
           <input
           style={{
             width: "1%",
@@ -95,9 +95,10 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
               fontSize: 30,
               letterSpacing: 2.2,
               textDecorationLine: "underline",
+              fontFamily : "-moz-initial",
             }}
           >
-            files :
+            Uploaded Files :
           </h3>
         </div>
         <PreviewList>
