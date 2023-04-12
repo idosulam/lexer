@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import './file-upload.css'
+
 import {
   FileUploadContainer,
   DragDropText,
@@ -17,7 +19,7 @@ const KILO_BYTES_PER_BYTE = 1000;
 const convertNestedObjectToArray = (nestedObj) =>
   Object.keys(nestedObj).map((key) => nestedObj[key]);
 
-const convertBytesToKB = (bytes) => Math.round(bytes / KILO_BYTES_PER_BYTE);
+const convertBytesToKB = (bytes) => (bytes / KILO_BYTES_PER_BYTE).toFixed(1);
 
 const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
   const fileInputField = useRef(null);
@@ -61,9 +63,9 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
     <>
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
-        <DragDropText style={{paddingTop : '20px' ,fontFamily : "-moz-initial",}}>Upload Project Files</DragDropText>
+        <DragDropText style={{paddingTop : '20px' ,fontFamily : "jost"}}>Code Map</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
-          <span> Upload Files</span>
+          <span style={{fontFamily: 'jost'}}> Upload Files</span>
           <input
           style={{
             width: "1%",
@@ -90,16 +92,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
             alignItems: "center",
           }}
         >
-          <h3
-            style={{
-              fontSize: 30,
-              letterSpacing: 2.2,
-              textDecorationLine: "underline",
-              fontFamily : "-moz-initial",
-            }}
-          >
-            Uploaded Files :
-          </h3>
+      
         </div>
         <PreviewList>
           {Object.keys(files).map((fileName, index) => {
@@ -115,11 +108,11 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
                     />
                   )}
                   <FileMetaData isImageFile={isImageFile}>
-                    <span>{file.name}</span>
+                    <span style={{fontFamily: 'jost'}}>{file.name}</span>
                     <aside>
                       <span>{convertBytesToKB(file.size)} kb</span>
                       <RemoveFileIcon className="fas fa-trash-alt" />
-                      <button onClick={() => removeFile(fileName)}>
+                      <button onClick={() => removeFile(fileName)} style={{fontFamily: 'jost'}}>
                         remove
                       </button>
                     </aside>

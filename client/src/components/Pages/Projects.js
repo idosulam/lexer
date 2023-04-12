@@ -81,7 +81,6 @@ function Projects() {
       });
   }
 
-
   async function delete_tables(project) {
     Axios.get(
       `http://localhost:3001/api/json_search?project_name=${project}`
@@ -95,10 +94,9 @@ function Projects() {
           try {
             const res = await Axios.delete(
               `http://localhost:3001/api/deletetables/${project}_${function_name}`,
-              {
-              }
+              {}
             );
-    
+
             if (res.status !== 200) {
               toast.error("Failed to delete project", {
                 position: "top-center",
@@ -124,36 +122,37 @@ function Projects() {
             });
           }
         }
-
-
       }
     });
-    
-    
   }
- function deletevariables(project_name){
-  Axios.delete(`http://localhost:3001/api/delete_variables/${project_name}`).then((response) => {
-    if( response.status !== 200){
-      console.log(response)
-    }
-  })
+  function deletevariables(project_name) {
+    Axios.delete(
+      `http://localhost:3001/api/delete_variables/${project_name}`
+    ).then((response) => {
+      if (response.status !== 200) {
+        console.log(response);
+      }
+    });
+  }
+  function deleteparameter(project_name) {
+    Axios.delete(
+      `http://localhost:3001/api/delete_parameters/${project_name}`
+    ).then((response) => {
+      if (response.status !== 200) {
+        console.log(response);
+      }
+    });
+  }
 
- }
- function deleteparameter(project_name){
-  Axios.delete(`http://localhost:3001/api/delete_parameters/${project_name}`).then((response) => {
-    if( response.status !== 200){
-      console.log(response)
-    }
-  })
- }
-
- function delete_built_in_functions(project_name){
-  Axios.delete(`http://localhost:3001/api/delete_built_in_function/${project_name}`).then((response) => {
-    if( response.status !== 200){
-      console.log(response)
-    }
-  })
- }
+  function delete_built_in_functions(project_name) {
+    Axios.delete(
+      `http://localhost:3001/api/delete_built_in_function/${project_name}`
+    ).then((response) => {
+      if (response.status !== 200) {
+        console.log(response);
+      }
+    });
+  }
 
   function delete_project(project) {
     Axios.delete(`http://localhost:3001/api/delete/${project.project_name}`)
@@ -161,9 +160,9 @@ function Projects() {
         if (response.status === 200) {
           delete_files_project(project);
           delete_json_project(project);
-          delete_tables(project.project_name)
-          deletevariables(project.project_name)
-          deleteparameter(project.project_name)
+          delete_tables(project.project_name);
+          deletevariables(project.project_name);
+          deleteparameter(project.project_name);
           delete_built_in_functions(project.project_name);
           toast.success("Project deleted successfully", {
             position: "top-center",
@@ -290,7 +289,7 @@ function Projects() {
                 project_name: `${new_name}_${function_name}`,
               }
             );
-    
+
             if (res.status !== 200) {
               toast.error("Failed to insert project", {
                 position: "top-center",
@@ -316,12 +315,8 @@ function Projects() {
             });
           }
         }
-
-
       }
     });
-    
-    
   }
 
   function update_files_project(old_name, newname) {
@@ -419,7 +414,10 @@ function Projects() {
         update_tables(project.project_name, projectref.current.value);
         update_variables(project.project_name, projectref.current.value);
         update_parameters(project.project_name, projectref.current.value);
-        update_built_in_functions(project.project_name, projectref.current.value);
+        update_built_in_functions(
+          project.project_name,
+          projectref.current.value
+        );
         projectref.current.value = "";
         if (response.status === 200) {
           toast.success("Project updated successfully", {
@@ -485,18 +483,25 @@ function Projects() {
     e.target.style.cursor = "pointer";
   }
   return (
-    <div style={{marginTop : '20px'}}>
+    <div style={{ marginTop: "20px" }}>
       <h1 style={{ fontSize: 50, letterSpacing: 2.2 }}>Your Projects</h1>
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <input
-        id="searchbar"
-        type="text"
-        ref={searchinputref}
-        onChange={showlist}
-        name="search"
-        placeholder="Search project"
-      />
-</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <input
+          id="searchbar"
+          type="text"
+          ref={searchinputref}
+          onChange={showlist}
+          name="search"
+          style={{ fontFamily: "jost" }}
+          placeholder="Search project"
+        />
+      </div>
       {projectsList.length > 0 ? (
         <div className="card-container">
           {projectsList.map((project, index) => (
@@ -509,7 +514,12 @@ function Projects() {
                 {project.project_name}
               </h1>
               <h3>{project.id}</h3>
-              <button onClick={() => delete_project(project)}>delete</button>
+              <button
+                onClick={() => delete_project(project)}
+                style={{ fontFamily: "jost" }}
+              >
+                delete
+              </button>
               <input
                 type="text"
                 className="update_input"
@@ -519,6 +529,7 @@ function Projects() {
                 onClick={() => {
                   update_project(project, inputRefs[index]);
                 }}
+                style={{ fontFamily: "jost" }}
               >
                 update
               </button>
@@ -526,8 +537,14 @@ function Projects() {
           ))}
         </div>
       ) : (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <p>No projects found</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p style={{ fontFamily: "jost" }}>No projects found</p>
         </div>
       )}
       <ToastContainer

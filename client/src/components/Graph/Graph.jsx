@@ -282,6 +282,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       {isChecked && (
         <div style={{paddingBottom : '10px'}}>
           <div
+                  style={{fontFamily : 'jost', marginLeft : '150px'}}
+
             className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
             onClick={handleDropdownClick}
           >
@@ -293,12 +295,15 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                     type="checkbox"
                     checked={selectedOptions.length === table_list.length}
                     onChange={handleSelectAll}
+                    style={{fontFamily : 'jost'}}
+
                   />
                   all
                 </label>
               </li>
               {[...table_list].map((option) => (
-                <li key={option} value={option}>
+                <li key={option} value={option}         style={{fontFamily : 'jost'}}
+                >
                   <label>
                     <input
                       type="checkbox"
@@ -324,6 +329,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                       name="parameter"
                       value={item.parameter}
                       onChange={(e) => handleParameterChange(e, index)}
+                      style={{fontFamily : 'jost'}}
+
                     >
                       <option value="">Choose</option>
                       <option value="if_statements">if statement</option>
@@ -347,12 +354,14 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                           onChange={(e) => {
                             handleoptionchange(e, index);
                           }}
+                          style={{fontFamily : 'jost'}}
+
                         >
                           <option value="">choose</option>
 
                           {Array.from(parameters_list).map((item, index) => {
                             return (
-                              <option value={item} key={index}>
+                              <option value={item} key={index} >
                                 {item}
                               </option>
                             );
@@ -362,6 +371,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                     ) : item.parameter === "variables" ? (
                       <div>
                         <select
+                                style={{fontFamily : 'jost'}}
+
                           name="value"
                           value={item.value}
                           onChange={(e) => {
@@ -372,7 +383,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
 
                           {Array.from(variable_list).map((item, index) => {
                             return (
-                              <option value={item} key={index}>
+                              <option value={item} key={index}         style={{fontFamily : 'jost'}}
+                              >
                                 {item}
                               </option>
                             );
@@ -382,6 +394,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                     ) : item.parameter === "return_type" ? (
                       <div>
                         <select
+                                style={{fontFamily : 'jost'}}
+
                           name="value"
                           value={item.value}
                           onChange={(e) => {
@@ -401,6 +415,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                     ) : item.parameter === "builtin" ? (
                       <div>
                         <select
+                                style={{fontFamily : 'jost'}}
+
                           name="value"
                           value={item.value}
                           onChange={(e) => {
@@ -427,13 +443,16 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                           "params" && (
                           <div className="inputbox">
                             <input
+                                    style={{fontFamily : 'jost'}}
+
                             required
                             type="number"
                               name="value"
                               value={item.value}
                               onChange={(e) => handleValueChange(e, index)}
                             />
-                            <span>Enter Value</span>
+                            <span         style={{fontFamily : 'jost'}}
+>Enter Value</span>
                             <i></i>
                           </div>
                         )}
@@ -449,6 +468,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                         name="condition"
                         value={item.condition}
                         onChange={(e) => handleconditionChange(e, index)}
+                        style={{fontFamily : 'jost'}}
+
                       >
                         <option value="">Choose</option>
                         <option value="not">not</option>
@@ -463,6 +484,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                     <button
                       className="button-28"
                       onClick={() => handleRemove(index)}
+                      style={{fontFamily : 'jost'}}
+
                     >
                       Remove
                     </button>
@@ -477,14 +500,17 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                 marginTop: "20px",
                 marginLeft: "100px",
                 marginRight: "20px",
+                fontFamily : 'jost'
+
               }}
               className="button-28"
               onClick={handleAdd}
+              
             >
               Add
             </button>
             <button
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px", fontFamily : 'jost' }}
               className="button-28"
               onClick={handleSubmit}
             >

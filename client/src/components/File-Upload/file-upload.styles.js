@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 export const FileUploadContainer = styled.section`
 
   position: relative;
@@ -41,7 +40,7 @@ export const UploadFileBtn = styled.button`
   text-align: center;
   text-transform: uppercase;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: 40px;
   position: relative;
   overflow: hidden; 
   z-index: 1;

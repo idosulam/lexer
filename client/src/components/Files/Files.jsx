@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import "./Files.css";
 
 function Files(props) {
-  const headerFiles = props.files.filter((file) => file.file_name.endsWith(".h"));
+  const headerFiles = props.files.filter((file) =>
+    file.file_name.endsWith(".h")
+  );
   const srcFiles = props.files.filter((file) => file.file_name.endsWith(".c"));
   const [selectedFile, setSelectedFile] = useState("");
   const [fileContent, setFileContent] = useState("");
   const [headerDropdown, setHeaderDropdown] = useState(false);
   const [srcdropdown, setsrcdropdown] = useState(false);
-
 
   const updateFileContentheader = (index) => {
     const file = headerFiles[index];
@@ -23,17 +24,16 @@ function Files(props) {
   };
 
   return (
-    <div style={{position: 'fixed',paddingLeft: '140px' }}>
+    <div style={{ position: "fixed", paddingLeft: "140px" }}>
       <div className="App">
         <ul className="file-list">
           {headerFiles.length > 0 && (
             <li>
-              <button onClick={() => setHeaderDropdown(!headerDropdown)}>
-              {headerDropdown ?(
-'v    header')
-:(
-  '>   header'
-                )}
+              <button
+                onClick={() => setHeaderDropdown(!headerDropdown)}
+                style={{ fontFamily: "jost" }}
+              >
+                {headerDropdown ? "v    header" : ">   header"}
               </button>
               {headerDropdown && (
                 <ul className="dropdown">
@@ -44,8 +44,9 @@ function Files(props) {
                           selectedFile === file.file_name ? "selected" : ""
                         }
                         onClick={() => updateFileContentheader(index)}
+                        style={{ fontFamily: "jost" }}
                       >
-                      {file.file_name}
+                        {file.file_name}
                       </button>
                     </li>
                   ))}
@@ -53,20 +54,20 @@ function Files(props) {
               )}
             </li>
           )}
-           {headerFiles.length > 0 && (
+          {headerFiles.length > 0 && (
             <li>
-              <button onClick={() => setsrcdropdown(!srcdropdown)}>
-              {srcdropdown ?(
-'v    src')
-:(
-  '>   src'
-                )}
+              <button
+                onClick={() => setsrcdropdown(!srcdropdown)}
+                style={{ fontFamily: "jost" }}
+              >
+                {srcdropdown ? "v    src" : ">   src"}
               </button>
               {srcdropdown && (
                 <ul className="dropdown">
                   {srcFiles.map((file, index) => (
                     <li key={index}>
                       <button
+                        style={{ fontFamily: "jost" }}
                         className={
                           selectedFile === file.file_name ? "selected" : ""
                         }
@@ -81,9 +82,9 @@ function Files(props) {
             </li>
           )}
         </ul>
-        <div className="file-content" style={{overflow : 'scroll'}}>
-          <h3>{selectedFile}</h3>
-          <pre>
+        <div className="file-content" style={{ overflow: "scroll" }}>
+          <h3 style={{ fontFamily: "jost" }}>{selectedFile}</h3>
+          <pre style={{ fontFamily: "jost" }}>
             {fileContent.split("\n").map((line, i) => (
               <div key={i}>
                 <code className="line-number">{`${i + 1}.`}</code>
@@ -93,7 +94,6 @@ function Files(props) {
           </pre>
         </div>
       </div>
-      
     </div>
   );
 }

@@ -290,7 +290,7 @@ function Home() {
         progress: undefined,
         theme: "dark",
       });
-      return;
+      return
     }
 
     const projectName = prompt("Please enter a project name:");
@@ -316,9 +316,11 @@ function Home() {
           alignItems: "center",
         }}
       >
-        <button className="button-28" onClick={handleButtonClick}>
+        { newUserInfo.profileImages.length >0 && (
+        <button className="button-28" onClick={handleButtonClick} style={{borderRadius : '25px', fontFamily : 'jost'}}>
           Submit
         </button>
+)}
       </div>
       <ToastContainer
         position="top-center"

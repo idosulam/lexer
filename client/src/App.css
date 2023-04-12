@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap');
+
 
 .background {
   color: black;
@@ -19,7 +21,7 @@ h1{
 appearance: none;
 background-color: transparent;
 border: 2px solid #1A1A1A;
-border-radius: 15px;
+border-radius: 25px;
 box-sizing: border-box;
 color: #3B3B3B;
 font-family: "Open Sans", sans-serif;
