@@ -14,7 +14,7 @@ export const FileUploadContainer = styled.section`
 export const InputLabel = styled.label`
   top: -21px;
   font-size: 13px;
-  color: black;
+  color: #fff;
   left: 0;
   position: absolute;
 `;
@@ -30,9 +30,10 @@ export const DragDropText = styled.p`
 
 export const UploadFileBtn = styled.button`
   box-sizing: border-box;
+  color: #fff;
   appearance: none;
   background-color: transparent;
-  border: 2px solid black;
+  border: 2px solid #00FF00;
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -61,7 +62,8 @@ export const UploadFileBtn = styled.button`
     transform: translateX(-50%);
     width: 0;
     height: 100%;
-    background: black;
+    color: #000;
+    background: #00FF00;
     
     z-index: -1;
     transition: width 250ms ease-in-out;
@@ -91,7 +93,7 @@ export const UploadFileBtn = styled.button`
   }
 
   &:hover {
-    color: #fff;
+    color: #000;
     outline: 0;
     background: transparent;
 
@@ -138,11 +140,12 @@ export const FileMetaData = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  color: #000;
   padding: 10px;
   border-radius: 6px;
   color: white;
   font-weight: bold;
-  background-color: rgba(5, 5, 5, 0.55);
+  background-color: #fff;
 
   aside {
     margin-top: auto;

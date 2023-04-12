@@ -195,7 +195,7 @@ function Graph(props) {
       return (
         <g onClick={() => console.log(nodeDatum)}>
           <circle className="object" fill={color} r="20" />
-          <text fill="black" strokeWidth="1" x="30" >
+          <text fill="black" strokeWidth="1" x="30">
             {string}
           </text>
         </g>
@@ -275,277 +275,285 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
   };
   return (
     <>
-      <h1>Graph</h1>
-      <label style={{ position: "relative", left: "96%", top: "-120px" }}>
-        <Switch onChange={handleSwitchChange} checked={isChecked} />
-      </label>
-      {isChecked && (
-        <div style={{paddingBottom : '10px'}}>
+        <h1 style={{color : '#00FF00',display:'flex',justifyContent: 'center',height: '0px'}}>Graph</h1>
+        <label style={{ position: "relative", left: "96%", top: "-90px" }}>
+          <Switch onChange={handleSwitchChange} checked={isChecked} />
+        </label>
+        {isChecked && (
           <div
-                  style={{fontFamily : 'jost', marginLeft : '150px'}}
-
-            className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
-            onClick={handleDropdownClick}
+            style={{
+              backgroundColor: "#fff",
+              paddingTop: "20px",
+              paddingBottom: '20px'
+            }}
           >
-            select function
-            <ul className="checkbox-dropdown-list" onClick={handleListClick}>
-              <li>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={selectedOptions.length === table_list.length}
-                    onChange={handleSelectAll}
-                    style={{fontFamily : 'jost'}}
-
-                  />
-                  all
-                </label>
-              </li>
-              {[...table_list].map((option) => (
-                <li key={option} value={option}         style={{fontFamily : 'jost'}}
-                >
+            <div
+              style={{ fontFamily: "jost", marginLeft: "150px" }}
+              className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
+              onClick={handleDropdownClick}
+            >
+              select function
+              <ul className="checkbox-dropdown-list" onClick={handleListClick}>
+                <li>
                   <label>
                     <input
                       type="checkbox"
-                      value={option}
-                      checked={selectedOptions.includes(option)}
-                      onChange={handleCheckboxClick}
+                      checked={selectedOptions.length === table_list.length}
+                      onChange={handleSelectAll}
+                      style={{ fontFamily: "jost" }}
                     />
-                    {option}
+                    all
                   </label>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          <div style={{ marginLeft: "300px", marginTop: "-50px" }}>
-            <div style={{ paddingLeft: "100px" }}>
-              {list.map((item, index) => (
-                <div key={index} style={{ paddingBottom: "20px" }}>
-                  <div
-                    style={{ paddingRight: "20px", display: "inline-block" }}
+                {[...table_list].map((option) => (
+                  <li
+                    key={option}
+                    value={option}
+                    style={{ fontFamily: "jost" }}
                   >
-                    <select
-                      name="parameter"
-                      value={item.parameter}
-                      onChange={(e) => handleParameterChange(e, index)}
-                      style={{fontFamily : 'jost'}}
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={option}
+                        checked={selectedOptions.includes(option)}
+                        onChange={handleCheckboxClick}
+                      />
+                      {option}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
+            <div style={{ marginLeft: "300px", marginTop: "-50px" }}>
+              <div style={{ paddingLeft: "100px" }}>
+                {list.map((item, index) => (
+                  <div key={index} style={{ paddingBottom: "20px" }}>
+                    <div
+                      style={{ paddingRight: "20px", display: "inline-block" }}
                     >
-                      <option value="">Choose</option>
-                      <option value="if_statements">if statement</option>
-                      <option value="while_statements">while statement</option>
-                      <option value="return_type">return_type</option>
-                      <option value="params">parameters</option>
-                      <option value="variables">variable</option>
-                      <option value="for_statements">for</option>
-                      <option value="builtin">built_in_functions</option>
-                    </select>
-                  </div>
+                      <select
+                        name="parameter"
+                        value={item.parameter}
+                        onChange={(e) => handleParameterChange(e, index)}
+                        style={{ fontFamily: "jost" }}
+                      >
+                        <option value="">Choose</option>
+                        <option value="if_statements">if statement</option>
+                        <option value="while_statements">
+                          while statement
+                        </option>
+                        <option value="return_type">return_type</option>
+                        <option value="params">parameters</option>
+                        <option value="variables">variable</option>
+                        <option value="for_statements">for</option>
+                        <option value="builtin">built_in_functions</option>
+                      </select>
+                    </div>
 
-                  <div
-                    style={{ paddingRight: "20px", display: "inline-block" }}
-                  >
-                    {item.parameter === "params" ? (
-                      <div>
-                        <select
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                          style={{fontFamily : 'jost'}}
+                    <div
+                      style={{ paddingRight: "20px", display: "inline-block" }}
+                    >
+                      {item.parameter === "params" ? (
+                        <div>
+                          <select
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                            style={{ fontFamily: "jost" }}
+                          >
+                            <option value="">choose</option>
 
-                        >
-                          <option value="">choose</option>
-
-                          {Array.from(parameters_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index} >
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "variables" ? (
-                      <div>
-                        <select
-                                style={{fontFamily : 'jost'}}
-
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-
-                          {Array.from(variable_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index}         style={{fontFamily : 'jost'}}
-                              >
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "return_type" ? (
-                      <div>
-                        <select
-                                style={{fontFamily : 'jost'}}
-
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(return_type_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index}>
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "builtin" ? (
-                      <div>
-                        <select
-                                style={{fontFamily : 'jost'}}
-
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(built_in_function_name_list).map(
-                            (item, index) => {
+                            {Array.from(parameters_list).map((item, index) => {
                               return (
                                 <option value={item} key={index}>
                                   {item}
                                 </option>
                               );
-                            }
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "variables" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+
+                            {Array.from(variable_list).map((item, index) => {
+                              return (
+                                <option
+                                  value={item}
+                                  key={index}
+                                  style={{ fontFamily: "jost" }}
+                                >
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "return_type" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(return_type_list).map((item, index) => {
+                              return (
+                                <option value={item} key={index}>
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "builtin" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(built_in_function_name_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ) : (
+                        <div>
+                          {(item.parameter !== "builtin") |
+                            "return_type" |
+                            "variables" |
+                            "params" && (
+                            <div className="inputbox">
+                              <input
+                                style={{ fontFamily: "jost" }}
+                                required
+                                type="number"
+                                name="value"
+                                value={item.value}
+                                onChange={(e) => handleValueChange(e, index)}
+                              />
+                              <span style={{ fontFamily: "jost" }}>
+                                Enter Value
+                              </span>
+                              <i></i>
+                            </div>
                           )}
+                        </div>
+                      )}
+                    </div>
+
+                    {list.length - 1 !== index ? (
+                      <div
+                        style={{
+                          paddingRight: "20px",
+                          display: "inline-block",
+                        }}
+                      >
+                        <select
+                          name="condition"
+                          value={item.condition}
+                          onChange={(e) => handleconditionChange(e, index)}
+                          style={{ fontFamily: "jost" }}
+                        >
+                          <option value="">Choose</option>
+                          <option value="not">not</option>
+                          <option value="and">and</option>
+                          <option value="or">or</option>
                         </select>
                       </div>
                     ) : (
-                      <div>
-                        {(item.parameter !== "builtin") |
-                          "return_type" |
-                          "variables" |
-                          "params" && (
-                          <div className="inputbox">
-                            <input
-                                    style={{fontFamily : 'jost'}}
-
-                            required
-                            type="number"
-                              name="value"
-                              value={item.value}
-                              onChange={(e) => handleValueChange(e, index)}
-                            />
-                            <span         style={{fontFamily : 'jost'}}
->Enter Value</span>
-                            <i></i>
-                          </div>
-                        )}
-                      </div>
+                      ``
+                    )}
+                    {list.length !== 1 ? (
+                      <button
+                        className="button-28"
+                        onClick={() => handleRemove(index)}
+                        style={{ fontFamily: "jost" }}
+                      >
+                        Remove
+                      </button>
+                    ) : (
+                      ``
                     )}
                   </div>
-
-                  {list.length - 1 !== index ? (
-                    <div
-                      style={{ paddingRight: "20px", display: "inline-block" }}
-                    >
-                      <select
-                        name="condition"
-                        value={item.condition}
-                        onChange={(e) => handleconditionChange(e, index)}
-                        style={{fontFamily : 'jost'}}
-
-                      >
-                        <option value="">Choose</option>
-                        <option value="not">not</option>
-                        <option value="and">and</option>
-                        <option value="or">or</option>
-                      </select>
-                    </div>
-                  ) : (
-                    ``
-                  )}
-                  {list.length !== 1 ? (
-                    <button
-                      className="button-28"
-                      onClick={() => handleRemove(index)}
-                      style={{fontFamily : 'jost'}}
-
-                    >
-                      Remove
-                    </button>
-                  ) : (
-                    ``
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
+              <button
+                style={{
+                  marginTop: "20px",
+                  marginLeft: "100px",
+                  marginRight: "20px",
+                  fontFamily: "jost",
+                }}
+                className="button-28"
+                onClick={handleAdd}
+              >
+                Add
+              </button>
+              <button
+                style={{ marginTop: "20px", fontFamily: "jost" }}
+                className="button-28"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
             </div>
-            <button
-              style={{
-                marginTop: "20px",
-                marginLeft: "100px",
-                marginRight: "20px",
-                fontFamily : 'jost'
-
-              }}
-              className="button-28"
-              onClick={handleAdd}
-              
-            >
-              Add
-            </button>
-            <button
-              style={{ marginTop: "20px", fontFamily : 'jost' }}
-              className="button-28"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
           </div>
-        </div>
-      )}
+        )}
 
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: "100px",
-            width: "100%",
-            height: "500px",
-            paddingTop: "100px",
-          }}
-        >
-          <Tree
-            data={jsonTree}
-            collapsible={false}
-            nodeSize={{ x: 300 / zoomLevel, y: 200 / zoomLevel }}
-            onLinkMouseOver={handlinkover}
-            onLinkMouseOut={handleLeave}
-            orientation="vertical"
-            pathClassFunc={pathClassFunc}
-            onZoom={handleZoom}
-            renderCustomNodeElement={updatecolor}
-            separation={{ siblings: 1.1, nonSiblings: 1.1 }}
-          />
-          <style>
-            {`
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingLeft: "100px",
+              width: "100%",
+              height: "595px",
+              outline: "#000 solid 5px",
+              paddingTop: "20px",
+              backgroundColor: "#fff",
+            }}
+          >
+            <Tree
+              data={jsonTree}
+              collapsible={false}
+              nodeSize={{ x: 300 / zoomLevel, y: 200 / zoomLevel }}
+              onLinkMouseOver={handlinkover}
+              onLinkMouseOut={handleLeave}
+              orientation="vertical"
+              pathClassFunc={pathClassFunc}
+              onZoom={handleZoom}
+              renderCustomNodeElement={updatecolor}
+              separation={{ siblings: 1.1, nonSiblings: 1.1 }}
+            />
+            <style>
+              {`
             .important-link {
               stroke-width: 5px;
               stroke: black;
@@ -556,27 +564,27 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
             }
             
           `}
-          </style>
-          {isDialogVisible && (
-            <div
-              style={{
-                position: "absolute",
-                top: dialogPosition.y / zoomLevel + 20,
-                left: dialogPosition.x / zoomLevel + 20,
-                background: "white",
-                border: "1px solid black",
-                padding: "10px",
-                boxShadow: "1px 1px 5px rgba(0, 0, 0, 0.2)",
-                borderRadius: "5px",
-                animation: "fadein 0.5s",
-              }}
-            >
-              <p style={{ marginBottom: "10px" }}>{file}</p>
-            </div>
-          )}
-        </div>
-        <style>
-          {`
+            </style>
+            {isDialogVisible && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: dialogPosition.y / zoomLevel + 20,
+                  left: dialogPosition.x / zoomLevel + 20,
+                  background: "white",
+                  border: "1px solid black",
+                  padding: "10px",
+                  boxShadow: "1px 1px 5px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "5px",
+                  animation: "fadein 0.5s",
+                }}
+              >
+                <p style={{ marginBottom: "10px" }}>{file}</p>
+              </div>
+            )}
+          </div>
+          <style>
+            {`
           @keyframes fadein {
             from {
               opacity: 0;
@@ -594,19 +602,19 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
             }
           }
         `}
-        </style>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
+          </style>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
       </div>
     </>
   );

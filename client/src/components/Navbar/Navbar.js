@@ -6,7 +6,7 @@ export default function Navbar() {
       <Link to="/" className="site-title">
       <img className="logo-img" src={require('../../components/Images/icon.png')} alt="Logo" />
       </Link>
-      <ul style={{fontFamily: 'jost'}}>
+      <ul style={{fontFamily: 'jost',outline: '#00FF00 solid 1px'}}>
         <CustomLink to="/projects">Projects</CustomLink>
       </ul>
     </nav>

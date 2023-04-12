@@ -2,28 +2,20 @@
 
 
 .background {
-  color: black;
+  background-color: #000;
   min-height: 100vh;
 }
 
-h1{
-  color: #000000;
-  font-weight: bold; 
-   text-transform: uppercase;
-   text-align: center;
-   text-shadow: 3px 3px 0px #C6C6C6, 5px 5px 0px #B8B8B8, 7px 7px 0px #A9A9A9;
-
-}
 
 
 
-.button-28 {
+
+.button-29 {
 appearance: none;
 background-color: transparent;
 border: 2px solid #1A1A1A;
 border-radius: 25px;
 box-sizing: border-box;
-color: #3B3B3B;
 font-family: "Open Sans", sans-serif;
 cursor: pointer;
 display: inline-block;
@@ -46,18 +38,17 @@ width: 10% ;
 will-change: transform;
 }
 
-.button-28:disabled {
+.button-29:disabled {
 pointer-events: none;
 }
 
-.button-28:hover {
-color: #fff;
-background-color: #1A1A1A;
-box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+.button-29:hover {
+
+box-shadow: #ffffff 0 8px 15px;
 transform: translateY(-2px);
 }
 
-.button-28:active {
+.button-29:active {
 box-shadow: none;
 transform: translateY(0);
 }
@@ -72,7 +63,7 @@ margin: auto;
 width: 500px;
 height: 170px;
 text-align: center;
-border: 2px solid black;
+border: 2px solid #fff;
 border-radius: 15px;
 margin-top: 20px;
 }
@@ -85,12 +76,17 @@ grid-gap: 20px; /* add space between elements */
 .update_input {
 margin-left: 10px;
 margin-right: 10px;
-width: 150px;
-height: 30px;
 margin-bottom: 10px;
 border-radius: 15px;
+height: 30px;
+
 }
 
+.update_input:focus{
+border-width: 5px;
+color: #000;
+font-size: 20px;
+}
 
 
 
@@ -99,8 +95,14 @@ margin: auto;
 margin-bottom: 20px;
 padding:15px;
 border-radius: 10px;
+color: #000;
+font-size: 20px;
 }
 
+::placeholder{
+  color: #000;
+  font-size: 20px;
+}
 input[type=text] {
  width: 15%;
  -webkit-transition: width 0.15s ease-in-out;
@@ -109,6 +111,7 @@ input[type=text] {
 
 input[type=text]:focus {
 width: 30%;
+
 }
 
 /* ================================================================= */

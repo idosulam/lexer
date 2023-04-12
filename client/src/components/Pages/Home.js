@@ -301,7 +301,7 @@ function Home() {
   }
 
   return (
-    <div className="background">
+    <div className="background" >
       <form
         onSubmit={handleSubmit}
         multiple={true}
@@ -313,11 +313,12 @@ function Home() {
         style={{
           display: "flex",
           justifyContent: "center",
+          backgroundColor: '#000',
           alignItems: "center",
         }}
       >
         { newUserInfo.profileImages.length >0 && (
-        <button className="button-28" onClick={handleButtonClick} style={{borderRadius : '25px', fontFamily : 'jost'}}>
+        <button className="button-29" onClick={handleButtonClick} style={{borderRadius : '25px', color: '#fff',fontFamily : 'jost'}}>
           Submit
         </button>
 )}

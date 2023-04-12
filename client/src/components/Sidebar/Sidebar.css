@@ -1,7 +1,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  background-color: #000;
+  background-color: #333;
   color: #fff;
   margin-top: 48px;
   padding: 16px;
@@ -14,16 +14,19 @@
   display: flex;
   align-items: center;
   margin-bottom: 16px;
+  size: 30px;
+  outline: #00FF00 solid 1px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* add a background color transition */
 }
 
 .sidebar-item:hover {
-  background-color: #333; /* add a hover background color */
+  background-color: #000;
+  color: #00FF00;
 }
 
 .sidebar-item.active {
-  background-color: #555; /* add a background color for the active item */
+  color: #00FF00;
 }
 
 .icon {
@@ -34,7 +37,6 @@
   background-position: center center;
   background-size: 16px 16px;
   filter: invert(100%);
-
 }
 
 .file_icon {

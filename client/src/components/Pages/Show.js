@@ -45,8 +45,8 @@ function Show() {
     <>
           <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
 
-    <div className="app" style={{marginTop : '40px'}}>
-     <h1 className="modern-h1" style={{}}> {projectName}</h1>
+    <div className="app" style={{marginTop : '40px',height: '80px',backgroundColor: '#000'}}>
+     <h1 className="modern-h1" style={{color : '#00FF00',   display: 'flex',justifyContent: 'center',fontFamily:'jost'}}> Project Name : {projectName}</h1>
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
       {selectedItem === "Graph" && <Graph tree = {jsonTree} projectName = {projectName}/>}

@@ -63,7 +63,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
     <>
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
-        <DragDropText style={{paddingTop : '20px' ,fontFamily : "jost"}}>Code Map</DragDropText>
+        <DragDropText style={{paddingTop : '20px' ,fontFamily : "jost",  color: '#fff'}}>Code Map</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
           <span style={{fontFamily: 'jost'}}> Upload Files</span>
           <input
@@ -108,11 +108,11 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
                     />
                   )}
                   <FileMetaData isImageFile={isImageFile}>
-                    <span style={{fontFamily: 'jost'}}>{file.name}</span>
+                    <span style={{fontFamily: 'jost',color: '#000'}}>{file.name}</span>
                     <aside>
-                      <span>{convertBytesToKB(file.size)} kb</span>
+                      <span  style={{fontFamily: 'jost',color: '#000'}}>{convertBytesToKB(file.size)} kb</span>
                       <RemoveFileIcon className="fas fa-trash-alt" />
-                      <button onClick={() => removeFile(fileName)} style={{fontFamily: 'jost'}}>
+                      <button onClick={() => removeFile(fileName)} style={{fontFamily: 'jost',color: '#000'}}>
                         remove
                       </button>
                     </aside>
