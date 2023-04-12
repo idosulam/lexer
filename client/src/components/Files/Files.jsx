@@ -23,7 +23,7 @@ function Files(props) {
   };
 
   return (
-    <div className="container" style={{position: 'fixed',marginLeft: '20px'}}>
+    <div style={{position: 'fixed',paddingLeft: '140px' }}>
       <div className="App">
         <ul className="file-list">
           {headerFiles.length > 0 && (
