@@ -33,7 +33,11 @@ def get_data():
     tokens_tuple = lex(header_list)
     function_map_dict = get_function_dict(tokens_tuple)
     data_list = add_data(tokens_tuple, function_map_dict)
-    shutil.rmtree('uploads')
+    sum = 0
+    for d in data_list:
+        sum+= len(d.variables)
+    print(sum)
+    #shutil.rmtree('uploads')
     return json.dumps(data_list, indent=2)
 
 
@@ -52,5 +56,4 @@ def upload():
 
 
 if __name__ == '__main__':
-
-    app.run()
+    get_data()

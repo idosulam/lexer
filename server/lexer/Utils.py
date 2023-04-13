@@ -75,7 +75,6 @@ class Token:
         self.value = value
         self.line_number = line_number
         self.file = parent_file
-        self.line = ''
 
     def __str__(self):
         return f' id : {self.id} | value : {self.value} | line number : {self.line_number} | parent file : {self.file} '
