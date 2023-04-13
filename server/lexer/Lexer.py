@@ -98,7 +98,13 @@ def openfile(path: str):
             exit(1)
     return f
 
-
+'''
+============================================================================================
+General : add_struct_aliases - adds struct aliases to types
+Parameters : text : file text , text_pointer : points to text position
+Return Value :  names of struct
+============================================================================================
+'''
 def add_struct_aliases(text, text_pointer):
         i = 1
         struct_alias_array = list()
