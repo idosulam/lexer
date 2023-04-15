@@ -470,6 +470,18 @@ app.get("/api/param_search", (req, res) => {
   });
 });
 
+app.get("/api/param_modifier_search", (req, res) => {
+  const project_name = req.query.project_name;
+    const function_name = req.query.function_name;
+  const sqlsearch = "select parameter_modifier from project.parameters WHERE function_name = ? and project_name = ? and parameter_modifier <> 'none'";
+  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 app.get("/api/variable_search", (req, res) => {
   const project_name = req.query.project_name;
@@ -484,7 +496,18 @@ app.get("/api/variable_search", (req, res) => {
   });
 });
 
-
+app.get("/api/variable_modifier_search", (req, res) => {
+  const project_name = req.query.project_name;
+  const function_name = req.query.function_name;
+  const sqlsearch = "select variable_modifier from project.variables WHERE function_name = ? and project_name = ? and variable_modifier <> ''";
+  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 app.get("/api/search_built_in_function", (req, res) => {
   const project_name = req.query.project_name;

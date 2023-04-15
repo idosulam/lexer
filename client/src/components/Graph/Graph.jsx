@@ -29,7 +29,11 @@ function Graph(props) {
   /* */
   const [variable_list, set_variable_list] = useState([]);
   const [parameters_list, set_parameters_list] = useState([]);
+  const [parameters_modifier_list, set_parameters_modifier_list] = useState([]);
+
   const [return_type_list, set_return_type_list] = useState([]);
+  const [variable_modifier_list, set_variable_modifier_list] = useState([]);
+
   const [built_in_function_name_list, set_built_in_function_name_list] =
     useState([]);
 
@@ -142,6 +146,8 @@ function Graph(props) {
       let return_type_list = [];
       let variables_list = [];
       let parameter_list = [];
+      let variable_modifiers_list = [];
+      let parameter_modifier_list = [];
       let built_in_function_name_list = [];
 
       for (let name of selectedOptions) {
@@ -168,6 +174,14 @@ function Graph(props) {
           }
         });
         await Axios.get(
+          `http://localhost:3001/api/param_modifier_search?project_name=${projectname}&function_name=${name}`
+        ).then((response) => {
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index]["parameter_modifier"];
+            parameter_modifier_list.push(element);
+          }
+        });
+        await Axios.get(
           `http://localhost:3001/api/variable_search?project_name=${projectname}&function_name=${name}`
         ).then((response) => {
           for (let index = 0; index < response.data.length; index++) {
@@ -175,7 +189,19 @@ function Graph(props) {
             variables_list.push(element);
           }
         });
+        
+        await Axios.get(
+          `http://localhost:3001/api/variable_modifier_search?project_name=${projectname}&function_name=${name}`
+        ).then((response) => {
+          for (let index = 0; index < response.data.length; index++) {
+            const element = response.data[index]["variable_modifier"];
+            variable_modifiers_list.push(element);
+          }
+        });
+
       }
+      set_parameters_modifier_list(Array.from(new Set(parameter_modifier_list)))
+      set_variable_modifier_list(Array.from(new Set(variable_modifiers_list)))
       set_return_type_list(Array.from(new Set(return_type_list)));
       set_built_in_function_name_list(
         Array.from(new Set(built_in_function_name_list))
@@ -231,6 +257,13 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           case "variables":
             query += ` (SELECT COUNT(*) FROM project.variables WHERE project.variables.variable_type = '${field.value}' AND project.variables.function_name = '${selectedOptions[index]}' AND project.variables.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
+          case "variables_modifiers":
+            query += ` (SELECT COUNT(*) FROM project.variables WHERE project.variables.variable_modifier = '${field.value}' AND project.variables.function_name = '${selectedOptions[index]}' AND project.variables.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            break
+            case "params_modifier":
+              query += ` (SELECT COUNT(*) FROM project.parameters WHERE project.parameters.parameter_modifier = '${field.value}' AND project.parameters.function_name = '${selectedOptions[index]}' AND project.parameters.project_name = '${projectname}') >= 1\n ${field.condition}`;
+
+            break
           case "params":
             query += ` (SELECT COUNT(*) FROM project.parameters WHERE project.parameters.parameter_type = '${field.value}' AND project.parameters.function_name = '${selectedOptions[index]}' AND project.parameters.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
@@ -256,9 +289,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       );
     }
     const match = await Promise.all(promises);
-    console.log(match.filter((item) => item !== undefined));
     setMatchingQuery(match.filter((item) => item !== undefined));
-    console.log(matchingQuery);
   }
   const handleSubmit = () => {
     if (selectedOptions.length === 0) {
@@ -346,6 +377,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                         <option value="return_type">return_type</option>
                         <option value="params">parameters</option>
                         <option value="variables">variable</option>
+                        <option value="params_modifier">parameters modifiers</option>
+                        <option value="variables_modifiers">variable modifiers</option>
                         <option value="for_statements">for</option>
                         <option value="builtin">built_in_functions</option>
                       </select>
@@ -442,7 +475,52 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                             )}
                           </select>
                         </div>
-                      ) : (
+                      ) : item.parameter === "params_modifier" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(parameters_modifier_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ): item.parameter === "variables_modifiers" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(variable_modifier_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ):
+                       (
                         <div>
                           {(item.parameter !== "builtin") |
                             "return_type" |
