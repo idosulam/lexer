@@ -17,6 +17,7 @@
     justify-content: space-between;
     font-size: 30px;
     align-items: stretch;
+    height: 60px;
     gap: 2rem;
     /* position: absolute; */
     width: 100%;

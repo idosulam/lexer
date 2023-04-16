@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Files.css";
-
+import {FaArrowAltCircleDown,FaArrowAltCircleRight} from 'react-icons/fa'
 function Files(props) {
   const headerFiles = props.files.filter((file) =>
     file.file_name.endsWith(".h")
@@ -33,7 +33,12 @@ function Files(props) {
                 onClick={() => setHeaderDropdown(!headerDropdown)}
                 style={{ fontFamily: "jost" }}
               >
-                {headerDropdown ? "v    includes" : ">   includes"}
+                {headerDropdown ? (
+                  <button><FaArrowAltCircleDown/> includes</button>
+                ):(
+                  <button><FaArrowAltCircleRight/> includes</button>
+
+                )}
               </button>
               {headerDropdown && (
                 <ul className="dropdown">
@@ -60,8 +65,12 @@ function Files(props) {
                 onClick={() => setsrcdropdown(!srcdropdown)}
                 style={{ fontFamily: "jost" }}
               >
-                {srcdropdown ? "v    src" : ">   src"}
-              </button>
+{srcdropdown ? (
+                  <button><FaArrowAltCircleDown/> src</button>
+                ):(
+                  <button><FaArrowAltCircleRight/> src</button>
+
+                )}              </button>
               {srcdropdown && (
                 <ul className="dropdown">
                   {srcFiles.map((file, index) => (

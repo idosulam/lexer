@@ -306,7 +306,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
   };
   return (
     <>
-        <label style={{ position: "relative", left: "96%", top: "-60px" }}>
+        <label style={{ position: "relative", left: "96%", top: "2px" }}>
           <Switch onChange={handleSwitchChange} checked={isChecked} />
         </label>
         {isChecked && (
@@ -314,7 +314,8 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
             style={{
               backgroundColor: "#fff",
               paddingTop: "20px",
-              paddingBottom: '20px'
+              paddingBottom: '20px',
+              outline: '5px solid #000'
             }}
           >
             <div
@@ -612,7 +613,6 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
               paddingLeft: "100px",
               width: "100%",
               height: "822px",
-              outline: "#000 solid 5px",
               paddingTop: "20px",
               backgroundColor: "#fff",
             }}

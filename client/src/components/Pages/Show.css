@@ -1,8 +1,11 @@
 .title-page {
   font-size: xxx-large;
   letter-spacing: 2.2;
-  background-color: #000;
-  height: fit-content;
+  background-color: transparent;
+  width: fit-content;
+  position: fixed;
+  margin-left: 40%;
+  margin-top: -64px;
   display: flex;
   justify-content: center;
   color: #fff;
