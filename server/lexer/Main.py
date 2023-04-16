@@ -33,7 +33,7 @@ def get_data():
     tokens_tuple = lex(header_list)
     function_map_dict = get_function_dict(tokens_tuple)
     data_list = add_data(tokens_tuple, function_map_dict)
-    shutil.rmtree('uploads')
+    shutil.rmtree('test')
     return json.dumps(data_list, indent=2)
 
 
@@ -42,10 +42,10 @@ def upload():
     file = request.files['file']
     if file:
         filename = secure_filename(os.path.basename(file.filename))
-        if not os.path.exists("uploads"):
-            os.makedirs("uploads")
+        if not os.path.exists("test"):
+            os.makedirs("test")
         # Save the file to the directory
-        file.save(os.path.join("uploads", filename))
+        file.save(os.path.join("test", filename))
         return jsonify({'message': 'File uploaded successfully'})
     else:
         return jsonify({'error': 'No file found'})

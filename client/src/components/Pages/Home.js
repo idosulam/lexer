@@ -79,7 +79,7 @@ function Home() {
             if_statements: element.if_statements,
             while_statements: element.while_statements,
             inside_file: element.inside_file,
-            return_type: element.return_type,
+            return_type: element.return_type.trim(),
             for_statements: element.for_statements
           }
         );

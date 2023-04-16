@@ -34,7 +34,7 @@ def insert(current_func: str, queue: Queue, function_map_dict: dict[str, int], t
     file = token_tuple[i].inside_file
     func_list = Function_call(current_func, file)
     i += 1
-    while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end:
+    while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end  and token_tuple[i].file == file:
         if token_tuple[i].id == 'function_call':
             queue.enqueue(token_tuple[i].value)
             func_list.__add__(token_tuple[i].value)

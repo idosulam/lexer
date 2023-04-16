@@ -234,8 +234,8 @@ Return Value : main file name
 
 
 def search_files_for_main():
-    for filename in get_files_in_path("uploads"):
-        with open(os.path.join("uploads", filename), 'r') as f:
+    for filename in get_files_in_path("test"):
+        with open(os.path.join("test", filename), 'r') as f:
             contents = f.read()
             pattern = re.compile("main\(")
             if re.search(pattern, contents):
