@@ -3,7 +3,7 @@
   letter-spacing: 2.2;
   background-color: transparent;
   width: fit-content;
-  position: fixed;
+  position: absolute;
   margin-left: 40%;
   margin-top: -64px;
   display: flex;
