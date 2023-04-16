@@ -100,14 +100,14 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
             let isImageFile = file.type.split("/")[0] === "image";
             return (
               <PreviewContainer key={fileName}>
-                <div>
+                <div >
                   {isImageFile && (
                     <ImagePreview
                       src={URL.createObjectURL(file)}
                       alt={`file preview ${index}`}
                     />
                   )}
-                  <FileMetaData isImageFile={isImageFile}>
+                  <FileMetaData isImageFile={isImageFile} >
                     <span style={{fontFamily: 'jost',color: '#000'}}>{file.name}</span>
                     <aside>
                       <span  style={{fontFamily: 'jost',color: '#000'}}>{convertBytesToKB(file.size)} kb</span>

@@ -24,8 +24,8 @@ function Files(props) {
   };
 
   return (
-    <div style={{ position: "fixed", paddingLeft: "140px" }}>
-      <div className="App" style={{backgroundColor: '#000'}}>
+    <div style={{ paddingLeft: "140px", paddingTop: '30px' }}>
+      <div className="App" style={{ backgroundColor: "#000" }}>
         <ul className="file-list">
           {headerFiles.length > 0 && (
             <li>
@@ -33,7 +33,7 @@ function Files(props) {
                 onClick={() => setHeaderDropdown(!headerDropdown)}
                 style={{ fontFamily: "jost" }}
               >
-                {headerDropdown ? "v    header" : ">   header"}
+                {headerDropdown ? "v    includes" : ">   includes"}
               </button>
               {headerDropdown && (
                 <ul className="dropdown">
@@ -82,13 +82,28 @@ function Files(props) {
             </li>
           )}
         </ul>
-        <div className="file-content" style={{ overflow: "scroll", backgroundColor: '#333' }}>
-          <h3 style={{ fontFamily: "jost", color: '#fff' }}>{selectedFile}</h3>
-          <pre style={{ fontFamily: "jost" ,color: '#fff'}}>
+        <div
+          className="file-content"
+          style={{
+            overflow: 'auto',
+            backgroundColor: "#333"
+            
+          }}
+        >
+          <h3 style={{ fontFamily: "jost"}}>{selectedFile}</h3>
+          <pre style={{ fontFamily: "jost" }}>
             {fileContent.split("\n").map((line, i) => (
               <div key={i}>
-                <code className="line-number" style={{color: '#fff', fontFamily: "jost"}}>{`${i + 1}.`}</code>
-                <code className="code-line" style={{color: '#fff', fontFamily: "jost"}}>{line}</code>
+                <code
+                  className="line-number"
+                  style={{ color: "#fff", fontFamily: "jost" }}
+                >{`${i + 1}.`}</code>
+                <code
+                  className="code-line"
+                  style={{ color: "#fff", fontFamily: "jost" }}
+                >
+                  {line}
+                </code>
               </div>
             ))}
           </pre>

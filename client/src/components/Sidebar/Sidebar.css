@@ -3,7 +3,6 @@
   flex-direction: column;
   background-color: #333;
   color: #fff;
-  margin-top: 48px;
   padding: 16px;
   position: fixed; /* make the sidebar position fixed */
   left: 0; /* position the sidebar to the left */

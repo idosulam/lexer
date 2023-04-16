@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Axios from "axios";
-import "../../App.css";
+import "./Show.css";
 import Sidebar from "../Sidebar/Sidebar.jsx";
 import Files from "../Files/Files.jsx";
 import Graph from "../Graph/Graph.jsx";
@@ -45,8 +45,8 @@ function Show() {
     <>
           <Sidebar onItemClick={handleSidebarItemClick} selectedItem={selectedItem} />
 
-    <div className="app" style={{marginTop : '40px',height: '80px',backgroundColor: '#000'}}>
-     <h1 className="modern-h1" style={{color : '#00FF00',   display: 'flex',justifyContent: 'center',fontFamily:'jost'}}> Project Name : {projectName}</h1>
+    <div className="app" style={{backgroundColor: '#000' }}>
+     <div className="title-page">Project Name : {projectName}</div>
       <div className="content">
       {selectedItem === "Files" && <Files files={file_list} />}
       {selectedItem === "Graph" && <Graph tree = {jsonTree} projectName = {projectName}/>}

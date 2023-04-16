@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FileUpload from "../../components/File-Upload/file-upload.component";
-import "../../App.css";
+import "./Home.css";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
@@ -31,7 +31,7 @@ function Home() {
   const sendAPI = async (files) => {
     for (const file of files) {
       const formData = new FormData();
-      formData.append("file", file,file.name);
+      formData.append("file", file, file.name);
       Axios.post("http://localhost:5000/upload-file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -80,7 +80,7 @@ function Home() {
             while_statements: element.while_statements,
             inside_file: element.inside_file,
             return_type: element.return_type.trim(),
-            for_statements: element.for_statements
+            for_statements: element.for_statements,
           }
         );
 
@@ -107,8 +107,8 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
-      } 
-   
+      }
+
       for (let i = 0; i < element.built_in_function.length - 1; i++) {
         const response = await Axios.post(
           "http://localhost:3001/api/insert_built_in_function",
@@ -138,9 +138,9 @@ function Home() {
             project_name: name,
             function_name: element.function_name,
             parameter_modifier: element.params[i].modifier,
-            parameter_type : element.params[i].type.trim(),
-            parameter_name : element.params[i].identifier,
-              }
+            parameter_type: element.params[i].type.trim(),
+            parameter_name: element.params[i].identifier,
+          }
         );
         if (response.status !== 200) {
           toast.error("failed to upload project", {
@@ -163,8 +163,8 @@ function Home() {
             project_name: name,
             function_name: element.function_name,
             variable_modifier: element.variables[i].modifier,
-            variable_type : element.variables[i].type.trim(),
-            variable_name : element.variables[i].identifier,
+            variable_type: element.variables[i].type.trim(),
+            variable_name: element.variables[i].identifier,
           }
         );
         if (response.status !== 200) {
@@ -195,9 +195,7 @@ function Home() {
           project_name: name,
           file: reader.result,
           file_name: file.name,
-          
-        }
-        )
+        })
           .then((response) => {
             if (response.statusCode === 400) {
               toast.error("Failed to insert project", {
@@ -278,7 +276,6 @@ function Home() {
   };
 
   function handleButtonClick() {
-    
     if (newUserInfo.profileImages.length <= 0) {
       toast.error("No files uploaded to project", {
         position: "top-center",
@@ -290,7 +287,7 @@ function Home() {
         progress: undefined,
         theme: "dark",
       });
-      return
+      return;
     }
 
     const projectName = prompt("Please enter a project name:");
@@ -301,27 +298,18 @@ function Home() {
   }
 
   return (
-    <div className="background" >
-      <form
-        onSubmit={handleSubmit}
-        multiple={true}
-        
-      >
+    <div className="background">
+      <form onSubmit={handleSubmit} multiple={true}>
         <FileUpload multiple updateFilesCb={updateUploadedFiles} />
       </form>
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: '#000',
-          alignItems: "center",
-        }}
+       className="submit-button-background"
       >
-        { newUserInfo.profileImages.length >0 && (
-        <button className="button-29" onClick={handleButtonClick} style={{borderRadius : '25px', color: '#fff',fontFamily : 'jost'}}>
-          Submit
-        </button>
-)}
+        {newUserInfo.profileImages.length > 0 && (
+          <button className="button-85" onClick={handleButtonClick} >
+            submit
+          </button>
+        )}
       </div>
       <ToastContainer
         position="top-center"

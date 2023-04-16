@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap");
+
+.container-page {
+  height: 100vh;
+  width: 100%;
+  background-color: black;
+}
+
+.title-container-page {
+  font-size: xxx-large;
+  letter-spacing: 2.2;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 3px 3px 0px #000, 5px 5px 0px #000, 7px 7px 0px #000;
+  padding: 40px 20px 20px 20px;
+  font-family: jost;
+}
+
+.button-85 {
+  margin: 0.6em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  font-family: jost;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+.search-input {
+  margin: auto;
+  width: 15%;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  color: #000;
+  -webkit-transition: width 0.15s ease-in-out;
+  transition: width 0.15s ease-in-out;
+
+  font-size: 20px;
+  font-family: jost;
+}
+.search-input:focus {
+  margin: auto;
+  margin-bottom: 20px;
+  padding: 15px;
+  width: 30%;
+  border-radius: 10px;
+  color: #000;
+  font-size: 20px;
+}
+
+.update_input:focus {
+  border-width: 5px;
+  color: #000;
+  font-size: 20px;
+  width: 30%;
+}

@@ -306,8 +306,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
   };
   return (
     <>
-        <h1 style={{color : '#00FF00',display:'flex',justifyContent: 'center',height: '0px'}}>Graph</h1>
-        <label style={{ position: "relative", left: "96%", top: "-90px" }}>
+        <label style={{ position: "relative", left: "96%", top: "-60px" }}>
           <Switch onChange={handleSwitchChange} checked={isChecked} />
         </label>
         {isChecked && (
@@ -612,7 +611,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
               alignItems: "center",
               paddingLeft: "100px",
               width: "100%",
-              height: "595px",
+              height: "822px",
               outline: "#000 solid 5px",
               paddingTop: "20px",
               backgroundColor: "#fff",

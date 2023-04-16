@@ -2,7 +2,6 @@ import styled from "styled-components";
 export const FileUploadContainer = styled.section`
 
   position: relative;
-  margin: 25px 0 15px;
   padding: 35px 20px;
   border-radius: 6px;
   display: flex;
@@ -20,10 +19,9 @@ export const InputLabel = styled.label`
 `;
 
 export const DragDropText = styled.p`
-  margin-bottom: 70px;
-  font-size: 35px;
+  font-size: 50px;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sa ns", sans-serif;
   margin-top: 0;
   text-align: center;
 `;

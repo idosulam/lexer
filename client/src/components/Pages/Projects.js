@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef, createRef } from "react";
 import Axios from "axios";
-import "../../App.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./Project.css";
 function Projects() {
   const [projectsList, setProjects] = useState([]);
 
@@ -483,20 +482,62 @@ function Projects() {
     e.target.style.cursor = "pointer";
   }
   return (
-    <div style={{backgroundColor: '#000' ,height : '100%', marginTop: "20px"}}>
-      <div>
-        <h1
-          style={{
-            fontSize: 50,
-            letterSpacing: 2.2,
-            display: "flex",
-            justifyContent: "center",
-            color: "#fff",
-            textShadow: "3px 3px 0px #000, 5px 5px 0px #000, 7px 7px 0px #000",
-          }}
-        >
-          Your Projects
-        </h1>
+    <div className="container-page">
+      <div className="title-container-page">Your Projects</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <input
+          className="search-input"
+          type="text"
+          ref={searchinputref}
+          onChange={showlist}
+          style={{ fontFamily: "jost" }}
+          placeholder="Search project"
+        />
+      </div>
+      {projectsList.length > 0 ? (
+        <div className="card-container">
+          {projectsList.map((project, index) => (
+            <div className="card" key={project.id}>
+              <h1
+                className="text"
+                onMouseEnter={changecursor}
+                onClick={() => redirect(project)}
+                style={{
+                  color: "#fff",
+                }}
+              >
+                {project.project_name}
+              </h1>
+              <h3 style={{ color: "#00FF00" }}>{project.id}</h3>
+              <button
+                onClick={() => delete_project(project)}
+                className="button-85"
+              >
+                delete
+              </button>
+              <input
+                type="text"
+                className="update_input"
+                ref={inputRefs[index]}
+              />
+              <button
+                onClick={() => {
+                  update_project(project, inputRefs[index]);
+                }}
+                className="button-85"
+              >
+                update
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
         <div
           style={{
             display: "flex",
@@ -504,80 +545,23 @@ function Projects() {
             alignItems: "center",
           }}
         >
-          <input
-            id="searchbar"
-            type="text"
-            ref={searchinputref}
-            onChange={showlist}
-            name="search"
-            style={{ fontFamily: "jost" }}
-            placeholder="Search project"
-          />
+          <p style={{ fontFamily: "jost", color: "#00FF00", fontSize: "30px" }}>
+            No Projects Found
+          </p>
         </div>
-        {projectsList.length > 0 ? (
-          <div className="card-container">
-            {projectsList.map((project, index) => (
-              <div className="card" key={project.id}>
-                <h1
-                  className="text"
-                  onMouseEnter={changecursor}
-                  onClick={() => redirect(project)}
-                  style={{
-                    color: "#fff",
-                    textShadow:
-                      "3px 3px 0px #000, 5px 5px 0px #000, 7px 7px 0px #000",
-                  }}
-                >
-                  {project.project_name}
-                </h1>
-                <h3 style={{ color: "#00FF00" }}>{project.id}</h3>
-                <button
-                  onClick={() => delete_project(project)}
-                  style={{ fontFamily: "jost" }}
-                >
-                  delete
-                </button>
-                <input
-                  type="text"
-                  className="update_input"
-                  ref={inputRefs[index]}
-                  style={{ fontFamily: "jost" }}
-                />
-                <button
-                  onClick={() => {
-                    update_project(project, inputRefs[index]);
-                  }}
-                  style={{ fontFamily: "jost" }}
-                >
-                  update
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <p style={{ fontFamily: "jost",color: '#00FF00',fontSize: '30px' }}>No Projects Found</p>
-          </div>
-        )}
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-      </div>
+      )}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }
