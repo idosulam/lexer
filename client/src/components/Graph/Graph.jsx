@@ -326,17 +326,111 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         onClick={handle_info_enter}
       >
         <AiFillInfoCircle
-          style={{ color: "white", height: "40px", width: "450px" }}
+          style={{ color: "white", height: "40px", width: "50px",marginLeft: '190px' }}
         />
       </label>
-      {isChecked && (
+
+      <div>
         <div
           style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingLeft: "100px",
+            width: "100%",
+            height: "871px",
             backgroundColor: "#fff",
-            paddingTop: "20px",
-            paddingBottom: "20px",
-            outline: "5px solid #000",
           }}
+        >
+          <Tree
+            data={jsonTree}
+            collapsible={false}
+            nodeSize={{ x: 300 / zoomLevel, y: 200 / zoomLevel }}
+            onLinkMouseOver={handlinkover}
+            onLinkMouseOut={handleLeave}
+            orientation="vertical"
+            pathClassFunc={pathClassFunc}
+            onZoom={handleZoom}
+            renderCustomNodeElement={updatecolor}
+            separation={{ siblings: 1.1, nonSiblings: 1.1 }}
+          />
+          <style>
+            {`
+            .important-link {
+              stroke-width: 5px;
+              stroke: black;
+            }
+            .important-link:hover {
+              stroke-width: 10px;
+              stroke: blue;
+            }
+            
+          `}
+          </style>
+          {isDialogVisible && (
+            <div
+              style={{
+                position: "absolute",
+                top: dialogPosition.y / zoomLevel + 20,
+                left: dialogPosition.x / zoomLevel + 20,
+                background: "white",
+                border: "1px solid black",
+                padding: "10px",
+                boxShadow: "1px 1px 5px rgba(0, 0, 0, 0.2)",
+                borderRadius: "5px",
+                animation: "fadein 0.5s",
+              }}
+            >
+              <p style={{ marginBottom: "10px" }}>{file}</p>
+            </div>
+          )}
+        </div>
+        <style>
+          {`
+          @keyframes fadein {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @keyframes fadeout {
+            from {
+              opacity: 1;
+            }
+            to {
+              opacity: 0;
+            }
+          }
+        `}
+        </style>
+
+{boxdata && (
+              <div
+              className="popup-info"
+            >
+                { matchingQuery.length ?(  matchingQuery.map((query_matched, index) => (
+                  <pre key={index}>
+                    <code style={{ fontFamily: "jost", color: "#fff" }}>
+                      {`  ${index + 1}. `}
+                    </code>
+                    <code style={{ fontFamily: "jost", color: "#fff" }}>
+                      {query_matched}
+                    </code>
+                  </pre>
+                ))):(
+                  <code style={{ fontFamily: "jost", color: "#fff" }}>
+                  No Functions Found
+                </code>
+                )}
+              </div>
+            )}
+
+
+{isChecked && (
+        <div
+          className="popup-info-search"
         >
           <div
             style={{ fontFamily: "jost", marginLeft: "150px" }}
@@ -371,38 +465,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
               ))}
             </ul>
           </div>
-          
-            {boxdata && (
-              <div
-              style={{
-                position: "fixed",
-                top: "12%",
-                backgroundColor: "#000",
-                left: "92%",
-                transform: "translateX(-50%)",
-                width: "250px",
-                overflowX: "auto",
-                overflowY: "auto ",
-                zIndex: "1",
-                height: "170px",
-              }}
-            >
-                { matchingQuery.length ?(  matchingQuery.map((query_matched, index) => (
-                  <pre key={index}>
-                    <code style={{ fontFamily: "jost", color: "#fff" }}>
-                      {`  ${index + 1}. `}
-                    </code>
-                    <code style={{ fontFamily: "jost", color: "#fff" }}>
-                      {query_matched}
-                    </code>
-                  </pre>
-                ))):(
-                  <code style={{ fontFamily: "jost", color: "#fff" }}>
-                  No Functions Found
-                </code>
-                )}
-              </div>
-            )}
+            
 
           <div style={{ marginLeft: "300px", marginTop: "-50px" }}>
             <div style={{ paddingLeft: "100px" }}>
@@ -653,82 +716,6 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         </div>
       )}
 
-      <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: "100px",
-            width: "100%",
-            height: "822px",
-            paddingTop: "20px",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Tree
-            data={jsonTree}
-            collapsible={false}
-            nodeSize={{ x: 300 / zoomLevel, y: 200 / zoomLevel }}
-            onLinkMouseOver={handlinkover}
-            onLinkMouseOut={handleLeave}
-            orientation="vertical"
-            pathClassFunc={pathClassFunc}
-            onZoom={handleZoom}
-            renderCustomNodeElement={updatecolor}
-            separation={{ siblings: 1.1, nonSiblings: 1.1 }}
-          />
-          <style>
-            {`
-            .important-link {
-              stroke-width: 5px;
-              stroke: black;
-            }
-            .important-link:hover {
-              stroke-width: 10px;
-              stroke: blue;
-            }
-            
-          `}
-          </style>
-          {isDialogVisible && (
-            <div
-              style={{
-                position: "absolute",
-                top: dialogPosition.y / zoomLevel + 20,
-                left: dialogPosition.x / zoomLevel + 20,
-                background: "white",
-                border: "1px solid black",
-                padding: "10px",
-                boxShadow: "1px 1px 5px rgba(0, 0, 0, 0.2)",
-                borderRadius: "5px",
-                animation: "fadein 0.5s",
-              }}
-            >
-              <p style={{ marginBottom: "10px" }}>{file}</p>
-            </div>
-          )}
-        </div>
-        <style>
-          {`
-          @keyframes fadein {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          @keyframes fadeout {
-            from {
-              opacity: 1;
-            }
-            to {
-              opacity: 0;
-            }
-          }
-        `}
-        </style>
         <ToastContainer
           position="top-center"
           autoClose={5000}

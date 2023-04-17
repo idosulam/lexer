@@ -99,7 +99,7 @@ function Files(props) {
             
           }}
         >
-          <h3 style={{ fontFamily: "jost"}}>{selectedFile}</h3>
+          <h3 style={{color: "#fff",   fontFamily: "jost"}}>{selectedFile}</h3>
           <pre style={{ fontFamily: "jost" }}>
             {fileContent.split("\n").map((line, i) => (
               <div key={i}>
