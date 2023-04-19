@@ -254,7 +254,7 @@ label {
   overflow-x: auto;
   overflow-y: auto ;
   z-index: 1;
-  height: 300px;
+  height: 800px;
   animation: fadeIn ease 1s;
   
 }

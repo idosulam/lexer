@@ -322,11 +322,11 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         <Switch onChange={handleSwitchChange} checked={isChecked} />
       </label>
       <label
-        style={{ position: "relative", left: "-7%", top: "2px" }}
+        style={{ position: "relative"}}
         onClick={handle_info_enter}
       >
         <AiFillInfoCircle
-          style={{ color: "white", height: "40px", width: "50px",marginLeft: '190px' }}
+          style={{ color: "white", height: "40px", width: "50px",marginLeft: '60px' }}
         />
       </label>
 
