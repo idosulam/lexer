@@ -517,7 +517,7 @@ function Projects() {
               <h3 style={{ color: "#00FF00" }}>{project.id}</h3>
               <button
                 onClick={() => delete_project(project)}
-                className="button-85"
+                className="button-86"
               >
                 delete
               </button>
@@ -530,7 +530,7 @@ function Projects() {
                 onClick={() => {
                   update_project(project, inputRefs[index]);
                 }}
-                className="button-85"
+                className="button-86"
               >
                 update
               </button>
