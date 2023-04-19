@@ -63,7 +63,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
     <>
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
-        <DragDropText style={{paddingTop : '20px' ,fontFamily : "jost",  color: '#fff'}}>Code Map</DragDropText>
+        <DragDropText style={{marginTop: '-2rem',fontFamily : "jost",  color: '#fff'}}>Code Map</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
           <span style={{fontFamily: 'jost'}}> Upload Files</span>
           <input
@@ -94,7 +94,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
         >
       
         </div>
-        <PreviewList>
+        <PreviewList style={{height: '500px',overflowY:'auto'}}>
           {Object.keys(files).map((fileName, index) => {
             let file = files[fileName];
             let isImageFile = file.type.split("/")[0] === "image";
