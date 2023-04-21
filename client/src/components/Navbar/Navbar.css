@@ -29,9 +29,10 @@
   }
 
   .logo-img {
-    width: 40px;
+    width: 14rem;
     height: 40px;
-    object-fit: contain;
+    margin-left: -3rem;
+    object-fit: cover;
   }
   .nav ul {
     padding: 0;
