@@ -357,12 +357,16 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           <style>
             {`
             .important-link {
-              stroke-width: 5px;
-              stroke: black;
+              stroke-width: 3px;
+              stroke: #333;
+              stroke-opacity:0.8 ;
+
+              transition: stroke-width 0.3s ease-in-out, stroke 0.3s ease-in-out;
             }
+            
             .important-link:hover {
-              stroke-width: 10px;
-              stroke: blue;
+              stroke-width: 6px;
+              stroke: #000000;
             }
             
           `}
