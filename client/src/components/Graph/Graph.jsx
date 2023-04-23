@@ -322,11 +322,11 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         <Switch onChange={handleSwitchChange} checked={isChecked} />
       </label>
       <label
-        style={{ position: "relative"}}
+        style={{ position: "relative", marginLeft: "60px", cursor: "pointer" }}
         onClick={handle_info_enter}
       >
         <AiFillInfoCircle
-          style={{ color: "white", height: "40px", width: "50px",marginLeft: '60px' }}
+          style={{ color: "white", height: "40px", width: "50px" }}
         />
       </label>
 
@@ -410,315 +410,317 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         `}
         </style>
 
-{boxdata && (
-              <div
-              className="popup-info"
-            >
-                { matchingQuery.length ?(  matchingQuery.map((query_matched, index) => (
-                  <pre key={index}>
-                    <code style={{ fontFamily: "jost", color: "#fff" }}>
-                      {`  ${index + 1}. `}
-                    </code>
-                    <code style={{ fontFamily: "jost", color: "#fff" }}>
-                      {query_matched}
-                    </code>
-                  </pre>
-                ))):(
+        {boxdata && (
+          <div className="popup-info">
+            {matchingQuery.length ? (
+              matchingQuery.map((query_matched, index) => (
+                <pre key={index}>
                   <code style={{ fontFamily: "jost", color: "#fff" }}>
-                  No Functions Found
-                </code>
-                )}
-              </div>
+                    {`  ${index + 1}. `}
+                  </code>
+                  <code style={{ fontFamily: "jost", color: "#fff" }}>
+                    {query_matched}
+                  </code>
+                </pre>
+              ))
+            ) : (
+              <code style={{ fontFamily: "jost", color: "#fff" }}>
+                No Functions Found
+              </code>
             )}
+          </div>
+        )}
 
-
-{isChecked && (
-        <div
-          className="popup-info-search"
-        >
-          <div
-            style={{ fontFamily: "jost", marginLeft: "150px" }}
-            className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
-            onClick={handleDropdownClick}
-          >
-            select function
-            <ul className="checkbox-dropdown-list" onClick={handleListClick}>
-              <li>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={selectedOptions.length === table_list.length}
-                    onChange={handleSelectAll}
-                    style={{ fontFamily: "jost" }}
-                  />
-                  all
-                </label>
-              </li>
-              {[...table_list].map((option) => (
-                <li key={option} value={option} style={{ fontFamily: "jost" }}>
+        {isChecked && (
+          <div className="popup-info-search">
+            <div
+              style={{ fontFamily: "jost", marginLeft: "150px" }}
+              className={`checkbox-dropdown ${isActive ? "is-active" : ""}`}
+              onClick={handleDropdownClick}
+            >
+              select function
+              <ul className="checkbox-dropdown-list" onClick={handleListClick}>
+                <li>
                   <label>
                     <input
                       type="checkbox"
-                      value={option}
-                      checked={selectedOptions.includes(option)}
-                      onChange={handleCheckboxClick}
+                      checked={selectedOptions.length === table_list.length}
+                      onChange={handleSelectAll}
+                      style={{ fontFamily: "jost" }}
                     />
-                    {option}
+                    all
                   </label>
                 </li>
-              ))}
-            </ul>
-          </div>
-            
-
-          <div style={{ marginLeft: "300px", marginTop: "-50px" }}>
-            <div style={{ paddingLeft: "100px" }}>
-              {list.map((item, index) => (
-                <div key={index} style={{ paddingBottom: "20px" }}>
-                  <div
-                    style={{ paddingRight: "20px", display: "inline-block" }}
+                {[...table_list].map((option) => (
+                  <li
+                    key={option}
+                    value={option}
+                    style={{ fontFamily: "jost" }}
                   >
-                    <select
-                      name="parameter"
-                      value={item.parameter}
-                      onChange={(e) => handleParameterChange(e, index)}
-                      style={{ fontFamily: "jost" }}
-                    >
-                      <option value="">Choose</option>
-                      <option value="if_statements">if statement</option>
-                      <option value="while_statements">while statement</option>
-                      <option value="return_type">return_type</option>
-                      <option value="params">parameters</option>
-                      <option value="variables">variable</option>
-                      <option value="params_modifier">
-                        parameters modifiers
-                      </option>
-                      <option value="variables_modifiers">
-                        variable modifiers
-                      </option>
-                      <option value="for_statements">for</option>
-                      <option value="builtin">built_in_functions</option>
-                    </select>
-                  </div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={option}
+                        checked={selectedOptions.includes(option)}
+                        onChange={handleCheckboxClick}
+                      />
+                      {option}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                  <div
-                    style={{ paddingRight: "20px", display: "inline-block" }}
-                  >
-                    {item.parameter === "params" ? (
-                      <div>
-                        <select
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                          style={{ fontFamily: "jost" }}
-                        >
-                          <option value="">choose</option>
-
-                          {Array.from(parameters_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index}>
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "variables" ? (
-                      <div>
-                        <select
-                          style={{ fontFamily: "jost" }}
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-
-                          {Array.from(variable_list).map((item, index) => {
-                            return (
-                              <option
-                                value={item}
-                                key={index}
-                                style={{ fontFamily: "jost" }}
-                              >
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "return_type" ? (
-                      <div>
-                        <select
-                          style={{ fontFamily: "jost" }}
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(return_type_list).map((item, index) => {
-                            return (
-                              <option value={item} key={index}>
-                                {item}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : item.parameter === "builtin" ? (
-                      <div>
-                        <select
-                          style={{ fontFamily: "jost" }}
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(built_in_function_name_list).map(
-                            (item, index) => {
-                              return (
-                                <option value={item} key={index}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          )}
-                        </select>
-                      </div>
-                    ) : item.parameter === "params_modifier" ? (
-                      <div>
-                        <select
-                          style={{ fontFamily: "jost" }}
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(parameters_modifier_list).map(
-                            (item, index) => {
-                              return (
-                                <option value={item} key={index}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          )}
-                        </select>
-                      </div>
-                    ) : item.parameter === "variables_modifiers" ? (
-                      <div>
-                        <select
-                          style={{ fontFamily: "jost" }}
-                          name="value"
-                          value={item.value}
-                          onChange={(e) => {
-                            handleoptionchange(e, index);
-                          }}
-                        >
-                          <option value="">choose</option>
-                          {Array.from(variable_modifier_list).map(
-                            (item, index) => {
-                              return (
-                                <option value={item} key={index}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          )}
-                        </select>
-                      </div>
-                    ) : (
-                      <div>
-                        {(item.parameter !== "builtin") |
-                          "return_type" |
-                          "variables" |
-                          "params" && (
-                          <div className="inputbox">
-                            <input
-                              style={{ fontFamily: "jost" }}
-                              required
-                              type="number"
-                              name="value"
-                              value={item.value}
-                              onChange={(e) => handleValueChange(e, index)}
-                            />
-                            <span style={{ fontFamily: "jost" }}>
-                              Enter Value
-                            </span>
-                            <i></i>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {list.length - 1 !== index ? (
+            <div style={{ marginLeft: "300px", marginTop: "-50px" }}>
+              <div style={{ paddingLeft: "100px" }}>
+                {list.map((item, index) => (
+                  <div key={index} style={{ paddingBottom: "20px" }}>
                     <div
-                      style={{
-                        paddingRight: "20px",
-                        display: "inline-block",
-                      }}
+                      style={{ paddingRight: "20px", display: "inline-block" }}
                     >
                       <select
-                        name="condition"
-                        value={item.condition}
-                        onChange={(e) => handleconditionChange(e, index)}
+                        name="parameter"
+                        value={item.parameter}
+                        onChange={(e) => handleParameterChange(e, index)}
                         style={{ fontFamily: "jost" }}
                       >
                         <option value="">Choose</option>
-                        <option value="not">not</option>
-                        <option value="and">and</option>
-                        <option value="or">or</option>
+                        <option value="if_statements">if statement</option>
+                        <option value="while_statements">
+                          while statement
+                        </option>
+                        <option value="return_type">return_type</option>
+                        <option value="params">parameters</option>
+                        <option value="variables">variable</option>
+                        <option value="params_modifier">
+                          parameters modifiers
+                        </option>
+                        <option value="variables_modifiers">
+                          variable modifiers
+                        </option>
+                        <option value="for_statements">for</option>
+                        <option value="builtin">built_in_functions</option>
                       </select>
                     </div>
-                  ) : (
-                    ``
-                  )}
-                  {list.length !== 1 ? (
-                    <button
-                      className="button-28"
-                      onClick={() => handleRemove(index)}
-                      style={{ fontFamily: "jost" }}
+
+                    <div
+                      style={{ paddingRight: "20px", display: "inline-block" }}
                     >
-                      Remove
-                    </button>
-                  ) : (
-                    ``
-                  )}
-                </div>
-              ))}
+                      {item.parameter === "params" ? (
+                        <div>
+                          <select
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                            style={{ fontFamily: "jost" }}
+                          >
+                            <option value="">choose</option>
+
+                            {Array.from(parameters_list).map((item, index) => {
+                              return (
+                                <option value={item} key={index}>
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "variables" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+
+                            {Array.from(variable_list).map((item, index) => {
+                              return (
+                                <option
+                                  value={item}
+                                  key={index}
+                                  style={{ fontFamily: "jost" }}
+                                >
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "return_type" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(return_type_list).map((item, index) => {
+                              return (
+                                <option value={item} key={index}>
+                                  {item}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : item.parameter === "builtin" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(built_in_function_name_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ) : item.parameter === "params_modifier" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(parameters_modifier_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ) : item.parameter === "variables_modifiers" ? (
+                        <div>
+                          <select
+                            style={{ fontFamily: "jost" }}
+                            name="value"
+                            value={item.value}
+                            onChange={(e) => {
+                              handleoptionchange(e, index);
+                            }}
+                          >
+                            <option value="">choose</option>
+                            {Array.from(variable_modifier_list).map(
+                              (item, index) => {
+                                return (
+                                  <option value={item} key={index}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </select>
+                        </div>
+                      ) : (
+                        <div>
+                          {(item.parameter !== "builtin") |
+                            "return_type" |
+                            "variables" |
+                            "params" && (
+                            <div className="inputbox">
+                              <input
+                                style={{ fontFamily: "jost" }}
+                                required
+                                type="number"
+                                name="value"
+                                value={item.value}
+                                onChange={(e) => handleValueChange(e, index)}
+                              />
+                              <span style={{ fontFamily: "jost" }}>
+                                Enter Value
+                              </span>
+                              <i></i>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {list.length - 1 !== index ? (
+                      <div
+                        style={{
+                          paddingRight: "20px",
+                          display: "inline-block",
+                        }}
+                      >
+                        <select
+                          name="condition"
+                          value={item.condition}
+                          onChange={(e) => handleconditionChange(e, index)}
+                          style={{ fontFamily: "jost" }}
+                        >
+                          <option value="">Choose</option>
+                          <option value="not">not</option>
+                          <option value="and">and</option>
+                          <option value="or">or</option>
+                        </select>
+                      </div>
+                    ) : (
+                      ``
+                    )}
+                    {list.length !== 1 ? (
+                      <button
+                        className="button-28"
+                        onClick={() => handleRemove(index)}
+                        style={{ fontFamily: "jost" }}
+                      >
+                        Remove
+                      </button>
+                    ) : (
+                      ``
+                    )}
+                  </div>
+                ))}
+              </div>
+              <button
+                style={{
+                  marginTop: "20px",
+                  marginLeft: "100px",
+                  marginRight: "20px",
+                  fontFamily: "jost",
+                }}
+                className="button-28"
+                onClick={handleAdd}
+              >
+                Add
+              </button>
+              <button
+                style={{ marginTop: "20px", fontFamily: "jost" }}
+                className="button-28"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
             </div>
-            <button
-              style={{
-                marginTop: "20px",
-                marginLeft: "100px",
-                marginRight: "20px",
-                fontFamily: "jost",
-              }}
-              className="button-28"
-              onClick={handleAdd}
-            >
-              Add
-            </button>
-            <button
-              style={{ marginTop: "20px", fontFamily: "jost" }}
-              className="button-28"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
           </div>
-        </div>
-      )}
+        )}
 
         <ToastContainer
           position="top-center"
