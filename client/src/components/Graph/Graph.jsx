@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import Axios from "axios";
-import { ToastContainer } from "react-toastify";
-//import { toast } from "react-toastify";
 import Switch from "react-switch";
 import { AiFillInfoCircle } from "react-icons/ai";
 import "./graph.css";
@@ -231,7 +229,7 @@ function Graph(props) {
     }`;
     if (matchingQuery.includes(nodeDatum.nodeDatum.name)) {
       return (
-        <g onClick={() => console.log(nodeDatum)}>
+        <g onClick={() =>{ console.log(regex.exec(nodeDatum.nodeDatum.file)[0])}}>
           <circle className="object" fill={color} r="20" />
           <text fill="black" strokeWidth="1" x="30">
             {string}
@@ -240,7 +238,7 @@ function Graph(props) {
       );
     } else {
       return (
-        <g onClick={() => console.log(nodeDatum)}>
+        <g onClick={() =>{ console.log(regex.exec(nodeDatum.nodeDatum.file)[0])}}>
           <circle fill={color} r="20" />
           <text fill="black" strokeWidth="1" x="30">
             {string}
@@ -722,18 +720,6 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           </div>
         )}
 
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
       </div>
     </>
   );
