@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import Axios from "axios";
 import Switch from "react-switch";
-import { AiFillInfoCircle } from "react-icons/ai";
+import { AiFillInfoCircle ,AiFillCloseCircle,AiOutlineClear} from "react-icons/ai";
 import "./graph.css";
 function Graph(props) {
   const [isActive, setIsActive] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [showfile, setShowfile] = useState(false);
+  const [file_content, setfile_content] = useState("");
 
   const jsonTree = props.tree;
   const projectname = props.projectName;
@@ -221,6 +223,21 @@ function Graph(props) {
     }
     extract_from_db();
   }, [selectedOptions, projectname]);
+
+  async function handleclick(project_name, filename) {
+    if (showfile === false) {
+      await Axios.get(
+        `http://localhost:3001/api/search_file_show?project_name=${project_name}&file_name=${filename}`
+      ).then((response) => {
+        setfile_content(response.data[0]["file"]);
+        setShowfile(!showfile);
+      });
+    }
+    
+      setShowfile(!showfile);
+    
+  }
+
   function updatecolor(nodeDatum) {
     const color = nodeDatum.nodeDatum.color[0];
     const regex = /[^/]*$/;
@@ -229,7 +246,11 @@ function Graph(props) {
     }`;
     if (matchingQuery.includes(nodeDatum.nodeDatum.name)) {
       return (
-        <g onClick={() =>{ console.log(regex.exec(nodeDatum.nodeDatum.file)[0])}}>
+        <g
+          onClick={() => {
+            handleclick(projectname, regex.exec(nodeDatum.nodeDatum.file)[0]);
+          }}
+        >
           <circle className="object" fill={color} r="20" />
           <text fill="black" strokeWidth="1" x="30">
             {string}
@@ -238,7 +259,11 @@ function Graph(props) {
       );
     } else {
       return (
-        <g onClick={() =>{ console.log(regex.exec(nodeDatum.nodeDatum.file)[0])}}>
+        <g
+          onClick={() => {
+            handleclick(projectname, regex.exec(nodeDatum.nodeDatum.file)[0]);
+          }}
+        >
           <circle fill={color} r="20" />
           <text fill="black" strokeWidth="1" x="30">
             {string}
@@ -327,7 +352,14 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
           style={{ color: "white", height: "40px", width: "50px" }}
         />
       </label>
-
+      <label
+        style={{ position: "relative", marginLeft: "80px", cursor: "pointer" }}
+        onClick={()=>setMatchingQuery([])}
+      >
+        <AiOutlineClear
+          style={{ color: "white", height: "40px", width: "50px" }}
+        />
+      </label>
       <div>
         <div
           style={{
@@ -719,8 +751,29 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
             </div>
           </div>
         )}
-
       </div>
+
+      {showfile && <div className="popup-info-search">
+        <button onClick={()=>setShowfile(!showfile)} style={{backgroundColor: 'transparent',cursor: 'pointer'}}><AiFillCloseCircle
+          style={{ color: "white", height: "40px", width: "50px" }}
+        /></button>
+      <pre style={{ fontFamily: "jost" }}>
+            {file_content.split("\n").map((line, i) => (
+              <div key={i}>
+                <code
+                  className="line-number"
+                  style={{ color: "#fff", fontFamily: "jost" }}
+                >{`${i + 1}.`}</code>
+                <code
+                  className="code-line"
+                  style={{ color: "#fff", fontFamily: "jost" }}
+                >
+                  {line}
+                </code>
+              </div>
+            ))}
+          </pre>
+        </div>}
     </>
   );
 }

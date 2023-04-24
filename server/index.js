@@ -319,7 +319,13 @@ app.post("/api/insert_parameter", (req, res) => {
 
   db.query(
     sqlInsert,
-    [projectName, function_name, parameter_modifier,parameter_type,parameter_name],
+    [
+      projectName,
+      function_name,
+      parameter_modifier,
+      parameter_type,
+      parameter_name,
+    ],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -361,14 +367,24 @@ app.post("/api/insert_variable", (req, res) => {
 
   const sqlInsert =
     "INSERT INTO project.variables (project_name,function_name ,variable_modifier,variable_type,variable_name) VALUES (?,?,?,?,?);";
-  db.query(sqlInsert, [projectName, function_name, variable_modifier,variable_type,variable_name], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(400).send({ error: "Failed to insert project" });
-    } else {
-      res.status(200).send({ message: "Project inserted successfully" });
+  db.query(
+    sqlInsert,
+    [
+      projectName,
+      function_name,
+      variable_modifier,
+      variable_type,
+      variable_name,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send({ error: "Failed to insert project" });
+      } else {
+        res.status(200).send({ message: "Project inserted successfully" });
+      }
     }
-  });
+  );
 });
 
 app.delete("/api/delete_parameters/:project_name", (req, res) => {
@@ -455,13 +471,12 @@ app.delete("/api/delete_built_in_function/:project_name", (req, res) => {
   });
 });
 
-
-
 app.get("/api/param_search", (req, res) => {
   const project_name = req.query.project_name;
-    const function_name = req.query.function_name;
-  const sqlsearch = "select parameter_type from project.parameters WHERE function_name = ? and project_name = ?";
-  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+  const function_name = req.query.function_name;
+  const sqlsearch =
+    "select parameter_type from project.parameters WHERE function_name = ? and project_name = ?";
+  db.query(sqlsearch, [function_name, project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -472,9 +487,10 @@ app.get("/api/param_search", (req, res) => {
 
 app.get("/api/param_modifier_search", (req, res) => {
   const project_name = req.query.project_name;
-    const function_name = req.query.function_name;
-  const sqlsearch = "select parameter_modifier from project.parameters WHERE function_name = ? and project_name = ? and parameter_modifier <> 'none'";
-  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+  const function_name = req.query.function_name;
+  const sqlsearch =
+    "select parameter_modifier from project.parameters WHERE function_name = ? and project_name = ? and parameter_modifier <> 'none'";
+  db.query(sqlsearch, [function_name, project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -486,8 +502,23 @@ app.get("/api/param_modifier_search", (req, res) => {
 app.get("/api/variable_search", (req, res) => {
   const project_name = req.query.project_name;
   const function_name = req.query.function_name;
-  const sqlsearch = "select variable_type from project.variables WHERE function_name = ? and project_name = ?";
-  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+  const sqlsearch =
+    "select variable_type from project.variables WHERE function_name = ? and project_name = ?";
+  db.query(sqlsearch, [function_name, project_name], (err, result) => {
+    if (err) {
+      res.send({ error: "Error executing the query" });
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+app.get("/api/search_file_show", (req, res) => {
+  const project_name = req.query.project_name;
+  const file_name = req.query.file_name;
+  const sqlsearch =
+  `select file from project.files_table WHERE file_name = '${file_name}' and project_name = '${project_name}'`;
+  db.query(sqlsearch, [], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -499,8 +530,9 @@ app.get("/api/variable_search", (req, res) => {
 app.get("/api/variable_modifier_search", (req, res) => {
   const project_name = req.query.project_name;
   const function_name = req.query.function_name;
-  const sqlsearch = "select variable_modifier from project.variables WHERE function_name = ? and project_name = ? and variable_modifier <> ''";
-  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+  const sqlsearch =
+    "select variable_modifier from project.variables WHERE function_name = ? and project_name = ? and variable_modifier <> ''";
+  db.query(sqlsearch, [function_name, project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -513,8 +545,9 @@ app.get("/api/search_built_in_function", (req, res) => {
   const project_name = req.query.project_name;
   const function_name = req.query.function_name;
 
-  const sqlsearch = "select built_in_function_name from project.built_in_functions WHERE function_name = ? and project_name = ? ";
-  db.query(sqlsearch, [function_name,project_name], (err, result) => {
+  const sqlsearch =
+    "select built_in_function_name from project.built_in_functions WHERE function_name = ? and project_name = ? ";
+  db.query(sqlsearch, [function_name, project_name], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
     } else {
@@ -522,8 +555,6 @@ app.get("/api/search_built_in_function", (req, res) => {
     }
   });
 });
-
-
 
 app.listen(3001, () => {
   console.log("Server listening on port 3001");
