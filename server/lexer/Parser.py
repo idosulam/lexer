@@ -2,9 +2,9 @@ from Utils import *
 
 '''
 ============================================================================================
-General : get_function_dict - maps the function
-Parameters : token_tuple : entire tokens tuple
-Return Value : return dictionary for function and position
+@brief get_function_dict - maps the function
+@param token_tuple : entire tokens tuple
+@return return dictionary for function and position
 ============================================================================================
 '''
 
@@ -21,9 +21,12 @@ def get_function_dict(token_tuple: tuple) -> dict[str, int]:
 
 '''
 ============================================================================================
-General : insert - insert to queue
-Parameters : current_func : current function name , queue : queue for the function , function_map_dict : function dictionary , token_tuple : entire token tuple
-Return Value : return function mapping list
+@brief insert - insert to queue
+@param current_func : current function name 
+@param queue : queue for the function 
+@param function_map_dict : function dictionary 
+@param token_tuple : entire token tuple
+@return return function mapping list
 ============================================================================================
 '''
 
@@ -34,7 +37,7 @@ def insert(current_func: str, queue: Queue, function_map_dict: dict[str, int], t
     file = token_tuple[i].inside_file
     func_list = Function_call(current_func, file)
     i += 1
-    while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end  and token_tuple[i].file == file:
+    while i < len(token_tuple) and isinstance(token_tuple[i], Token) and token_tuple[i].line_number <= end and token_tuple[i].file == file:
         if token_tuple[i].id == 'function_call':
             queue.enqueue(token_tuple[i].value)
             func_list.__add__(token_tuple[i].value)
@@ -44,9 +47,10 @@ def insert(current_func: str, queue: Queue, function_map_dict: dict[str, int], t
 
 '''
 ============================================================================================
-General : create_list_for_tree - create all function mapping list
-Parameters : function_map_dict : function calls dictionary , token_tuple : entire tokens tuple
-Return Value : return list of function calls
+@brief create_list_for_tree - create all function mapping list
+@param function_map_dict : function calls dictionary 
+@param token_tuple : entire tokens tuple
+@return return list of function calls
 ============================================================================================
 '''
 
@@ -64,9 +68,9 @@ def create_list_for_tree(function_map_dict: dict[str, int], token_tuple: tuple) 
 
 '''
 ============================================================================================
-General : build_tree - build the tree
-Parameters : func_list : all function calls
-Return Value : return function map tree
+@brief build_tree - build the tree
+@param func_list : all function calls
+@return return function map tree
 ============================================================================================
 '''
 
@@ -85,9 +89,10 @@ def build_tree(func_list: list[Function_call]) -> Node:
 
 '''
 ============================================================================================
-General : find_node - finds node in tree
-Parameters : root : tree root , node_name : node name we search for
-Return Value : return the node
+@brief find_node - finds node in tree
+@param root : tree root 
+ @param node_name : node name we search for
+@return return the node
 ============================================================================================
 '''
 
@@ -103,14 +108,14 @@ def find_node(root: Node, node_name: str) -> Node:
 
 '''
 ============================================================================================
-General : assign_file - assign for each node its file and color
-Parameters : root : tree root 
-Return Value : return the root
+@brief assign_file - assign for each node its file and color
+@param root : tree root 
+@return return the root
 ============================================================================================
 '''
 
 
-def assign_file(root):
+def assign_file(root: Node):
     for child in root.children:
         assign_file(child)
         child.file = function_list[function_dict[child.name]].inside_file
@@ -118,7 +123,5 @@ def assign_file(root):
             child.color = color_dict[child.file]
         else:
             hexadecimal = ["#" + ''.join([random.choice('ABCDEF0123456789') for i in range(6)])]
-            color_dict[child.file]= hexadecimal
+            color_dict[child.file] = hexadecimal
             child.color = color_dict[child.file]
-
-

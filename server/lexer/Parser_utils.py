@@ -3,22 +3,26 @@ import re
 import copy
 import json
 import random
+
+
 class Node(dict):
-    def __init__(self,parent,name,file):
+    def __init__(self, parent: str, name: str, file: str):
         super().__init__()
         self.__dict__ = self
-        self.parent = parent
-        self.name = name
-        self.file = file
-        self.color = ''
-        self.children = []
+        self.parent: str = parent
+        self.name: str = name
+        self.file: str = file
+        self.color: str = ''
+        self.children: list[Node] = []
 
-    def insert_child(self, name,data,file):
+    def insert_child(self, name, data, file):
         for da in data:
-            self.children.append(Node(name,da,file))
+            if da != self.parent:
+                self.children.append(Node(name, da, file))
 
     def __str__(self):
         return f'name {self.name} children {self.children}'
+
 
 class Queue:
     def __init__(self):
@@ -42,13 +46,15 @@ class Queue:
 
 
 class Function_call:
-    def __init__(self,parent,file):
+    def __init__(self, parent: str, file: str):
         self.parent = parent
-        self.child = list()
+        self.child: list[str] = list()
         self.file = file
+
     def __add__(self, data):
         if not self.child.__contains__(data):
             self.child.append(data)
+
     def __str__(self):
         return f'parent : {self.parent} | children : {self.child} | len : {len(self.child)}'
 

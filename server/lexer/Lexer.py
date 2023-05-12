@@ -3,12 +3,11 @@ import re
 from Utils import *
 
 '''
-============================================================================================
-General : lex_define - add define 
-Parameters : define_line : line of define , text_pointer : line number
-Return Value :  NONE
-============================================================================================
-'''
+@brief Add a define to the lex_define. 
+@param define_line The line of the define.
+@param text_pointer The line number. 
+@return None.
+ '''
 
 
 def lex_define(define_line: list[str], text_pointer: int):
@@ -26,9 +25,10 @@ def lex_define(define_line: list[str], text_pointer: int):
 
 '''
 ============================================================================================
-General : find_typedef - finds typedef
-Parameters : typedef : file_text , text_pointer : line number
-Return Value :  NONE
+@brief find_typedef - finds typedef
+@param typedef : file_text 
+@param text_pointer : line number
+@return  NONE
 ============================================================================================
 '''
 
@@ -47,9 +47,9 @@ def find_typedef(typedef: list[str], text_pointer: int):
 
 '''
 ============================================================================================
-General : value_assignment - finds expression
-Parameters : math : file_text 
-Return Value :  expression string
+@brief value_assignment - finds expression
+@param math : file_text 
+@return  expression string
 ============================================================================================
 '''
 
@@ -81,9 +81,9 @@ def value_assignment(math: list[str]) -> str:
 
 '''
 ============================================================================================
-General : openfile - opens file
-Parameters : path : path 
-Return Value :  file
+@brief openfile - opens file
+@param path : path 
+@return  file
 ============================================================================================
 '''
 
@@ -98,28 +98,34 @@ def openfile(path: str):
             exit(1)
     return f
 
-'''
-============================================================================================
-General : add_struct_aliases - adds struct aliases to types
-Parameters : text : file text , text_pointer : points to text position
-Return Value :  names of struct
-============================================================================================
-'''
-def add_struct_aliases(text, text_pointer):
-        i = 1
-        struct_alias_array = list()
-        struct_line = text[text_pointer].split()
-        while i < len(struct_line):
-            if re.match(RE_Identifiers,struct_line[i]):
-                struct_alias_array.append(struct_line[i])
-            i += 1
-        return struct_alias_array
 
 '''
 ============================================================================================
-General : find_struct - finds structs and adds them to list
-Parameters :  text : file_text , text_pointer : line number
-Return Value :  text_pointer
+@brief add_struct_aliases - adds struct aliases to types
+@param text : file text 
+@param text_pointer : points to text position
+@return  names of struct
+============================================================================================
+'''
+
+
+def add_struct_aliases(text, text_pointer):
+    i = 1
+    struct_alias_array = list()
+    struct_line = text[text_pointer].split()
+    while i < len(struct_line):
+        if re.match(RE_Identifiers, struct_line[i]):
+            struct_alias_array.append(struct_line[i])
+        i += 1
+    return struct_alias_array
+
+
+'''
+============================================================================================
+@brief find_struct - finds structs and adds them to list
+@param  text : file_text 
+@param text_pointer : line number
+@return  text_pointer
 ============================================================================================
 '''
 
@@ -160,9 +166,9 @@ def find_struct(text, text_pointer):
 
 '''
 ============================================================================================
-General : find_replace_typedef_define - change typedef
-Parameters : text : file text
-Return Value : return text after change
+@brief find_replace_typedef_define - change typedef
+@param text : file text
+@return return text after change
 ============================================================================================
 '''
 
@@ -208,9 +214,9 @@ def find_replace_typedef_define(text: list[str]) -> list[str]:
 
 '''
 ============================================================================================
-General : get_files_in_path - return all files path
-Parameters : path : path to folder
-Return Value : all files in path
+@brief get_files_in_path - return all files path
+@param path : path to folder
+@return all files in path
 ============================================================================================
 '''
 
@@ -226,9 +232,9 @@ def get_files_in_path(path):
 
 '''
 ============================================================================================
-General : search_files_for_main - search main file
-Parameters : 
-Return Value : main file name
+@brief search_files_for_main - search main file
+@param 
+@return main file name
 ============================================================================================
 '''
 
@@ -249,9 +255,9 @@ def close_file(file):
 
 '''
 ============================================================================================
-General : get_text - manipulate text
-Parameters : file : file
-Return Value : file text after manipulation
+@brief get_text - manipulate text
+@param file : file
+@return file text after manipulation
 ============================================================================================
 '''
 
@@ -292,9 +298,9 @@ def get_text(file) -> list[str]:
 
 '''
 ============================================================================================
-General : find_library_includes - search for all includes by regex
-Parameters : file : text code 
-Return Value : list of includes name
+@brief find_library_includes - search for all includes by regex
+@param file : text code 
+@return list of includes name
 ============================================================================================
 '''
 
@@ -309,9 +315,9 @@ def find_library_includes(file: str) -> list[str]:
 
 '''
 ============================================================================================
-General : search_for_includes - search for all files by the given include
-Parameters : file : text code 
-Return Value : list of headers
+@brief search_for_includes - search for all files by the given include
+@param file : text code 
+@return list of headers
 ============================================================================================
 '''
 
@@ -330,9 +336,9 @@ def search_for_includes(file: str) -> list[str]:
 
 '''
 ============================================================================================
-General : get_code_file - name of ffile code
-Parameters : cfile : header file
-Return Value : code file name
+@brief get_code_file - name of ffile code
+@param cfile : header file
+@return code file name
 ============================================================================================
 '''
 
@@ -345,9 +351,9 @@ def get_code_file(cfile: str):
 
 '''
 ============================================================================================
-General : convert_to_include - convert code
-Parameters : header_list : list of file headers 
-Return Value : list of file headers and code files
+@brief convert_to_include - convert code
+@param header_list : list of file headers 
+@return list of file headers and code files
 ============================================================================================
 '''
 
@@ -365,9 +371,9 @@ def convert_to_include(header_list: list[str]) -> list[Include]:
 
 '''
 ============================================================================================
-General : lex - tokenize the code
-Parameters : header_list : list of file headers and code files
-Return Value : entire project tuple
+@brief lex - tokenize the code
+@param header_list : list of file headers and code files
+@return entire project tuple
 ============================================================================================
 '''
 
@@ -394,9 +400,11 @@ def lex(header_list: list[Include]) -> tuple:
 
 '''
 ============================================================================================
-General : tokenize - tokenize code
-Parameters : file_text: list of words, file_name : file name , tpl : token tuple
-Return Value : token tuple
+@brief tokenize - tokenize code
+@param file_text: list of words
+@param file_name : file name 
+@param tpl : token tuple
+@return token tuple
 ============================================================================================
 '''
 
@@ -443,9 +451,10 @@ def tokenize(file_text: list[str], file_name: str, tpl: tuple) -> tuple:
 
 '''
 ============================================================================================
-General : check_identifier - check if its pointer or arithmetic
-Parameters : line: list of words, position : position in list 
-Return Value : pointer or arithmetic_op
+@brief check_identifier - check if its pointer or arithmetic
+@param line: list of words
+@param position : position in list 
+@return pointer or arithmetic_op
 ============================================================================================
 '''
 
@@ -459,9 +468,10 @@ def check_identifier(line: list[str], position: int) -> str:
 
 '''
 ============================================================================================
-General : check_for_asterisk - check if its pointer or arithmetic
-Parameters : line: list of words, position : position in list 
-Return Value : pointer or arithmetic_op
+@brief check_for_asterisk - check if its pointer or arithmetic
+@param line: list of words
+@param position : position in list 
+@return pointer or arithmetic_op
 ============================================================================================
 '''
 
@@ -497,9 +507,12 @@ def check_for_asterisk(line: list[str], position: int) -> str:
 
 '''
 ============================================================================================
-General : word_token - assign token to each word
-Parameters : line: list of words, position : position in list , file_name : file_name of text , text_pointer : line number in the written file 
-Return Value : return token
+@brief word_token - assign token to each word
+@param line: list of words
+@param position : position in list 
+@param file_name : file_name of text 
+@param text_pointer : line number in the written file 
+@return return token
 ============================================================================================
 '''
 
@@ -637,9 +650,13 @@ def word_token(line: list[str], position: int, file_name: str, text_pointer: int
 
 '''
 ============================================================================================
-General : get_str_tk - goes string for token
-Parameters : line: list of words, position : position in list , file : file_name of text , text_pointer : line number in the written file , word : which declaration it is
-Return Value : token and position
+@brief get_str_tk - goes string for token
+@param line: list of words
+@param position : position in list 
+@param file : file_name of text 
+@param text_pointer : line number in the written file 
+@param word : which declaration it is
+@return token and position
 ============================================================================================
 '''
 
@@ -656,9 +673,10 @@ def get_str_tk(line: list[str], position: int, text_pointer: int, file: str, wor
 
 '''
 ============================================================================================
-General : end_comment - goes to end of comment
-Parameters : file_text : file text , text_pointer : number of line
-Return Value : number where comment end
+@brief end_comment - goes to end of comment
+@param file_text : file text 
+@param text_pointer : number of line
+@return number where comment end
 ============================================================================================
 '''
 
@@ -678,9 +696,10 @@ def end_comment(file_text: list[str], text_pointer: int) -> int:
 
 '''
 ============================================================================================
-General : find_functions - search for functions
-Parameters : text : file text , file : file number
-Return Value : NONE
+@brief find_functions - search for functions
+@param text : file text 
+@param file : file name
+@return NONE
 ============================================================================================
 '''
 
@@ -702,9 +721,10 @@ def find_functions(text: list[str], file: str):
 
 '''
 ============================================================================================
-General : check_if_function - if the declaration is after a few lines
-Parameters : text : file text , text_pointer : line number
-Return Value : return true if its a function or false
+@brief check_if_function - if the declaration is after a few lines
+@param text : file text 
+@param text_pointer : line number
+@return return true if its a function or false
 ============================================================================================
 '''
 
@@ -722,9 +742,11 @@ def check_if_function(text: list[str], text_pointer: int) -> bool:
 
 '''
 ============================================================================================
-General : isfunction - checks if its a function declaration
-Parameters : function_line : function declaration line , text : entire file text , text_pointer : line number
-Return Value : return true if its a function or false
+@brief isfunction - checks if its a function declaration
+@param function_line : function declaration line 
+@param text : entire file text 
+@param text_pointer : line number
+@return return true if its a function or false
 ============================================================================================
 '''
 
@@ -741,9 +763,11 @@ def isfunction(function_line: list[str], text: list[str], text_pointer: int) -> 
 
 '''
 ============================================================================================
-General : extract_function - assign to each function the start of function name return type and parameters
-Parameters : function_text : list of all text in file , text_pointer : line number , file : file name
-Return Value : return the line where the function end
+@brief extract_function - assign to each function the start of function name return type and parameters
+@param function_text : list of all text in file 
+@param text_pointer : line number 
+@param file : file name
+@return return the line where the function end
 ============================================================================================
 '''
 
@@ -786,9 +810,9 @@ def extract_function(function_text: list[str], text_pointer: int, file: str) -> 
 
 '''
 ============================================================================================
-General : get_return_value - assign the return type
-Parameters : line : function declaration
-Return Value : return string of return value
+@brief get_return_value - assign the return type
+@param line : function declaration
+@return return string of return value
 ============================================================================================
 '''
 
@@ -806,9 +830,9 @@ def get_return_value(line: list[str]) -> str:
 
 '''
 ============================================================================================
-General : get_variables - search for parameter
-Parameters : variables_line : line of declaration
-Return Value : return list of variables
+@brief get_variables - search for parameter
+@param variables_line : line of declaration
+@return return list of variables
 ============================================================================================
 '''
 
@@ -836,9 +860,10 @@ def get_variables(variables_line: list[str]) -> list[Variable]:
 
 '''
 ============================================================================================
-General : search_file - search for the file
-Parameters : folder : path to folder , filename : the file we search 
-Return Value : return path
+@brief search_file - search for the file
+@param folder : path to folder 
+@param filename : the file we search 
+@return return path
 ============================================================================================
 '''
 
