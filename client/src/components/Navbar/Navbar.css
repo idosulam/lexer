@@ -40,6 +40,8 @@
     list-style: none;
     display: flex;
     gap: 1rem;
+    outline: #00FF00 solid 1px;
+    
   }
   
   .nav a {
