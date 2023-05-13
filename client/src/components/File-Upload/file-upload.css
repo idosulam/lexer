@@ -1,1 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap');
+
+.codemap {
+    width: 100%;
+    transition: all 0.3s;
+    background-image: linear-gradient(to right, #00F260, #f79dee, #0575E6, #64f38c,#e9e93e);
+   background-clip: text;
+    color: transparent;
+    background-size: 300%;
+    background-position: -100%;
+    animation: animatedText 3s infinite alternate-reverse;
+  }
+  
+  
+  
+  @keyframes animatedText {
+    to {
+      background-position: 100%;
+    }
+  }

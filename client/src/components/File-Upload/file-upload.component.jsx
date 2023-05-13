@@ -63,7 +63,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
     <>
       <FileUploadContainer>
         <InputLabel>{label}</InputLabel>
-        <DragDropText style={{marginTop: '-2rem',fontFamily : "jost",  color: '#fff'}}>Code Map</DragDropText>
+        <DragDropText className="codemap" style={{marginTop: '-2rem',fontFamily : "jost"}}>Code Map</DragDropText>
         <UploadFileBtn type="file" onClick={handleUploadBtnClick}>
           <span style={{fontFamily: 'jost'}}> Upload Files</span>
           <input
