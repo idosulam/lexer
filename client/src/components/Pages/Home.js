@@ -5,20 +5,25 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 function Home() {
+  const [loading, setloading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
   const [newUserInfo, setNewUserInfo] = useState({
     profileImages: [],
   });
+  const refresh = () =>
+    {setTimeout(function () {
+      window.location.reload();
+    }, 2000);}
 
   function handleRedirect() {
-    
+    setIsChecked(true);
     setTimeout(() => {
       const currentUrl = window.location.href;
       const newUrl = currentUrl + "projects";
       window.location.href = newUrl;
-    }, 2000);
-    
+    }, 1500);
   }
 
   const updateUploadedFiles = (files) =>
@@ -38,7 +43,16 @@ function Home() {
         },
       }).then((res) => {
         if (res.status !== 200) {
-          console.log(res);
+          toast.error(res, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         }
       });
     }
@@ -47,6 +61,18 @@ function Home() {
       return response.data;
     } catch (error) {
       console.error(error);
+      setloading(false);
+      refresh();
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -56,6 +82,18 @@ function Home() {
       return response.data;
     } catch (error) {
       console.error(error);
+      setloading(false);
+      refresh();
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -95,6 +133,8 @@ function Home() {
             progress: undefined,
             theme: "dark",
           });
+          setloading(false);
+          refresh();
         }
       } catch (error) {
         toast.error(error.message, {
@@ -107,6 +147,8 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
+        setloading(false);
+        refresh();
       }
 
       for (let i = 0; i < element.built_in_function.length - 1; i++) {
@@ -153,6 +195,8 @@ function Home() {
             progress: undefined,
             theme: "dark",
           });
+          setloading(false);
+          refresh();
         }
       }
 
@@ -178,11 +222,12 @@ function Home() {
             progress: undefined,
             theme: "dark",
           });
+          setloading(false);
+          refresh();
         }
       }
     }
   }
-
 
   const sendToDatabase = async (name, files) => {
     try {
@@ -220,6 +265,9 @@ function Home() {
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
+        setloading(false);
+        refresh();
+
         toast.error("Name already exist", {
           position: "top-center",
           autoClose: 5000,
@@ -230,8 +278,13 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
+        setloading(false);
+        refresh();
       } else {
         console.log(error);
+        setloading(false);
+        refresh();
+
         toast.error("Failed to insert project", {
           position: "top-center",
           autoClose: 5000,
@@ -245,7 +298,7 @@ function Home() {
       }
     }
   };
-  
+
   const readFileAsText = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -254,11 +307,22 @@ function Home() {
       };
       reader.onerror = (error) => {
         reject(error);
+        setloading(false);
+        refresh();
+        toast.error(error.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       };
       reader.readAsText(file);
     });
   };
-  
 
   function handleButtonClick() {
     if (newUserInfo.profileImages.length <= 0) {
@@ -279,35 +343,53 @@ function Home() {
     if (!projectName || projectName.length === 0) {
       return;
     }
+    setloading(false);
     sendToDatabase(projectName, newUserInfo.profileImages);
   }
 
   return (
     <div className="background">
-      <form onSubmit={handleSubmit} multiple={true}>
-        <FileUpload multiple updateFilesCb={updateUploadedFiles} />
-      </form>
-      <div
-       className="submit-button-background"
-      >
-        {newUserInfo.profileImages.length > 0 && (
-          <button className="button-85" onClick={handleButtonClick} >
-            submit
-          </button>
-        )}
-      </div>
       <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            
+          />
+      {loading && (
+        <div className="outPopUp">
+          <input
+            className="label_input"
+            type="checkbox"
+            id="check"
+            checked={isChecked}
+          />
+          <label className="label_loading" htmlFor="check">
+            <div className="check-icon"></div>
+          </label>
+        </div>
+      )}
+      {!loading && (
+        <div>
+          <form onSubmit={handleSubmit} multiple={true}>
+            <FileUpload multiple updateFilesCb={updateUploadedFiles} />
+          </form>
+          <div className="submit-button-background">
+            {newUserInfo.profileImages.length > 0 && (
+              <button className="button-85" onClick={handleButtonClick}>
+                submit
+              </button>
+            )}
+          </div>
+          
+        </div>
+      )}
     </div>
   );
 }
