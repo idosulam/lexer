@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import Axios from "axios";
-import Switch from "react-switch";
-import { AiFillInfoCircle ,AiFillCloseCircle,AiOutlineClear} from "react-icons/ai";
+import { AiFillInfoCircle ,AiOutlineClear} from "react-icons/ai";
 import "./graph.css";
-function Graph(props) {
+function Graph({tree,projectName,onSetWantedFile}) {
   const [isActive, setIsActive] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [showfile, setShowfile] = useState(false);
-  const [file_content, setfile_content] = useState("");
-
-  const jsonTree = props.tree;
-  const projectname = props.projectName;
+  const jsonTree = tree;
+  const projectname = projectName;
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [boxdata, setboxdata] = useState(false);
-
+  
   const [file, setFile] = useState("");
   const [table_list, settable_list] = useState([]);
 
@@ -227,17 +223,8 @@ function Graph(props) {
   }, [selectedOptions, projectname]);
 
   async function handleclick(project_name, filename) {
-    if (showfile === false) {
-      await Axios.get(
-        `http://localhost:3001/api/search_file_show?project_name=${project_name}&file_name=${filename}`
-      ).then((response) => {
-        setfile_content(response.data[0]["file"]);
-        setShowfile(!showfile);
-      });
-    }
-    
-      setShowfile(!showfile);
-    
+    onSetWantedFile(filename);
+
   }
 
   function updatecolor(nodeDatum) {
@@ -757,27 +744,6 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         )}
       </div>
 
-      {showfile && <div className="popup-info-search">
-        <button onClick={()=>setShowfile(!showfile)} style={{backgroundColor: 'transparent',cursor: 'pointer'}}><AiFillCloseCircle
-          style={{ color: "white", height: "40px", width: "50px" }}
-        /></button>
-      <pre style={{ fontFamily: "jost" }}>
-            {file_content.split("\n").map((line, i) => (
-              <div key={i}>
-                <code
-                  className="line-number"
-                  style={{ color: "#fff", fontFamily: "jost" }}
-                >{`${i + 1}.`}</code>
-                <code
-                  className="code-line"
-                  style={{ color: "#fff", fontFamily: "jost" }}
-                >
-                  {line}
-                </code>
-              </div>
-            ))}
-          </pre>
-        </div>}
     </>
   );
 }

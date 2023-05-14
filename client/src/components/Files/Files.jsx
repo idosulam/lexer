@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Files.css";
 import { FaArrowAltCircleDown, FaArrowAltCircleRight } from "react-icons/fa";
+
 function Files(props) {
   const [srcFiles, setsrcFiles] = useState([]);
   const [headerFiles, setheaderFiles] = useState([]);
@@ -9,11 +10,7 @@ function Files(props) {
   const [headerDropdown, setHeaderDropdown] = useState(false);
   const [srcdropdown, setsrcdropdown] = useState(false);
 
-  const updateFileContentheader = (index) => {
-    const file = headerFiles[index];
-    setSelectedFile(file.file_name);
-    setFileContent(file.file);
-  };
+  // Set header and src files
   useEffect(() => {
     const headerFilesprops = props.files.filter((file) =>
       file.file_name.endsWith(".h")
@@ -24,8 +21,24 @@ function Files(props) {
 
     setheaderFiles(headerFilesprops);
     setsrcFiles(srcFilesprops);
-  }, [props.files]);
+  }, [props]);
 
+  // Set selected file
+  useEffect(() => {
+    if (selectedFile === "" && srcFiles.length > 0 && props.wanted_file) {
+      const file = srcFiles.find((file) => file.file_name === props.wanted_file);
+      if (file) {
+        setSelectedFile(file.file_name);
+        setFileContent(file.file);
+      }
+    }
+  }, [srcFiles, selectedFile, props.wanted_file]);
+
+  const updateFileContentheader = (index) => {
+    const file = headerFiles[index];
+    setSelectedFile(file.file_name);
+    setFileContent(file.file);
+  };
 
   const updateFileContentsrc = (index) => {
     const file = srcFiles[index];
