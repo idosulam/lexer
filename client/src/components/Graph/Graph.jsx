@@ -111,6 +111,8 @@ function Graph(props) {
 
   const handleValueChange = (e, index) => {
     const { name, value } = e.target;
+    if (value <= -1)
+    return;
     setList((prevList) => {
       const newList = [...prevList];
       newList[index] = { ...newList[index], [name]: value };
@@ -679,9 +681,10 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                                 style={{ fontFamily: "jost" }}
                                 required
                                 type="number"
+                                min= {0}
                                 name="value"
                                 value={item.value}
-                                onChange={(e) => handleValueChange(e, index)}
+                                onChange={(e) =>handleValueChange(e, index)}
                               />
                               <span style={{ fontFamily: "jost" }}>
                                 Enter Value
