@@ -11,6 +11,7 @@ function Show() {
   const [jsonTree, setJsonTree] = useState(null);
   const [selectedItem, setSelectedItem] = useState("Files");
   const [wanted_file, setWantedFile] = useState("main.c");
+  const [selectedfunction, setselectfunction] = useState("main");
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const projectName = params.get("project_name");
@@ -39,10 +40,11 @@ function Show() {
 
   const handleSidebarItemClick = (item) => {
     setWantedFile('')
+    setselectfunction('')
     setSelectedItem(item);
   };
-  const handleSetWantedFile = (file) => {
-    
+  const handleSetWantedFile = (function_name,file) => {
+    setselectfunction(function_name)
     setWantedFile(file);
   };
 
@@ -61,7 +63,7 @@ function Show() {
         <div className="title-page">Project Name : {projectName}</div>
         <div className="content">
           {selectedItem === "Files" && (
-            <Files files={file_list} wanted_file={wanted_file} />
+            <Files files={file_list} wanted_file={wanted_file} selectedfunction={selectedfunction} />
           )}
           {selectedItem === "Graph" && (
             <Graph

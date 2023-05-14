@@ -222,8 +222,8 @@ function Graph({tree,projectName,onSetWantedFile}) {
     extract_from_db();
   }, [selectedOptions, projectname]);
 
-  async function handleclick(project_name, filename) {
-    onSetWantedFile(filename);
+  async function handleclick(function_name, filename) {
+    onSetWantedFile(function_name,filename);
 
   }
 
@@ -237,7 +237,7 @@ function Graph({tree,projectName,onSetWantedFile}) {
       return (
         <g
           onClick={() => {
-            handleclick(projectname, regex.exec(nodeDatum.nodeDatum.file)[0]);
+            handleclick(nodeDatum.nodeDatum.name, regex.exec(nodeDatum.nodeDatum.file)[0]);
           }}
         >
           <circle className="object" fill={color} r="20" />
@@ -250,7 +250,7 @@ function Graph({tree,projectName,onSetWantedFile}) {
       return (
         <g
           onClick={() => {
-            handleclick(projectname, regex.exec(nodeDatum.nodeDatum.file)[0]);
+            handleclick(nodeDatum.nodeDatum.name, regex.exec(nodeDatum.nodeDatum.file)[0]);
           }}
         >
           <circle fill={color} r="20" />
@@ -332,7 +332,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
     <>
       <label className="button"  style={{ position: "relative", left: "96%", top: "-4px" }}>
   <input id="toggle" type="checkbox" onChange={handleSwitchChange} checked={isChecked}/>
-  <span class="slider"></span>
+  <span className="slider"></span>
       </label>
       <label
         style={{ position: "relative", marginLeft: "60px", cursor: "pointer" }}

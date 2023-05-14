@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Files.css";
 import { FaArrowAltCircleDown, FaArrowAltCircleRight } from "react-icons/fa";
 
@@ -9,6 +9,7 @@ function Files(props) {
   const [fileContent, setFileContent] = useState("");
   const [headerDropdown, setHeaderDropdown] = useState(false);
   const [srcdropdown, setsrcdropdown] = useState(false);
+  const myRef = useRef(null);
 
   // Set header and src files
   useEffect(() => {
@@ -26,10 +27,17 @@ function Files(props) {
   // Set selected file
   useEffect(() => {
     if (selectedFile === "" && srcFiles.length > 0 && props.wanted_file) {
-      const file = srcFiles.find((file) => file.file_name === props.wanted_file);
+      const file = srcFiles.find(
+        (file) => file.file_name === props.wanted_file
+      );
       if (file) {
         setSelectedFile(file.file_name);
         setFileContent(file.file);
+        setTimeout(() => {
+          myRef.current.scrollIntoView({ behavior: 'smooth' });
+
+        }, 1000);
+
       }
     }
   }, [srcFiles, selectedFile, props.wanted_file]);
@@ -136,12 +144,23 @@ function Files(props) {
                   className="line-number"
                   style={{ color: "#fff", fontFamily: "jost" }}
                 >{`${i + 1}.`}</code>
-                <code
-                  className="code-line"
-                  style={{ color: "#fff", fontFamily: "jost" }}
-                >
-                  {line}
-                </code>
+                
+                {line.match(props.selectedfunction) &&
+                (line.endsWith(")") || line.endsWith("{")) ? (
+                  <code
+                  ref={myRef}
+                    style={{ color: "black", fontFamily: "jost",backgroundColor: "#fff"}}
+                  >
+                    {line}
+                  </code>
+                ) : (
+                  <code
+                    className="code-line"
+                    style={{ color: "#fff", fontFamily: "jost" }}
+                  >
+                    {line}
+                  </code>
+                )}
               </div>
             ))}
           </pre>
