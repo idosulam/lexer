@@ -5,6 +5,8 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { animateScroll as scrollAnimate } from 'react-scroll';
+
 function Home() {
   const [loading, setloading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -24,11 +26,25 @@ function Home() {
       const newUrl = currentUrl + "projects";
       window.location.href = newUrl;
     }, 1500);
+
   }
 
-  const updateUploadedFiles = (files) =>
+  const updateUploadedFiles = (files) =>{
     setNewUserInfo({ ...newUserInfo, profileImages: files });
+    setTimeout(() => {
+      scrollToButton();
 
+    },500)
+
+  }
+
+  const scrollToButton = () => {
+    scrollAnimate.scrollToBottom({
+      duration: 1000,
+      smooth: 'smooth',
+      offset: -100
+    });
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
   };
@@ -266,8 +282,6 @@ function Home() {
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setloading(false);
-        refresh();
-
         toast.error("Name already exist", {
           position: "top-center",
           autoClose: 5000,
@@ -343,7 +357,7 @@ function Home() {
     if (!projectName || projectName.length === 0) {
       return;
     }
-    setloading(false);
+    setloading(true);
     sendToDatabase(projectName, newUserInfo.profileImages);
   }
 
@@ -382,9 +396,19 @@ function Home() {
           </form>
           <div className="submit-button-background">
             {newUserInfo.profileImages.length > 0 && (
-              <button className="button-85" onClick={handleButtonClick}>
-                submit
+
+              <div className="light-button">
+              <button className="bt"  onClick={handleButtonClick}>
+                  <div className="light-holder">
+                      <div className="dot"></div>
+                      <div className="light"></div>
+                  </div>
+                  <div className="button-holder">
+                      
+                      <p>submit</p>
+                  </div>
               </button>
+          </div>
             )}
           </div>
           

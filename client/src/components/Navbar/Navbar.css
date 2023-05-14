@@ -40,8 +40,8 @@
     list-style: none;
     display: flex;
     gap: 1rem;
-    outline: #00FF00 solid 1px;
-    
+    border: 3px ridge #00FF00;
+
   }
   
   .nav a {
@@ -53,12 +53,39 @@
     padding: .25rem;
   }
   
-  .nav li.active {
-    color: #00FF00;
+  .nav ul::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    width: 4.5%;
+    left: 94%;
+    height: 2%;
+    background-color: #333;
+    transition: 0.5s;
+    transform-origin: center;
+  }
+
+  .nav ul::before {
+    content: "";
+    transform-origin: center;
+    position: absolute;
+    width: 4.5%;
+    left: 94%;
+    height: 1.2%;
+    top: 5%;
+    background-color: #333;
+    transition: 0.5s;
+  }
+
+  .nav ul:hover::before, .nav ul:hover::after {
+    transform: scale(0)
+  }
+
+  .nav ul:hover , .nav li.active {
+    box-shadow: inset 0px 0px 25px #00FF00;
   }
   
-  .nav li:hover {
-    background-color: #000;
-    color: #00FF00;
+ .nav li.active{
+  box-shadow: inset 0px 0px 25px #00FF00;
 
-  }
+}

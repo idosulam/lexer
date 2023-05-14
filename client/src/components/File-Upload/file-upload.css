@@ -18,3 +18,65 @@
       background-position: 100%;
     }
   }
+
+
+
+  .delete {
+    width: 150px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: black;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #000;
+   }
+   
+   .delete, .delete span {
+    transition: 200ms;
+   }
+   
+   .delete .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+   }
+   
+   .delete .icon {
+    position: absolute;
+    border-left: 1px solid #000;
+    transform: translateX(110px);
+    height: 10px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   .delete svg {
+    width: 15px;
+   }
+   
+   .delete:hover {
+    background: #ff3636;
+   }
+   
+   .delete:hover .text {
+    color: transparent;
+   }
+   
+   .delete:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+   }
+   
+   .delete:focus {
+    outline: none;
+   }
+   
+   .delete:active .icon svg {
+    transform: scale(0.8);
+   }
