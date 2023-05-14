@@ -343,8 +343,9 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
   };
   return (
     <>
-      <label style={{ position: "relative", left: "96%", top: "-4px" }}>
-        <Switch onChange={handleSwitchChange} checked={isChecked} />
+      <label className="button"  style={{ position: "relative", left: "96%", top: "-4px" }}>
+  <input id="toggle" type="checkbox" onChange={handleSwitchChange} checked={isChecked}/>
+  <span class="slider"></span>
       </label>
       <label
         style={{ position: "relative", marginLeft: "60px", cursor: "pointer" }}
