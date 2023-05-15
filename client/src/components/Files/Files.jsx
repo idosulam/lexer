@@ -53,6 +53,7 @@ function Files(props) {
     setSelectedFile(file.file_name);
     setFileContent(file.file);
   };
+  
 
   return (
     <div style={{ paddingLeft: "140px", paddingTop: "30px" }}>
