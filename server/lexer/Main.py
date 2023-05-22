@@ -6,8 +6,10 @@ from flask_cors import CORS
 import shutil
 from werkzeug.utils import secure_filename
 from Data_add import *
+
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route('/tree', methods=['GET'])
 def generate_tree():
