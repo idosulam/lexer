@@ -516,8 +516,7 @@ app.get("/api/variable_search", (req, res) => {
 app.get("/api/search_file_show", (req, res) => {
   const project_name = req.query.project_name;
   const file_name = req.query.file_name;
-  const sqlsearch =
-  `select file from project.files_table WHERE file_name = '${file_name}' and project_name = '${project_name}'`;
+  const sqlsearch = `select file from project.files_table WHERE file_name = '${file_name}' and project_name = '${project_name}'`;
   db.query(sqlsearch, [], (err, result) => {
     if (err) {
       res.send({ error: "Error executing the query" });
@@ -555,6 +554,76 @@ app.get("/api/search_built_in_function", (req, res) => {
     }
   });
 });
+
+app.post("/api/insert_query", (req, res) => {
+  const query_name = req.body.query_name;
+  const query_checked_functions = JSON.stringify(
+    req.body.query_checked_functions
+  );
+  const querylist = JSON.stringify(req.body.querylist);
+  const projectName = req.body.projectName;
+  
+
+
+  const sqlInsert =
+    "INSERT INTO project.query_history (query_project_name,query_name,query_json,query_functions) VALUES (?,?,?,?);";
+
+  db.query(
+    sqlInsert,
+    [projectName,query_name, querylist , query_checked_functions],
+    (err, result) => {
+      if (err) {
+        if (err.errno === 1062) {
+          res.status(409).send({ error: "Enter new query name" });
+        } else {
+          console.log(err);
+          res.status(400).send({ error: "Failed to insert project" });
+        }
+      } else {
+        res.status(200).send({ message: "Project inserted successfully" });
+      }
+    }
+  );
+});
+
+app.get("/api/get_query_from_db", (req, res) => {
+  const search_query_project = req.query.project_name;
+  const sqlsearch =
+    "select * from project.query_history WHERE query_project_name like ?";
+  db.query(sqlsearch, [`%${search_query_project}%`], (err, result) => {
+    res.send(result);
+  });
+
+
+});
+
+app.delete("/api/deletequery/:query_id", (req, res) => {
+  const query_id = req.params.query_id;
+  const sqldelete = "DELETE FROM project.query_history WHERE id = ?;";
+  db.query(sqldelete, [query_id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete query" });
+    } else {
+      res.status(200).send({ message: "Query deleted successfully" });
+    }
+  });
+});
+
+app.delete("/api/deletequeryname/:query_project_name", (req, res) => {
+  const query_project_name = req.params.query_project_name;
+  const sqldelete = "DELETE FROM project.query_history WHERE query_project_name = ?;";
+  db.query(sqldelete, [query_project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete query" });
+    } else {
+      res.status(200).send({ message: "Query deleted successfully" });
+    }
+  });
+});
+
+
 
 app.listen(3001, () => {
   console.log("Server listening on port 3001");

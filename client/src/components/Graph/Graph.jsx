@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import Axios from "axios";
-import { AiFillInfoCircle ,AiOutlineClear} from "react-icons/ai";
+import { AiFillInfoCircle, AiOutlineClear } from "react-icons/ai";
 import "./graph.css";
-function Graph({tree,projectName,onSetWantedFile}) {
+
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+function Graph({ tree, projectName, onSetWantedFile }) {
   const [isActive, setIsActive] = useState(false);
+  const [loading, setloading] = useState(false);
+  const [message, setmessage] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
   const jsonTree = tree;
   const projectname = projectName;
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [boxdata, setboxdata] = useState(false);
+  const [query_from_db, set_query_from_db] = useState([]);
+  const [selected_index, set_selected_index] = useState(0);
+
+const [show_remove_configuration,set_show_remove_configuration] = useState(false);
   
   const [file, setFile] = useState("");
   const [table_list, settable_list] = useState([]);
@@ -107,13 +116,34 @@ function Graph({tree,projectName,onSetWantedFile}) {
 
   const handleValueChange = (e, index) => {
     const { name, value } = e.target;
-    if (value <= -1)
-    return;
+    if (value <= -1) return;
     setList((prevList) => {
       const newList = [...prevList];
       newList[index] = { ...newList[index], [name]: value };
       return newList;
     });
+  };
+  const handle_query_configuration = (e) => {
+    const selectedIndex = e.target.selectedIndex - 1;
+    
+    if (selectedIndex <= -1){
+    
+     set_show_remove_configuration(false)
+      return;
+    }  
+    set_selected_index(selectedIndex)
+    set_show_remove_configuration(true)
+    setmessage("loading configuration")
+    const chosen_query = query_from_db[selectedIndex];
+    let new_list = [];
+    for (const chosen_query_function of JSON.parse(
+      chosen_query.query_functions
+    )) {
+      const new_function_name = `${chosen_query_function}`;
+      new_list.push(new_function_name);
+    }
+    setSelectedOptions(new_list);
+    setList(JSON.parse(chosen_query.query_json));
   };
 
   const handleconditionChange = (e, index) => {
@@ -152,6 +182,9 @@ function Graph({tree,projectName,onSetWantedFile}) {
   }
   useEffect(() => {
     async function extract_from_db() {
+      if (!message.length)
+      setmessage("updating query search options")
+      setloading(true);
       let return_type_list = [];
       let variables_list = [];
       let parameter_list = [];
@@ -218,13 +251,14 @@ function Graph({tree,projectName,onSetWantedFile}) {
       );
       set_parameters_list(Array.from(new Set(parameter_list)));
       set_variable_list(Array.from(new Set(variables_list)));
+      setloading(false)
+      setmessage("")
     }
     extract_from_db();
   }, [selectedOptions, projectname]);
 
   async function handleclick(function_name, filename) {
-    onSetWantedFile(function_name,filename);
-
+    onSetWantedFile(function_name, filename);
   }
 
   function updatecolor(nodeDatum) {
@@ -237,7 +271,10 @@ function Graph({tree,projectName,onSetWantedFile}) {
       return (
         <g
           onClick={() => {
-            handleclick(nodeDatum.nodeDatum.name, regex.exec(nodeDatum.nodeDatum.file)[0]);
+            handleclick(
+              nodeDatum.nodeDatum.name,
+              regex.exec(nodeDatum.nodeDatum.file)[0]
+            );
           }}
         >
           <circle className="object" fill={color} r="20" />
@@ -250,7 +287,10 @@ function Graph({tree,projectName,onSetWantedFile}) {
       return (
         <g
           onClick={() => {
-            handleclick(nodeDatum.nodeDatum.name, regex.exec(nodeDatum.nodeDatum.file)[0]);
+            handleclick(
+              nodeDatum.nodeDatum.name,
+              regex.exec(nodeDatum.nodeDatum.file)[0]
+            );
           }}
         >
           <circle fill={color} r="20" />
@@ -261,6 +301,17 @@ function Graph({tree,projectName,onSetWantedFile}) {
       );
     }
   }
+
+  useEffect(() => {
+    Axios.get(
+      `http://localhost:3001/api/get_query_from_db?project_name=${projectName}`
+    ).then((response) => {
+      if (response.status === 200) {
+        set_query_from_db(response.data);
+      }
+    });
+  }, [set_query_from_db, projectName]);
+
   async function createquery(list) {
     const promises = [];
     for (let index = 0; index < selectedOptions.length; index++) {
@@ -327,12 +378,156 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       if (!field.value || !field.parameter || !field.condition) return;
     }
     createquery(list);
+    reloadquery();
   };
+  const reloadquery = () => {
+    Axios.get(
+      `http://localhost:3001/api/get_query_from_db?project_name=${projectName}`
+    ).then((response) => {
+      if (response.status === 200) {
+        set_query_from_db(response.data);
+      }
+    });
+  };
+  async function savequery(checked_functions, list) {
+    reloadquery();
+    const query_name = prompt("Please enter a query name:");
+    if (!query_name || query_name.length === 0) {
+      return;
+    }
+    try {
+      const response = await Axios.post(
+        "http://localhost:3001/api/insert_query",
+        {
+          query_name: query_name,
+          query_checked_functions: checked_functions,
+          querylist: list,
+          projectName: projectName,
+        }
+      );
+      if (response.status === 200) {
+        toast.success("query saved successfully ", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        toast.error("query name already exist", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        console.log(error);
+
+        toast.error("Failed to save query", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    }
+    reloadquery();
+  }
+  const handle_Remove_Configuration = () => {
+    Axios.delete(`http://localhost:3001/api/deletequery/${query_from_db[selected_index].id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Query deleted successfully", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          reloadquery();
+        } else {
+          toast.error("Failed to delete query", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Failed to delete query", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      });
+  };
+  
+  const handlequerysave = () => {
+    if (selectedOptions.length === 0) {
+      return;
+    }
+    for (let i = 0; i < list.length; i++) {
+      const field = list[i];
+      if (list.length - 1 === i) {
+        field.condition = "and";
+      }
+      if (!field.value || !field.parameter || !field.condition) return;
+    }
+    savequery(selectedOptions, list);
+  };
+
   return (
     <>
-      <label className="button"  style={{ position: "relative", left: "96%", top: "-4px" }}>
-  <input id="toggle" type="checkbox" onChange={handleSwitchChange} checked={isChecked}/>
-  <span className="slider"></span>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <label
+        className="button"
+        style={{ position: "relative", left: "96%", top: "-4px" }}
+      >
+        <input
+          id="toggle"
+          type="checkbox"
+          onChange={handleSwitchChange}
+          checked={isChecked}
+        />
+        <span className="slider"></span>
       </label>
       <label
         style={{ position: "relative", marginLeft: "60px", cursor: "pointer" }}
@@ -344,7 +539,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       </label>
       <label
         style={{ position: "relative", marginLeft: "80px", cursor: "pointer" }}
-        onClick={()=>setMatchingQuery([])}
+        onClick={() => setMatchingQuery([])}
       >
         <AiOutlineClear
           style={{ color: "white", height: "40px", width: "50px" }}
@@ -669,10 +864,10 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                                 style={{ fontFamily: "jost" }}
                                 required
                                 type="number"
-                                min= {0}
+                                min={0}
                                 name="value"
                                 value={item.value}
-                                onChange={(e) =>handleValueChange(e, index)}
+                                onChange={(e) => handleValueChange(e, index)}
                               />
                               <span style={{ fontFamily: "jost" }}>
                                 Enter Value
@@ -739,11 +934,90 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
               >
                 Submit
               </button>
+              <button
+                style={{
+                  marginTop: "20px",
+                  fontFamily: "jost",
+                  marginLeft: "1.5rem",
+                }}
+                className="button-28"
+                onClick={handlequerysave}
+              >
+                save_query
+              </button>
+
+              <select
+                style={{ marginLeft: "1.5rem" }}
+                onChange={(e) => handle_query_configuration(e)}
+              >
+                <option value="">choose search configartion</option>
+
+                {query_from_db.map((item, index) => (
+                  <option value={item.query_name} key={index}>
+                    {item.query_name}
+                  
+                  </option>
+
+                ))}
+                
+              </select>
+
+              
             </div>
+            { show_remove_configuration && (
+                
+                <button
+                className="button-28"
+                onClick={() => handle_Remove_Configuration()}
+                style={{ fontFamily: "jost",marginLeft: '46rem',width: '18rem', marginTop: '1.5rem' }}
+              >
+                remove_configuration
+              </button>
+)}
           </div>
         )}
       </div>
 
+      {loading && (
+        <div className="outPopUp">
+          
+  <div className="gearbox">
+  <div className="overlay"></div>
+    <div className="gear one">
+      <div className="gear-inner">
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+    </div>
+    <div className="gear two">
+      <div className="gear-inner">
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+    </div>
+    <div className="gear three">
+      <div className="gear-inner">
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+    </div>
+    <div className="gear four large">
+      <div className="gear-inner">
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+    </div>
+  </div>
+<p style={{font: 'jost', color:'white'}}>{message}</p>
+        </div>
+      )}
     </>
   );
 }

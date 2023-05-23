@@ -152,7 +152,15 @@ function Projects() {
       }
     });
   }
+function deletequery(project_name)  {
+  Axios.delete(`http://localhost:3001/api/deletequeryname/${project_name}`).then
+  ((response) => {
+  if (response.status !== 200) {
+  console.log(response);
+  }
+  })
 
+}
   function delete_project(project) {
     Axios.delete(`http://localhost:3001/api/delete/${project.project_name}`)
       .then((response) => {
@@ -163,6 +171,7 @@ function Projects() {
           deletevariables(project.project_name);
           deleteparameter(project.project_name);
           delete_built_in_functions(project.project_name);
+          deletequery(project.project_name);
           toast.success("Project deleted successfully", {
             position: "top-center",
             autoClose: 5000,
