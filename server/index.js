@@ -610,6 +610,21 @@ app.delete("/api/deletequery/:query_id", (req, res) => {
   });
 });
 
+app.delete("/api/deletequeryname/:query_project_name", (req, res) => {
+  const query_project_name = req.params.query_project_name;
+  const sqldelete = "DELETE FROM project.query_history WHERE query_project_name = ?;";
+  db.query(sqldelete, [query_project_name], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send({ error: "Failed to delete query" });
+    } else {
+      res.status(200).send({ message: "Query deleted successfully" });
+    }
+  });
+});
+
+
+
 app.listen(3001, () => {
   console.log("Server listening on port 3001");
 });
