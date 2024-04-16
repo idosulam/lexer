@@ -19,8 +19,9 @@ function Graph({ tree, projectName, onSetWantedFile }) {
   const [query_from_db, set_query_from_db] = useState([]);
   const [selected_index, set_selected_index] = useState(0);
 
-const [show_remove_configuration,set_show_remove_configuration] = useState(false);
-  
+  const [show_remove_configuration, set_show_remove_configuration] =
+    useState(false);
+
   const [file, setFile] = useState("");
   const [table_list, settable_list] = useState([]);
 
@@ -125,15 +126,14 @@ const [show_remove_configuration,set_show_remove_configuration] = useState(false
   };
   const handle_query_configuration = (e) => {
     const selectedIndex = e.target.selectedIndex - 1;
-    
-    if (selectedIndex <= -1){
-    
-     set_show_remove_configuration(false)
+
+    if (selectedIndex <= -1) {
+      set_show_remove_configuration(false);
       return;
-    }  
-    set_selected_index(selectedIndex)
-    set_show_remove_configuration(true)
-    setmessage("loading configuration")
+    }
+    set_selected_index(selectedIndex);
+    set_show_remove_configuration(true);
+    setmessage("loading configuration");
     const chosen_query = query_from_db[selectedIndex];
     let new_list = [];
     for (const chosen_query_function of JSON.parse(
@@ -182,8 +182,7 @@ const [show_remove_configuration,set_show_remove_configuration] = useState(false
   }
   useEffect(() => {
     async function extract_from_db() {
-      if (!message.length)
-      setmessage("updating query search options")
+      if (!message.length) setmessage("updating query search options");
       setloading(true);
       let return_type_list = [];
       let variables_list = [];
@@ -251,8 +250,8 @@ const [show_remove_configuration,set_show_remove_configuration] = useState(false
       );
       set_parameters_list(Array.from(new Set(parameter_list)));
       set_variable_list(Array.from(new Set(variables_list)));
-      setloading(false)
-      setmessage("")
+      setloading(false);
+      setmessage("");
     }
     extract_from_db();
   }, [selectedOptions, projectname]);
@@ -447,7 +446,9 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
     reloadquery();
   }
   const handle_Remove_Configuration = () => {
-    Axios.delete(`http://localhost:3001/api/deletequery/${query_from_db[selected_index].id}`)
+    Axios.delete(
+      `http://localhost:3001/api/deletequery/${query_from_db[selected_index].id}`
+    )
       .then((response) => {
         if (response.status === 200) {
           toast.success("Query deleted successfully", {
@@ -488,7 +489,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
         });
       });
   };
-  
+
   const handlequerysave = () => {
     if (selectedOptions.length === 0) {
       return;
@@ -955,67 +956,65 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
                 {query_from_db.map((item, index) => (
                   <option value={item.query_name} key={index}>
                     {item.query_name}
-                  
                   </option>
-
                 ))}
-                
               </select>
-
-              
             </div>
-            { show_remove_configuration && (
-                
-                <button
+            {show_remove_configuration && (
+              <button
                 className="button-28"
                 onClick={() => handle_Remove_Configuration()}
-                style={{ fontFamily: "jost",marginLeft: '46rem',width: '18rem', marginTop: '1.5rem' }}
+                style={{
+                  fontFamily: "jost",
+                  marginLeft: "46rem",
+                  width: "18rem",
+                  marginTop: "1.5rem",
+                }}
               >
                 remove_configuration
               </button>
-)}
+            )}
           </div>
         )}
       </div>
 
       {loading && (
         <div className="outPopUp">
-          
-  <div className="gearbox">
-  <div className="overlay"></div>
-    <div className="gear one">
-      <div className="gear-inner">
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </div>
-    </div>
-    <div className="gear two">
-      <div className="gear-inner">
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </div>
-    </div>
-    <div className="gear three">
-      <div className="gear-inner">
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </div>
-    </div>
-    <div className="gear four large">
-      <div className="gear-inner">
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
-      </div>
-    </div>
-  </div>
-<p style={{font: 'jost', color:'white'}}>{message}</p>
+          <div className="gearbox">
+            <div className="overlay"></div>
+            <div className="gear one">
+              <div className="gear-inner">
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+              </div>
+            </div>
+            <div className="gear two">
+              <div className="gear-inner">
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+              </div>
+            </div>
+            <div className="gear three">
+              <div className="gear-inner">
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+              </div>
+            </div>
+            <div className="gear four large">
+              <div className="gear-inner">
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+                <div className="bar"></div>
+              </div>
+            </div>
+          </div>
+          <p style={{ font: "jost", color: "white" }}>{message}</p>
         </div>
       )}
     </>

@@ -5,7 +5,7 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { animateScroll as scrollAnimate } from 'react-scroll';
+import { animateScroll as scrollAnimate } from "react-scroll";
 
 function Home() {
   const [loading, setloading] = useState(false);
@@ -14,41 +14,64 @@ function Home() {
   const [newUserInfo, setNewUserInfo] = useState({
     profileImages: [],
   });
-  const refresh = () =>
-    {setTimeout(function () {
-      window.location.reload();
-    }, 2000);}
+  const [projectName, setProjectName] = useState("");
 
-  function handleRedirect() {
+  function handleProjectNameChange(event) {
+    setProjectName(event.target.value);
+  }
+  const [IspopupOpen, SetIsPopupOpen] = useState(false);
+
+  const open_popup = () => {
+    SetIsPopupOpen(true);
+  };
+
+  const close_popup = () => {
+    SetIsPopupOpen(false);
+  };
+
+  const refresh = () => {
+    setTimeout(function () {
+      window.location.reload();
+    }, 2000);
+  };
+
+  function handle_redirect() {
     setIsChecked(true);
     setTimeout(() => {
       const currentUrl = window.location.href;
       const newUrl = currentUrl + "projects";
       window.location.href = newUrl;
     }, 1500);
-
   }
 
-  const updateUploadedFiles = (files) =>{
+  const updateUploadedFiles = (files) => {
     setNewUserInfo({ ...newUserInfo, profileImages: files });
     setTimeout(() => {
       scrollToButton();
-
-    },500)
-
-  }
+    }, 500);
+  };
 
   const scrollToButton = () => {
     scrollAnimate.scrollToBottom({
       duration: 1000,
-      smooth: 'smooth',
-      offset: -100
+      smooth: "smooth",
+      offset: -100,
     });
-  }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+  const handlepopupSubmit = (event) => {
+    close_popup();
+
+    if (!projectName || projectName.length === 0) {
+      return;
+    }
+
+    setloading(true);
+    sendToDatabase(projectName, newUserInfo.profileImages);
+  };
   const sendAPI = async (files) => {
     for (const file of files) {
       const formData = new FormData();
@@ -72,6 +95,7 @@ function Home() {
         }
       });
     }
+
     try {
       const response = await Axios.get("http://localhost:5000/tree");
       return response.data;
@@ -252,6 +276,7 @@ function Home() {
       });
       if (response.status === 200) {
         const json_tree = await sendAPI(files);
+        console.log(json_tree);
         const data_list = await recv_data();
         await Promise.all([
           upload_data_list(data_list, name),
@@ -267,7 +292,6 @@ function Home() {
             });
           })
         );
-        handleRedirect();
         toast.success("Project inserted successfully redirecting...", {
           position: "top-center",
           autoClose: 5000,
@@ -278,6 +302,7 @@ function Home() {
           progress: undefined,
           theme: "dark",
         });
+        handle_redirect();
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -353,29 +378,23 @@ function Home() {
       return;
     }
 
-    const projectName = prompt("Please enter a project name:");
-    if (!projectName || projectName.length === 0) {
-      return;
-    }
-    setloading(true);
-    sendToDatabase(projectName, newUserInfo.profileImages);
+    open_popup();
   }
 
   return (
     <div className="background">
       <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-            
-          />
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {loading && (
         <div className="outPopUp">
           <input
@@ -396,22 +415,35 @@ function Home() {
           </form>
           <div className="submit-button-background">
             {newUserInfo.profileImages.length > 0 && (
-
               <div className="light-button">
-              <button className="bt"  onClick={handleButtonClick}>
+                <button className="bt" onClick={handleButtonClick}>
                   <div className="light-holder">
-                      <div className="dot"></div>
-                      <div className="light"></div>
+                    <div className="dot"></div>
+                    <div className="light"></div>
                   </div>
                   <div className="button-holder">
-                      
-                      <p>submit</p>
+                    <p>submit</p>
                   </div>
-              </button>
-          </div>
+                </button>
+              </div>
             )}
           </div>
-          
+        </div>
+      )}
+      {IspopupOpen && (
+        <div className="popup-container">
+          <div className="popup">
+            <a className="closePopUp" onClick={close_popup}>
+              X
+            </a>
+            <input
+              type="text"
+              value={projectName}
+              onChange={handleProjectNameChange}
+              placeholder="Enter project name"
+            />
+            <button onClick={handlepopupSubmit}>Submit</button>
+          </div>
         </div>
       )}
     </div>

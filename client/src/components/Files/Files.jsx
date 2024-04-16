@@ -34,10 +34,8 @@ function Files(props) {
         setSelectedFile(file.file_name);
         setFileContent(file.file);
         setTimeout(() => {
-          myRef.current.scrollIntoView({ behavior: 'smooth' });
-
+          myRef.current.scrollIntoView({ behavior: "smooth" });
         }, 1000);
-
       }
     }
   }, [srcFiles, selectedFile, props.wanted_file]);
@@ -53,7 +51,6 @@ function Files(props) {
     setSelectedFile(file.file_name);
     setFileContent(file.file);
   };
-  
 
   return (
     <div style={{ paddingLeft: "140px", paddingTop: "30px" }}>
@@ -145,12 +142,16 @@ function Files(props) {
                   className="line-number"
                   style={{ color: "#fff", fontFamily: "jost" }}
                 >{`${i + 1}.`}</code>
-                
+
                 {line.match(props.selectedfunction) &&
                 (line.endsWith(")") || line.endsWith("{")) ? (
                   <code
-                  ref={myRef}
-                    style={{ color: "black", fontFamily: "jost",backgroundColor: "#fff"}}
+                    ref={myRef}
+                    style={{
+                      color: "black",
+                      fontFamily: "jost",
+                      backgroundColor: "#fff",
+                    }}
                   >
                     {line}
                   </code>

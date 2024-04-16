@@ -1,14 +1,12 @@
 import styled from "styled-components";
 export const FileUploadContainer = styled.section`
-
   position: relative;
   padding: 35px 20px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  `;
-
+`;
 
 export const InputLabel = styled.label`
   top: -21px;
@@ -31,7 +29,7 @@ export const UploadFileBtn = styled.button`
   color: #fff;
   appearance: none;
   background-color: transparent;
-  border: 2px solid #00FF00;
+  border: 2px solid #00ff00;
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -41,7 +39,7 @@ export const UploadFileBtn = styled.button`
   font-weight: 700;
   border-radius: 40px;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
   z-index: 1;
   transition: color 250ms ease-in-out;
   font-family: "Open Sans", sans-serif;
@@ -61,8 +59,8 @@ export const UploadFileBtn = styled.button`
     width: 0;
     height: 100%;
     color: #000;
-    background: #00FF00;
-    
+    background: #00ff00;
+
     z-index: -1;
     transition: width 250ms ease-in-out;
   }

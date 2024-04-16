@@ -1,38 +1,31 @@
-
-  
-
-  .header {
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100px;
-  }
+}
 
-  .container {
-    background-color: #000;
+.container {
+  background-color: #000;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  }
-  
-  .header {
+}
+
+.header {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
   margin: 20px 0;
-  }
-  
+}
 
-  
-  
-  
-  .file-list li {
+.file-list li {
   margin-bottom: 10px;
   list-style-type: none;
   padding: 0;
   background-color: #fff;
-  }
-  .file-list button {
+}
+.file-list button {
   display: block;
   width: 100%;
   padding: 10px;
@@ -42,15 +35,14 @@
   font-size: 1rem;
   text-align: left;
   transition: background-color 0.2s ease-in-out;
-  }
-  .file-list button:hover,
-  .file-list button.selected {
-    
+}
+.file-list button:hover,
+.file-list button.selected {
   background-color: #000;
   color: #fff;
-  }
-  .file-list {
-  width: 20%;  
+}
+.file-list {
+  width: 20%;
   height: 700px;
   overflow-y: auto;
   overflow-x: auto;
@@ -60,61 +52,55 @@
   list-style: none;
   background-color: #333;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
-  }
-  
-  .file-content {
-    width: 100%;
-    height: 889px;
+}
+
+.file-content {
+  width: 100%;
+  height: 889px;
   padding: 20px;
   margin: 0 0 0 20px;
   background-color: #000;
-  }
-  
-  .file-content h3 {
-    margin-top: 0;
-    color: #000;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: underline;
-    text-align: inherit;
-    padding-bottom: 20px;
-  }
-  .App {
+}
+
+.file-content h3 {
+  margin-top: 0;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: underline;
+  text-align: inherit;
+  padding-bottom: 20px;
+}
+.App {
   display: flex;
   flex-direction: row;
   background-color: #fff;
   color: #333;
   font-family: sans-serif;
-  }
-  
-  
-  
+}
 
-  .line-number {
-    display: inline-block;
-    width: 40px;
-    padding-left: 10px;
-    text-align: right;
-    color: #888;
-  }
-  
-  .code-line {
-    display: inline-block;
-    width: calc(100% - 40px);
-    white-space: pre-wrap;
-    margin-left: 5px;
-    color: #000;
-    text-align: left;
+.line-number {
+  display: inline-block;
+  width: 40px;
+  padding-left: 10px;
+  text-align: right;
+  color: #888;
+}
 
-  }
+.code-line {
+  display: inline-block;
+  width: calc(100% - 40px);
+  white-space: pre-wrap;
+  margin-left: 5px;
+  color: #000;
+  text-align: left;
+}
 code {
   font-size: 18px;
 }
 
-
 .dropdown-btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 12px;
   font-size: 16px;

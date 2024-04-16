@@ -3,12 +3,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
-
+require("dotenv").config();
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "Ido123321231@",
-  database: "project",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 app.use(cors());
 app.use(bodyParser.json());
@@ -64,7 +64,9 @@ app.post("/api/datainsert", (req, res) => {
         (err, result) => {
           if (err) {
             console.log(err);
-            res.status(400).send({ error: "Failed to insert project" });
+            res
+              .status(400)
+              .send({ error: "Failed to insert create function table" });
           } else {
             res.status(200).send({ message: "Project inserted successfully" });
           }
@@ -107,7 +109,7 @@ app.post("/api/uploadjson", (req, res) => {
   db.query(sqlInsert, [projectName, json_tree], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(400).send({ error: "Failed to insert project" });
+      res.status(400).send({ error: "Failed to insert json tree" });
     } else {
       res.status(200).send({ message: "Project inserted successfully" });
     }
@@ -123,7 +125,7 @@ app.post("/api/fileinsert", (req, res) => {
   db.query(sqlInsert, [projectName, file, file_name], (err, result) => {
     if (err) {
       console.log(err);
-      res.status(400).send({ error: "Failed to insert project" });
+      res.status(400).send({ error: "Failed to insert file" });
     } else {
       res.status(200).send({ message: "Project inserted successfully" });
     }
@@ -329,7 +331,7 @@ app.post("/api/insert_parameter", (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(400).send({ error: "Failed to insert project" });
+        res.status(400).send({ error: "Failed to insert parameters" });
       } else {
         res.status(200).send({ message: "Project inserted successfully" });
       }
@@ -350,7 +352,7 @@ app.post("/api/insert_built_in_function", (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(400).send({ error: "Failed to insert project" });
+        res.status(400).send({ error: "Failed to insert functions" });
       } else {
         res.status(200).send({ message: "Project inserted successfully" });
       }
@@ -379,7 +381,7 @@ app.post("/api/insert_variable", (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(400).send({ error: "Failed to insert project" });
+        res.status(400).send({ error: "Failed to insert variables" });
       } else {
         res.status(200).send({ message: "Project inserted successfully" });
       }
@@ -562,22 +564,20 @@ app.post("/api/insert_query", (req, res) => {
   );
   const querylist = JSON.stringify(req.body.querylist);
   const projectName = req.body.projectName;
-  
-
 
   const sqlInsert =
     "INSERT INTO project.query_history (query_project_name,query_name,query_json,query_functions) VALUES (?,?,?,?);";
 
   db.query(
     sqlInsert,
-    [projectName,query_name, querylist , query_checked_functions],
+    [projectName, query_name, querylist, query_checked_functions],
     (err, result) => {
       if (err) {
         if (err.errno === 1062) {
           res.status(409).send({ error: "Enter new query name" });
         } else {
           console.log(err);
-          res.status(400).send({ error: "Failed to insert project" });
+          res.status(400).send({ error: "Failed to insert query" });
         }
       } else {
         res.status(200).send({ message: "Project inserted successfully" });
@@ -593,8 +593,6 @@ app.get("/api/get_query_from_db", (req, res) => {
   db.query(sqlsearch, [`%${search_query_project}%`], (err, result) => {
     res.send(result);
   });
-
-
 });
 
 app.delete("/api/deletequery/:query_id", (req, res) => {
@@ -612,7 +610,8 @@ app.delete("/api/deletequery/:query_id", (req, res) => {
 
 app.delete("/api/deletequeryname/:query_project_name", (req, res) => {
   const query_project_name = req.params.query_project_name;
-  const sqldelete = "DELETE FROM project.query_history WHERE query_project_name = ?;";
+  const sqldelete =
+    "DELETE FROM project.query_history WHERE query_project_name = ?;";
   db.query(sqldelete, [query_project_name], (err, result) => {
     if (err) {
       console.log(err);
@@ -622,8 +621,6 @@ app.delete("/api/deletequeryname/:query_project_name", (req, res) => {
     }
   });
 });
-
-
 
 app.listen(3001, () => {
   console.log("Server listening on port 3001");

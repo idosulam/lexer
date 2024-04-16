@@ -109,7 +109,13 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
                     />
                   )}
                   <FileMetaData isImageFile={isImageFile}>
-                    <span style={{ fontFamily: "jost", color: "#000",fontSize: '1.5rem' }}>
+                    <span
+                      style={{
+                        fontFamily: "jost",
+                        color: "#000",
+                        fontSize: "1.5rem",
+                      }}
+                    >
                       {file.name}
                     </span>
                     <aside>
@@ -118,7 +124,7 @@ const FileUpload = ({ label, updateFilesCb, ...otherProps }) => {
                       </span>
                       <RemoveFileIcon className="fas fa-trash-alt" />
                       <button
-                      className="delete"
+                        className="delete"
                         onClick={() => removeFile(fileName)}
                         style={{ fontFamily: "jost", color: "#000" }}
                       >

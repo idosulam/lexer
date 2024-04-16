@@ -709,7 +709,7 @@ def find_functions(text: list[str], file: str):
     while text_pointer < len(text):
         line = text[text_pointer]
         line = line.split()
-        if len(line) > 0:
+        if len(line) > 1:
             if line[0] == '/' and line[1] == '*':
                 text_pointer = end_comment(text, text_pointer) + 1
                 continue

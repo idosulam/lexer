@@ -152,15 +152,15 @@ function Projects() {
       }
     });
   }
-function deletequery(project_name)  {
-  Axios.delete(`http://localhost:3001/api/deletequeryname/${project_name}`).then
-  ((response) => {
-  if (response.status !== 200) {
-  console.log(response);
+  function deletequery(project_name) {
+    Axios.delete(
+      `http://localhost:3001/api/deletequeryname/${project_name}`
+    ).then((response) => {
+      if (response.status !== 200) {
+        console.log(response);
+      }
+    });
   }
-  })
-
-}
   function delete_project(project) {
     Axios.delete(`http://localhost:3001/api/delete/${project.project_name}`)
       .then((response) => {

@@ -39,18 +39,17 @@ function Show() {
   }, [jsonTree, projectName]);
 
   const handleSidebarItemClick = (item) => {
-    setWantedFile('')
-    setselectfunction('')
+    setWantedFile("");
+    setselectfunction("");
     setSelectedItem(item);
   };
-  const handleSetWantedFile = (function_name,file) => {
-    setselectfunction(function_name)
+  const handleSetWantedFile = (function_name, file) => {
+    setselectfunction(function_name);
     setWantedFile(file);
   };
 
   useEffect(() => {
-    if(wanted_file)
-    setSelectedItem('Files');
+    if (wanted_file) setSelectedItem("Files");
   }, [wanted_file]);
   return (
     <>
@@ -63,7 +62,11 @@ function Show() {
         <div className="title-page">Project Name : {projectName}</div>
         <div className="content">
           {selectedItem === "Files" && (
-            <Files files={file_list} wanted_file={wanted_file} selectedfunction={selectedfunction} />
+            <Files
+              files={file_list}
+              wanted_file={wanted_file}
+              selectedfunction={selectedfunction}
+            />
           )}
           {selectedItem === "Graph" && (
             <Graph

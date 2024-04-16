@@ -14,18 +14,18 @@
   align-items: center;
   margin-bottom: 16px;
   size: 30px;
-  outline: #00FF00 solid 1px;
+  outline: #00ff00 solid 1px;
   cursor: pointer;
   transition: background-color 0.3s ease; /* add a background color transition */
 }
 
 .sidebar-item:hover {
   background-color: #000;
-  color: #00FF00;
+  color: #00ff00;
 }
 
 .sidebar-item.active {
-  color: #00FF00;
+  color: #00ff00;
 }
 
 .icon {
@@ -39,11 +39,11 @@
 }
 
 .file_icon {
-  background-image: url('./file_icon.svg');
+  background-image: url("./file_icon.svg");
 }
 
 .graph {
-  background-image: url('./graph.svg');
+  background-image: url("./graph.svg");
 }
 
 .label {

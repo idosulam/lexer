@@ -1,88 +1,80 @@
 label {
-    margin-right: 1rem;
-    font-weight: bold;
-  }
-  
- 
-  select {
-    font-size: 18px;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: none;
-    min-height: 60px;
-    background-color: #333;
-    color: #fff;
-  }
-  .button-28 {
-    appearance: none;
-    background-color: transparent;
-    border: 2px solid #1A1A1A;
-    border-radius: 15px;
-    box-sizing: border-box;
-    color: #fff;
-    font-family: "Open Sans", sans-serif;
-    cursor: pointer;
-    display: inline-block;
-    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-    font-size: 16px;
-    font-weight: 600;
-    line-height: normal;
-    margin: 0;
-    min-height: 60px;
-    min-width: 0;
-    outline: none;
-    text-decoration: none;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    width: 10% ;
-    will-change: transform;
-    }
+  margin-right: 1rem;
+  font-weight: bold;
+}
 
-    .button-28:hover {
-        box-shadow: rgba(255, 255, 255) 0 8px 15px;
-        transform: translateY(-2px);
-        }
-        
-        .button-28:active {
-        box-shadow: none;
-        transform: translateY(0);
-        }
-    
-  
-  
-  p {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-  }
+select {
+  font-size: 18px;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  min-height: 60px;
+  background-color: #333;
+  color: #fff;
+}
+.button-28 {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1a1a1a;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 10%;
+  will-change: transform;
+}
 
-.object{
+.button-28:hover {
+  box-shadow: rgba(255, 255, 255) 0 8px 15px;
+  transform: translateY(-2px);
+}
 
+.button-28:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+p {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.object {
   animation: float 0.5s ease-in-out infinite;
 }
 
-
-
-
-
-
 @keyframes float {
   0% {
-    box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
-		transform: translatey(0px);
-	}
-	50% {
-    box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
-		transform: translatey(-20px);
-	}
-	100% {
-    box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
-		transform: translatey(0px);
-	}
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+  50% {
+    box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+    transform: translatey(-20px);
+  }
+  100% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
 }
 
-/* ================================================================= */ 
+/* ================================================================= */
 
 .checkbox-dropdown {
   width: 200px;
@@ -94,12 +86,11 @@ label {
   user-select: none;
   background-color: #333;
   color: #fff;
-  
 }
 
 /* Display CSS arrow to the right of the dropdown text */
 .checkbox-dropdown:after {
-  content:'';
+  content: "";
   height: 0;
   position: absolute;
   width: 0;
@@ -133,7 +124,7 @@ label {
   height: 300px;
   overflow: scroll;
   overflow-x: hidden;
-  
+
   pointer-events: none; /* avoid mouse click events inside the dropdown */
 }
 .is-active .checkbox-dropdown-list {
@@ -154,15 +145,10 @@ label {
   color: white;
 }
 
-
-
-
 .inputbox {
   position: relative;
   width: 196px;
 }
-
-
 
 .inputbox input {
   position: relative;
@@ -190,11 +176,11 @@ label {
   pointer-events: none;
 }
 
-.inputbox input:valid ~span,
-.inputbox input:focus ~span {
+.inputbox input:valid ~ span,
+.inputbox input:focus ~ span {
   color: #fff;
   transform: translateX(-10px) translateY(-34px);
-  font-size: 0,75em;
+  font-size: 0, 75em;
 }
 
 .inputbox i {
@@ -210,48 +196,43 @@ label {
   z-index: 9;
 }
 
-.inputbox input:valid ~i,
-.inputbox input:focus ~i {
+.inputbox input:valid ~ i,
+.inputbox input:focus ~ i {
   height: 44px;
 }
 
-
-
-.popup-info{
+.popup-info {
   position: absolute;
   top: 12%;
   background-color: #000;
   left: 92%;
   transform: translateX(-50%);
-  width:250px;
+  width: 250px;
   overflow-x: auto;
-  overflow-y: auto ;
+  overflow-y: auto;
   z-index: 1;
   height: 170px;
   animation: fadeIn ease 1s;
-  
 }
 
-
-@keyframes fadeIn{
+@keyframes fadeIn {
   0% {
-    opacity:0;
+    opacity: 0;
   }
   100% {
-    opacity:1;
+    opacity: 1;
   }
 }
 
-
-.popup-info-search{
+.popup-info-search {
   position: absolute;
   background-color: #000;
   padding-top: 20px;
   top: 12%;
   left: 20%;
-  width:1200px;
+  width: 1200px;
   overflow-x: auto;
-  overflow-y: auto ;
+  overflow-y: auto;
   z-index: 1;
   height: 800px;
   animation: fadeIn ease 1s;
@@ -265,46 +246,44 @@ label {
   border-radius: 30px;
   cursor: pointer;
   padding: 0;
- }
- 
- #toggle {
+}
+
+#toggle {
   display: none;
- }
- 
- .slider {
+}
+
+.slider {
   display: block;
   font-size: 10px;
   position: relative;
- }
- 
- .slider::after {
-  content: 'OFF';
+}
+
+.slider::after {
+  content: "OFF";
   width: 25px;
   height: 25px;
   background-color: #e03c3c;
   border: 2px solid #fff;
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
   position: absolute;
   top: -5px;
   left: 0;
   display: grid;
   place-content: center;
   line-height: 0;
-  transition: background-color .25s, transform .25s ease-in;
- }
- 
- #toggle:checked + .slider::after {
-  content: 'ON';
+  transition: background-color 0.25s, transform 0.25s ease-in;
+}
+
+#toggle:checked + .slider::after {
+  content: "ON";
   background-color: #05ae3e;
   transform: translateX(25px) rotate(360deg);
- }
+}
 
- /* ================================================================= */
+/* ================================================================= */
 
-
-
- @keyframes clockwise {
+@keyframes clockwise {
   0% {
     transform: rotate(0deg);
   }
@@ -405,7 +384,9 @@ label {
   margin-left: -18px;
   margin-top: -18px;
   z-index: 3;
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), inset 0px 0px 10px rgba(0, 0, 0, 0.1), inset 0px 2px 0px 0px #090909, inset 0px -1px 0px 0px #888888;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1),
+    inset 0px 0px 10px rgba(0, 0, 0, 0.1), inset 0px 2px 0px 0px #090909,
+    inset 0px -1px 0px 0px #888888;
 }
 
 .gear-inner {
