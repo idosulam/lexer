@@ -74,8 +74,6 @@ p {
   }
 }
 
-/* ================================================================= */
-
 .checkbox-dropdown {
   width: 200px;
   border: 1px solid #fff;
@@ -281,8 +279,6 @@ p {
   transform: translateX(25px) rotate(360deg);
 }
 
-/* ================================================================= */
-
 @keyframes clockwise {
   0% {
     transform: rotate(0deg);
@@ -455,4 +451,71 @@ p {
 
 .gear-inner .bar:nth-child(6) {
   transform: rotate(150deg);
+}
+
+/* ================================================================= */
+
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4;
+}
+
+.popup {
+  width: 31rem;
+  height: 12rem;
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  animation: slideIn 0.5s ease forwards; /* Slide in animation */
+}
+
+.popup input {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.popup button {
+  padding: 1rem 2rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  outline: #fff 2px solid;
+  cursor: pointer;
+}
+
+.popup a.closePopUp {
+  font-family: verdana;
+  color: #000;
+  position: absolute;
+  top: 0.2rem;
+  left: 29rem;
+  margin: 0;
+  cursor: pointer;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
