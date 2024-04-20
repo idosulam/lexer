@@ -26,15 +26,11 @@ function Graph({ tree, projectName, onSetWantedFile }) {
   const [table_list, settable_list] = useState([]);
 
   const [zoomLevel, setZoomLevel] = useState(1);
-  /*which tables match query */
   const [matchingQuery, setMatchingQuery] = useState([]);
-  /* */
   const [isChecked, setIsChecked] = useState(false);
-  /* */
   const [list, setList] = useState([
     { parameter: "", value: "", condition: "" },
   ]);
-  /* */
   const [variable_list, set_variable_list] = useState([]);
   const [parameters_list, set_parameters_list] = useState([]);
   const [parameters_modifier_list, set_parameters_modifier_list] = useState([]);
@@ -44,7 +40,20 @@ function Graph({ tree, projectName, onSetWantedFile }) {
 
   const [built_in_function_name_list, set_built_in_function_name_list] =
     useState([]);
+  const [query_name, setquery_name] = useState("");
 
+  function handle_query_name_change(event) {
+    setquery_name(event.target.value);
+  }
+  const [IspopupOpen, SetIsPopupOpen] = useState(false);
+
+  const open_popup = () => {
+    SetIsPopupOpen(true);
+  };
+
+  const close_popup = () => {
+    SetIsPopupOpen(false);
+  };
   const handleSwitchChange = () => {
     setIsChecked(!isChecked);
   };
@@ -388,12 +397,20 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       }
     });
   };
-  async function savequery(checked_functions, list) {
-    reloadquery();
-    const query_name = prompt("Please enter a query name:");
+
+  const handlepopupSubmit = (event) => {
+    close_popup();
+
     if (!query_name || query_name.length === 0) {
       return;
     }
+
+    savequery(selectedOptions, list);
+  };
+
+  async function savequery(checked_functions, list) {
+    reloadquery();
+
     try {
       const response = await Axios.post(
         "http://localhost:3001/api/insert_query",
@@ -501,7 +518,7 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
       }
       if (!field.value || !field.parameter || !field.condition) return;
     }
-    savequery(selectedOptions, list);
+    open_popup();
   };
 
   return (
@@ -1015,6 +1032,23 @@ project.${projectname}_${selectedOptions[index]}.project_name = project.variable
             </div>
           </div>
           <p style={{ font: "jost", color: "white" }}>{message}</p>
+        </div>
+      )}
+
+      {IspopupOpen && (
+        <div className="popup-container">
+          <div className="popup">
+            <a className="closePopUp" onClick={close_popup}>
+              X
+            </a>
+            <input
+              type="text"
+              value={query_name}
+              onChange={handle_query_name_change}
+              placeholder="Enter query name"
+            />
+            <button onClick={handlepopupSubmit}>Submit</button>
+          </div>
         </div>
       )}
     </>
