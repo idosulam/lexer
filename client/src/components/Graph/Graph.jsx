@@ -263,7 +263,7 @@ function Graph({ tree, projectName, onSetWantedFile }) {
       setmessage("");
     }
     extract_from_db();
-  }, [selectedOptions, projectname]);
+  }, [selectedOptions, projectname, message.length]);
 
   async function handleclick(function_name, filename) {
     onSetWantedFile(function_name, filename);
@@ -325,33 +325,33 @@ function Graph({ tree, projectName, onSetWantedFile }) {
     for (let index = 0; index < selectedOptions.length; index++) {
       let query = `SELECT distinct project.${projectname}_${selectedOptions[index]}.function_name\n`;
       query += ` FROM project.${projectname}_${selectedOptions[index]}\n`;
-      query += ` LEFT JOIN project.parameters ON 
-      project.${projectname}_${selectedOptions[index]}.project_name = project.parameters.project_name 
-        AND project.${projectname}_${selectedOptions[index]}.function_name = project.parameters.function_name
- LEFT JOIN project.variables ON 
-project.${projectname}_${selectedOptions[index]}.project_name = project.variables.project_name 
-        AND project.${projectname}_${selectedOptions[index]}.function_name = project.variables.function_name 
-         LEFT JOIN project.built_in_functions ON \n
-		project.${projectname}_${selectedOptions[index]}.project_name = project.built_in_functions.project_name AND project.${projectname}_${selectedOptions[index]}.function_name = project.built_in_functions.function_name\n WHERE `;
+      query += ` LEFT JOIN project.parameters_table ON 
+      project.${projectname}_${selectedOptions[index]}.project_name = project.parameters_table.project_name 
+        AND project.${projectname}_${selectedOptions[index]}.function_name = parameters_table.function_name
+ LEFT JOIN project.variables_table ON 
+project.${projectname}_${selectedOptions[index]}.project_name = project.variables_table.project_name 
+        AND project.${projectname}_${selectedOptions[index]}.function_name = project.variables_table.function_name 
+         LEFT JOIN project.built_in_functions_table ON \n
+		project.${projectname}_${selectedOptions[index]}.project_name = project.built_in_functions_table.project_name AND project.${projectname}_${selectedOptions[index]}.function_name = project.built_in_functions_table.function_name\n WHERE `;
 
       for (let i = 0; i < list.length; i++) {
         const field = list[i];
         switch (field.parameter) {
           case "variables":
-            query += ` (SELECT COUNT(*) FROM project.variables WHERE project.variables.variable_type = '${field.value}' AND project.variables.function_name = '${selectedOptions[index]}' AND project.variables.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            query += ` (SELECT COUNT(*) FROM project.variables_table WHERE project.variables_table.variable_type = '${field.value}' AND project.variables_table.function_name = '${selectedOptions[index]}' AND project.variables_table.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
           case "variables_modifiers":
-            query += ` (SELECT COUNT(*) FROM project.variables WHERE project.variables.variable_modifier = '${field.value}' AND project.variables.function_name = '${selectedOptions[index]}' AND project.variables.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            query += ` (SELECT COUNT(*) FROM project.variables_table WHERE project.variables_table.variable_modifier = '${field.value}' AND project.variables_table.function_name = '${selectedOptions[index]}' AND project.variables_table.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
           case "params_modifier":
-            query += ` (SELECT COUNT(*) FROM project.parameters WHERE project.parameters.parameter_modifier = '${field.value}' AND project.parameters.function_name = '${selectedOptions[index]}' AND project.parameters.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            query += ` (SELECT COUNT(*) FROM project.parameters_table WHERE project.parameters_table.parameter_modifier = '${field.value}' AND project.parameters_table.function_name = '${selectedOptions[index]}' AND project.parameters_table.project_name = '${projectname}') >= 1\n ${field.condition}`;
 
             break;
           case "params":
-            query += ` (SELECT COUNT(*) FROM project.parameters WHERE project.parameters.parameter_type = '${field.value}' AND project.parameters.function_name = '${selectedOptions[index]}' AND project.parameters.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            query += ` (SELECT COUNT(*) FROM project.parameters_table WHERE project.parameters_table.parameter_type = '${field.value}' AND project.parameters_table.function_name = '${selectedOptions[index]}' AND project.parameters_table.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
           case "builtin":
-            query += ` (SELECT COUNT(*) FROM project.built_in_functions WHERE project.built_in_functions.built_in_function_name = '${field.value}' AND project.built_in_functions.function_name = '${selectedOptions[index]}' AND project.built_in_functions.project_name = '${projectname}') >= 1\n ${field.condition}`;
+            query += ` (SELECT COUNT(*) FROM project.built_in_functions_table WHERE project.built_in_functions_table.built_in_function_name = '${field.value}' AND project.built_in_functions_table.function_name = '${selectedOptions[index]}' AND project.built_in_functions_table.project_name = '${projectname}') >= 1\n ${field.condition}`;
             break;
           default:
             query += ` project.${projectname}_${selectedOptions[index]}.${field.parameter} = '${field.value}'\n ${field.condition}`;

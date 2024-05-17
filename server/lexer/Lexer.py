@@ -870,6 +870,7 @@ def get_variables(variables_line: list[str]) -> list[Variable]:
 
 def search_file(folder: str, filename: str) -> str:
     for item in os.listdir(folder):
+
         item_path = os.path.join(folder, item)
         if os.path.isfile(item_path) and item == filename:
             return item_path
